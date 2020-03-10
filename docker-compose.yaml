@@ -1,0 +1,43 @@
+version: '3.7'
+
+services:
+  mongo:
+    image: mongo
+    restart: always
+    container_name: mongo-database-tutoria
+    ports: 
+      - 27018:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: passwordRoot
+    networks: 
+      networks-database:
+        ipv4_address: 173.10.0.2
+
+  mongo-express:
+    image: mongo-express
+    container_name: mongo-express-interface-tutoria
+    restart: always
+    ports:
+      - 8082:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: passwordRoot
+      ME_CONFIG_OPTIONS_EDITORTHEME: ambiance 
+      ME_CONFIG_MONGODB_SERVER: 173.10.0.2
+      ME_CONFIG_MONGODB_PORT: 27017
+      ME_CONFIG_BASICAUTH_USERNAME: root
+      ME_CONFIG_BASICAUTH_PASSWORD: passwordRoot
+    depends_on: 
+      - mongo
+    networks: 
+      networks-database:
+        ipv4_address: 173.10.0.3
+
+networks: 
+  networks-database:
+    driver: bridge
+    ipam: 
+      driver: default
+      config: 
+        - subnet: 173.10.0.0/24 
