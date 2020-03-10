@@ -1,9 +1,8 @@
 const mongoose = require('mongoose');
+var models = mongoose.model('User');
+var model = require("../models/user")
 
-
-var model = mongoose.model('User');
-
-module.exports = class userController{
+class userController{
 
     static async findAll(req, res) {
         try{
@@ -13,15 +12,16 @@ module.exports = class userController{
         }
     };
       static async create(req, res) {
-        const { email } = req.body;
-        try{
-            if(await model.findOne({ email }))
-                return req.status(400).send({error: 'user already exists'})
-            
+          const {email} = req.body;
+          if(await model.findOne({email}))
+              return res.status(400).send({error: "email already exists"})
+          try{
+              
             const response = await model.create(req.body);
-
             
-            return res.send({ response })
+            model.password = undefined;
+            
+            return res.send({ response})
         }catch(err) {
             return res.status(400).send({error: "Registration falied"})
         };
@@ -41,6 +41,7 @@ module.exports = class userController{
         };
     }
 }
+module.exports = userController
 
      
  

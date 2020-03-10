@@ -24,7 +24,11 @@ data : {
 });
 
 
-
+UserSchema.pre('save', async function(next){
+    var salt = bcrypt.genSaltSync(10);
+    var savePassword = bcrypt.hashSync(this.password, salt);
+    this.password = savePassword;
+})
 const User = mongoose.model("User" , UserSchema)
 
 module.exports = User;
