@@ -15,15 +15,15 @@
     <v-spacer></v-spacer>
 
     <v-toolbar-items class="hidden-sm-and-down">
-      <v-btn text><router-link class="menu" to="/">
-      Home
+      <v-btn text><router-link class="menu" to="/login">
+      Login
       </router-link>
       </v-btn>
 
       <v-divider vertical></v-divider>
 
-      <v-btn text><router-link class="menu" to="/About">
-      About
+      <v-btn text><router-link class="menu" to="/register">
+      Register
       </router-link>
       </v-btn>
 
