@@ -1,16 +1,13 @@
 <template>
 <v-toolbar
-    color="purple"
-    dark
   >
     <v-toolbar-title class="title-margin">Tutoria em Pares</v-toolbar-title>
 
-    <v-divider
+    <!-- <v-divider
       class="mx-4 subtitle-margin"
       vertical
-    ></v-divider>
+    ></v-divider> -->
 
-    <h4>My Home</h4>
 
     <v-spacer></v-spacer>
 
@@ -48,13 +45,13 @@ export default {
 
 <style>
   .menu {
-    text-decoration: none;
-    color:white
+    /* text-decoration: none;
+    color:white */
   }
   .title-margin {
-    margin-right: 15px;
+    /* margin-right: 15px; */
   }
   .subtitle-margin{
-    margin: 15px;
+    /* margin: 15px; */
   }
 </style>
