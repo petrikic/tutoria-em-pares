@@ -1,0 +1,13 @@
+FROM node
+
+WORKDIR /usr/app/frontend
+
+COPY ./frontend/package.json .
+
+RUN npm i
+
+COPY . /usr/app/frontend
+
+EXPOSE 8080
+
+CMD ["npm", "run", "serve"]

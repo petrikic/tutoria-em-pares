@@ -1,0 +1,81 @@
+version: '3.7'
+services:
+  mongo:
+    image: mongo
+    container_name: mongo-database-tutoria
+    ports:
+      - 27018:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: passwordRoot
+    networks:
+      network-tutoria-nodejs:
+        ipv4_address: 173.30.0.4
+
+  mongo-express:
+    image: mongo-express
+    container_name: mongo-express-interface-tutoria
+    ports:
+      - 8082:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: passwordRoot
+      ME_CONFIG_OPTIONS_EDITORTHEME: ambiance 
+      ME_CONFIG_MONGODB_SERVER: 173.30.0.4
+      ME_CONFIG_MONGODB_PORT: 27017
+      ME_CONFIG_BASICAUTH_USERNAME: root
+      ME_CONFIG_BASICAUTH_PASSWORD: passwordRoot
+    depends_on: 
+      - mongo
+    networks:
+      network-tutoria-nodejs:
+        ipv4_address: 173.30.0.5
+
+  backend-nodejs:
+    build: 
+      context: .
+      dockerfile: ./docker/dockerfile.backend
+    ports:
+      - 3000:3000
+    container_name: backend-tutoria
+    command: npm run start
+    volumes:
+      - ./backend:/usr/app/backend
+      -  node_modules_backend:/usr/app/backend/node_modules
+    depends_on:
+      - mongo
+      - mongo-express
+    networks:
+      network-tutoria-nodejs:
+        ipv4_address: 173.30.0.6
+      
+  frontend-nodejs:
+    build: 
+      context: .
+      dockerfile: ./docker/dockerfile.frontend
+    ports:
+      - 8080:8080
+    container_name: frontend-tutoria
+    command: npm run serve
+    volumes:
+      - ./frontend:/usr/app/frontend
+      -  node_modules_frontend:/usr/app/frontend/node_modules
+    depends_on:
+      - mongo
+      - mongo-express
+      - backend-nodejs
+    networks:
+      network-tutoria-nodejs:
+        ipv4_address: 173.30.0.7
+
+networks:
+  network-tutoria-nodejs:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 173.30.0.0/24
+
+volumes:
+  node_modules_backend:
+  node_modules_frontend:
