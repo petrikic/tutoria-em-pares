@@ -2,10 +2,10 @@ const express = require('express');
 const bcrypt = require("bcryptjs");
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
-const mailer = require('../../modules/mailer')
 
 
-const authConfig = require("../../config/auth")
+const mailer = require('../../modules/mailer');
+const authConfig = require("../../config/auth");
 const User = require('../models/user');
 
 const router = express.Router();
@@ -84,7 +84,7 @@ router.post('/forgot_password', async (req, res) => {
         if(!user)
             return res.status(400).send({ error: "Usuario nao encontrando" });
 
-        const token = crypto.randomBytes(20).toString('hex');
+        const token = crypto.randomBytes(3).toString('hex');
 
         const now = new Date();
         now.setHours(now.getHours() + 1);
@@ -94,22 +94,21 @@ router.post('/forgot_password', async (req, res) => {
                 passwordReseToken: token,
                 passwordResetExpires: now,
             },
-        });
+        })
 
-        mailer.sendMail({
+        await mailer.sendMail({
             to: email,
             from: 'progrenato@gmail.com',
-            template: 'auth/forgot_password',
-            context: { token }
+            html: "Voce esqueceu sua senha? Nao tem problema, utilize esse <b>token</b>: "  + token
         }, (err) => {
             if (err) 
                 return res.status(400).send({ error: "Erro ao esquecer a senha, tente novamente"});
-                
             return res.send();
         })
 
+
     } catch (err) {
-        
+
         console.log(err)
         res.status(400).send({error: "Erro na senha, tente novamente"})
     }
