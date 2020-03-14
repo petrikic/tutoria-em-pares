@@ -12,6 +12,11 @@ const routes = [
     name: 'View-Home',
     component: ViewHome,
   },
+  {
+    path: '/home',
+    name: 'View-Home',
+    component: ViewHome,
+  },
 
   {
     path: '/register',

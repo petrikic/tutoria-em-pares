@@ -3,54 +3,62 @@
   <div id="app">
   <v-app id="inspire">
     <v-content>
+<!-- How about adding fill-height to the v-container and align-center to the v-layout: -->
       <v-container
-        fluid
         fill-height
       >
-        <v-layout
-          align-center
-          justify-center
+        <v-layout    
+          align-center      
+          justify-space-around        
         >
+          <v-flex
+           xs12
+           sm12
+           md6 
+          >
+            <carrossel/>
+          </v-flex>
+          <v-spacer></v-spacer>
           <v-flex
             xs12
             sm8
-            md4
-          >
-            <v-card class="elevation-12">
-              <v-toolbar
-                color="primary"
-                dark
-                flat
-              >
-                <v-toolbar-title>Login</v-toolbar-title>
-                <v-spacer></v-spacer>
-              </v-toolbar>
-              <v-card-text>
-                <v-form>
-                  <v-text-field
-                    id="email"
-                    label="Email"
-                    name="email"
-                    type="email"
-                  ></v-text-field>
+            md4           
+          >    
+            <v-form>                   
+              <v-text-field
+                id="email"
+                label="Email"
+                name="email"
+                type="email"
+              ></v-text-field>
 
-                  <v-text-field
-                    id="password"
-                    label="Password"
-                    name="password"
-                    type="password"
-                  ></v-text-field>
-                  <v-btn color="primary" class="meio">Login</v-btn>
+              <v-text-field
+                id="password"
+                label="Password"
+                name="password"
+                type="password"
+              ></v-text-field>
+              <v-container >
+                  <v-btn color="blue" class="white--text">
+                  Acessar
+                  </v-btn>
+              </v-container>                  
+                  
                 </v-form>
-              </v-card-text>
-              <v-card-actions>
-                <div class="texto-card">
-                  <v-spacer></v-spacer> 
-                  <router-link to="/"><a href=""> Esqueci minha senha</a></router-link>
-                  <a href=""><router-link to="/register">Cadastrar</router-link></a>
-                </div>
-              </v-card-actions>
-            </v-card>
+              <v-container>
+                <v-card class="outlined elevation-1"> 
+                  <v-card-actions>
+                    <div class="texto-card">                  
+                      <router-link to="/register"><a href="">Não tenho conta</a></router-link>                  
+                    </div>
+                  </v-card-actions>                
+                  <v-card-actions>
+                    <div class="texto-card">                  
+                      <router-link to="/"><a href="">Esqueci minha senha</a></router-link>                  
+                    </div>
+                  </v-card-actions>
+                </v-card>  
+              </v-container>            
           </v-flex>
         </v-layout>
       </v-container>
@@ -61,11 +69,13 @@
 
 
 <script>
+import Carrossel from './Carrossel.vue'
 export default {
     name: 'login',
-    data: () => ({
-    drawer: null,
-  })
+      components: {
+    Carrossel,
+    },
+  
 }
 
 </script>
