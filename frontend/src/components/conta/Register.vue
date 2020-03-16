@@ -1,33 +1,29 @@
 <template>
-
   <div id="app">
   <v-app id="inspire">
     <v-content>
+<!-- How about adding fill-height to the v-container and align-center to the v-layout: -->
       <v-container
-        fluid
         fill-height
       >
-        <v-layout
-          align-center
-          justify-center
+        <v-layout    
+          align-center      
+          justify-space-around        
         >
           <v-flex
             xs12
             sm8
-            md4
+            md4           
           >
-            <v-card class="elevation-12">
-              <v-toolbar
-                color="primary"
-                dark
+             <v-toolbar              
                 flat
               >
-                <v-toolbar-title>Register</v-toolbar-title>
                 <v-spacer></v-spacer>
-              </v-toolbar>
-              <v-card-text>
-                <v-form>
-                    <v-text-field
+                <v-toolbar-title class="mx-4 blue--text">Tutoria logo</v-toolbar-title>
+                <v-spacer></v-spacer>
+              </v-toolbar>      
+            <v-form>                   
+              <v-text-field
                     v-model="fields.nome"
                     id="nome"
                     label="Nome"
@@ -49,30 +45,34 @@
                     name="password"
                     type="password"
                   ></v-text-field>
-                  <v-btn color="primary" @click="rota(), clearMemory()" class="meio">Login</v-btn>
+              <v-container >
+                  <v-btn color="blue" class="white--text">
+                  Cadastrar
+                  </v-btn>
+              </v-container>                  
+                  
                 </v-form>
-              </v-card-text>
-              <v-card-actions>
-                <div class="texto-card">
-                  <v-spacer></v-spacer> 
-                  <v-router><a href=""> Ajuda</a></v-router>
-                  <v-router><a href=""> Ja tenho conta</a></v-router>
-                </div>
-              </v-card-actions>
-            </v-card>
+              <v-container>
+                
+                  <v-card-actions>
+                    <div class="texto-card">                  
+                      <router-link to="/login"><a href="">Tenho uma conta</a></router-link>                  
+                    </div>
+                  </v-card-actions>                
+                
+              </v-container>    
           </v-flex>
+   
         </v-layout>
       </v-container>
     </v-content>
   </v-app>
 </div>
 </template>
-
-
 <script>
 import axios from 'axios'
 export default {
-   name: 'Login',
+   name: 'Register',
    data() {
       return {
         fields: {},

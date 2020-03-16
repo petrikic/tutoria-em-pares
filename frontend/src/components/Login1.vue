@@ -19,7 +19,7 @@
 <script>
 import axios from 'axios'
 export default {
-  name: 'Login',
+  name: 'Login1',
    data() {
       return {
         fields: {},
