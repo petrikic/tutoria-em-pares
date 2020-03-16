@@ -36,7 +36,7 @@ router.post('/register', async (req, res) => {
                 erros.push({texto: "Senha invalida"})
                 return res.status(400).send({error: "Senha precisa no minino de 6 caracteres"})
             }
-    
+
             if(erros > 0) {
                 res.render('/register', {erros: erros})
             }
@@ -47,7 +47,7 @@ router.post('/register', async (req, res) => {
 
         return res.send({
             user,
-            token: generateToken({ id: user.id }), 
+            token: generateToken({ id: user.id }),
         });
     }catch(err){
         res.status(400).send("Falha ao criar usuario")
@@ -67,18 +67,18 @@ router.post('/authenticate', async (req, res) => {
 
     user.password = undefined;
 
-    res.send({ 
+    res.send({
         user,
         token: generateToken({ id: user.id }),
      });
 })
-    
+
 
 router.post('/forgot_password', async (req, res) => {
     const { email } = req.body;
 
     try {
-        
+
         const user = await User.findOne({ email })
 
         if(!user)
@@ -123,13 +123,13 @@ router.post('/reset_password' , async (req, res) => {
     try {
         const user = await User.findOne({ email })
             .select('+passwordResetToken passwordResetExpires');
-        
+
         if(!user)
             return res.status(400).send({ error: "Usuario nao encontrando" });
-        
+
         if(token !== user.passwordResetToken)
             return res.status(400).send({error : "Token invalido"})
-        
+
         const now = new Date();
 
         if(now > user.passwordResetExpires)
