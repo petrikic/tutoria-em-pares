@@ -1,15 +1,15 @@
 <template>
   <div>
-    <Registro/>
+    <Register/>
   </div>
 </template>
 
 <script>
-import Registro from '../components/Registro'
+import Register from '../components/conta/Register'
 export default {
   name: 'View-Register',
   components: {
-    Registro
+    Register
   }
 }
 </script>

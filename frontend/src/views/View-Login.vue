@@ -1,19 +1,16 @@
 <template>
   <div>
-    <header/>
     <login/>
   </div>
 </template>
 
 <script>
 
-import Login from '../components/Login'
-import Header from '../components/main/Header'
+import Login from '../components/conta/Login'
 export default {
   name: 'View-Login',
   components: {
-    Login,
-    Header
+    Login
   }
 }
 </script>

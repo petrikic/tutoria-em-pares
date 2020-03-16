@@ -16,14 +16,21 @@
            sm12
            md6 
           >
-            <carrossel/>
+            <carrossel/>            
           </v-flex>
           <v-spacer></v-spacer>
           <v-flex
             xs12
             sm8
             md4           
-          >    
+          >
+             <v-toolbar              
+                flat
+              >
+                <v-spacer></v-spacer>
+                <v-toolbar-title class="mx-4 blue--text">Tutoria logo</v-toolbar-title>
+                <v-spacer></v-spacer>
+              </v-toolbar>      
             <v-form>                   
               <v-text-field
                 id="email"
@@ -46,20 +53,21 @@
                   
                 </v-form>
               <v-container>
-                <v-card class="outlined elevation-1"> 
+                
                   <v-card-actions>
                     <div class="texto-card">                  
                       <router-link to="/register"><a href="">Não tenho conta</a></router-link>                  
                     </div>
                   </v-card-actions>                
                   <v-card-actions>
-                    <div class="texto-card">                  
-                      <router-link to="/"><a href="">Esqueci minha senha</a></router-link>                  
+                    <div class="texto-card">  
+                      <router-link to="/register"><a href="">Esqueci minha senha</a></router-link>                 
                     </div>
                   </v-card-actions>
-                </v-card>  
-              </v-container>            
+                
+              </v-container>    
           </v-flex>
+   
         </v-layout>
       </v-container>
     </v-content>
@@ -69,15 +77,13 @@
 
 
 <script>
-import Carrossel from './Carrossel.vue'
+import Carrossel from '../Carrossel.vue'
 export default {
-    name: 'login',
+    name: 'login',  
       components: {
     Carrossel,
     },
-  
 }
-
 </script>
 
 <style>
