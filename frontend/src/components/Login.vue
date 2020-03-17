@@ -45,7 +45,7 @@
               </v-card-text>
               <v-card-actions>
                 <div class="texto-card">
-                  <v-spacer></v-spacer> 
+                  <v-spacer></v-spacer>
                   <router-link to="/"><a href=""> Esqueci minha senha</a></router-link>
                   <a href=""><router-link to="/register">Cadastrar</router-link></a>
                 </div>
