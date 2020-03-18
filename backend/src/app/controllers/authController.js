@@ -18,29 +18,19 @@ function generateToken(params =  {}){
 
 router.post('/register', async (req, res) => {
     var { email } = req.body
-    const erros = []
     try{
         if(await User.findOne({ email }))
-            return res.status(400).send({error: 'Email ja existe'});
+            return res.status(203).send({error: 'Email ja existe'});
             if(!req.body.nome || typeof req.body.nome == undefined || req.body.nome == null){
-                erros.push({texto: "Nome invalido"})
-                console.log(erros)
-                return res.status(400).send({error: "nome invalid"})
+      console.log(erros)
+                return res.status(203).send({error: "Nome invalido"})
             }
             if(!req.body.email || typeof req.body.email == undefined || req.body.email == null){
-                erros.push({texto: "Email invalido"})
-                console.log(erros)
-                return res.status(400).send({error: "email invalid"})
+                return res.status(203).send({error: "Email invalado"})
             }
             if(req.body.password.length < 6){
-                erros.push({texto: "Senha invalida"})
-                return res.status(400).send({error: "Senha precisa no minino de 6 caracteres"})
+                return res.status(203).send({error: "Senha precisa no minino de 6 caracteres"})
             }
-
-            if(erros > 0) {
-                res.render('/register', {erros: erros})
-            }
-
         const user = await User.create(req.body);
 
         user.password = undefined;
@@ -60,10 +50,10 @@ router.post('/authenticate', async (req, res) => {
     const user = await User.findOne({ email }).select('+password');
 
     if(!user)
-        return res.status(400).send({ error: "Usuario nao encontrando" });
+      return res.status(203).send("Usuario invalido");
 
     if(!await bcrypt.compare(password, user.password))
-        return res.status(400).send({ error: "Senha invalida" })
+        return res.status(203).send("Senha invalida")
 
     user.password = undefined;
 
@@ -82,7 +72,7 @@ router.post('/forgot_password', async (req, res) => {
         const user = await User.findOne({ email })
 
         if(!user)
-            return res.status(400).send({ error: "Usuario nao encontrando" });
+            return res.status(203).send({ error: "Usuario nao encontrando" });
 
         const token = crypto.randomBytes(3).toString('hex');
 
@@ -111,9 +101,7 @@ router.post('/forgot_password', async (req, res) => {
 
 
     } catch (err) {
-
-        console.log(err)
-        res.status(400).send({error: "Erro na senha, tente novamente"})
+        res.status(400).send({error: "Erro , tente novamente"})
     }
 })
 
@@ -125,15 +113,15 @@ router.post('/reset_password' , async (req, res) => {
             .select('+passwordResetToken passwordResetExpires');
 
         if(!user)
-            return res.status(400).send({ error: "Usuario nao encontrando" });
+            return res.status(203).send({ error: "Usuario nao encontrando" });
 
         if(token !== user.passwordResetToken)
-            return res.status(400).send({error : "Token invalido"})
+            return res.status(203).send({error : "Token invalido"})
 
         const now = new Date();
 
         if(now > user.passwordResetExpires)
-            return res.status(400).send({ error: 'Token expirado'})
+            return res.status(203).send({ error: 'Token expirado'})
 
         user.password = password;
 

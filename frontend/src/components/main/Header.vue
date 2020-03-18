@@ -7,12 +7,12 @@
     tile
   >
     <v-toolbar dense>
-      <v-btn text >        
+      <v-btn text >
         <v-icon>mdi-school</v-icon>
         <v-toolbar-title>Tutoria</v-toolbar-title>
       </v-btn>
-        
-     
+
+
       <v-spacer></v-spacer>
 
       <v-btn icon>
@@ -33,7 +33,7 @@
 
 <script>
 export default {
-    name: 'header'
+    name: 'Header'
 }
 </script>
 

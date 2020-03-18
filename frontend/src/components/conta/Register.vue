@@ -6,23 +6,33 @@
       <v-container
         fill-height
       >
-        <v-layout    
-          align-center      
-          justify-space-around        
+        <v-layout
+          align-center
+          justify-space-around
         >
           <v-flex
             xs12
             sm8
-            md4           
+            md4
           >
-             <v-toolbar              
+           <v-toolbar v-if="popup"
+          :class="color"
+          height="30"
+          >
+          <v-toolbar-title
+          class="mx-auto black--text"
+          >
+            {{usuarios}}
+          </v-toolbar-title>
+          </v-toolbar>
+             <v-toolbar
                 flat
               >
                 <v-spacer></v-spacer>
                 <v-toolbar-title class="mx-4 blue--text">Tutoria logo</v-toolbar-title>
                 <v-spacer></v-spacer>
-              </v-toolbar>      
-            <v-form>                   
+              </v-toolbar>
+            <v-form>
               <v-text-field
                     v-model="fields.nome"
                     id="nome"
@@ -46,23 +56,23 @@
                     type="password"
                   ></v-text-field>
               <v-container >
-                  <v-btn color="blue" class="white--text">
+                  <v-btn color="blue" class="white--text" @click="enviar(), clearMemory()">
                   Cadastrar
                   </v-btn>
-              </v-container>                  
-                  
+              </v-container>
+
                 </v-form>
               <v-container>
-                
+
                   <v-card-actions>
-                    <div class="texto-card">                  
-                      <router-link to="/login"><a href="">Tenho uma conta</a></router-link>                  
+                    <div class="texto-card">
+                      <router-link to="/login"><a href="">Tenho uma conta</a></router-link>
                     </div>
-                  </v-card-actions>                
-                
-              </v-container>    
+                  </v-card-actions>
+
+              </v-container>
           </v-flex>
-   
+
         </v-layout>
       </v-container>
     </v-content>
@@ -78,22 +88,34 @@ export default {
         fields: {},
         stats: '',
         drawer: null,
+        usuarios: '',
+        popup: false,
+        color: ''
       }
     },
-  methods: {  
-      rota() {
-         axios.post('http://localhost:3000/auth/register', this.fields)
-            .then(response => console.log(response))
-            .catch(error => console.log(error))
+  methods: {
+      enviar: function() {
+          axios.post('http://localhost:3000/auth/register', this.fields)
+            .then(res => {
+          if(res.status === 203){
+            this.popup = true
+            this.color = 'red'
+            return this.usuarios = res.data.error
+          }
+          if(res.status === 200){
+          this.color = 'green'
+          return this.usuarios = 'Connectado com sucesso'
+        }
+
+
+        })
+        .catch(err => console.log(err))
       },
-      clearMemory() {
+      clearMemory: function() {
           document.getElementById('nome').value = this.stats;
           document.getElementById('email').value = this.stats;
           document.getElementById('password').value = this.stats;
       },
-      alerta() {
-        alert("Email nao inserido")
-      }
   }
 }
 
