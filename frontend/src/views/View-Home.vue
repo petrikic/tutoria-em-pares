@@ -1,12 +1,12 @@
 <template>
-  
+
   <v-app id="inspire">
     <Header/>
     <v-navigation-drawer
       v-model="drawer"
       app
       clipped
-     
+
     >
       <v-list dense>
         <v-list-item
@@ -71,7 +71,7 @@
       >
         mdi-school
       </v-icon>
-      
+
       <v-toolbar-title class="mr-12 align-center">
         <span class="white--text">Tutoria</span>
       </v-toolbar-title>
@@ -95,11 +95,11 @@
          append-icon="mdi-magnify"
    color="white"
           hide-details
-        
+
         />
       </v-row>
     </v-app-bar>
-<!-- 
+<!--
     <v-content>
       <v-container class="fill-height">
         <v-row
@@ -149,14 +149,14 @@
 import Header from '../components/main/Header'
 export default {
   name: 'View-Home',
-    components: {    
+    components: {
     Header
   },
   props: {
       source: String,
     },
     data: () => ({
-      
+
       drawer: null,
       items: [
         { icon: 'mdi-youtube-subscription', text: 'Perfil' },
@@ -172,13 +172,13 @@ export default {
         { picture: 58, text: 'Nokia' },
         { picture: 78, text: 'MKBHD' },
       ],
-      
+
     }),
     created () {
     //  this.$vuetify.theme.dark = true
     },
-      
-    
+
+
 }
 </script>
 <style>
