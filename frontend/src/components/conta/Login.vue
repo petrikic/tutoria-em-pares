@@ -95,7 +95,10 @@ export default {
     },
     data() {
       return {
-        fields: {},
+        fields: {
+          email: '',
+          password: '',
+        },
         stats: '',
         drawer: null,
         usuarios: '',
@@ -107,23 +110,24 @@ export default {
       enviar() {
       axios.post('http://localhost:3000/auth/authenticate', this.fields)
         .then(res => {
-          console.log(res)
-          if(res.status === 203){
-            this.popup = true
-            this.color = 'red'
-            return this.usuarios = res.data
-          }
-        if(res.status === 200){
-          this.color = 'green'
-          return this.usuarios = 'Connectado com sucesso'
-        }
+          console.log(res.data)
         })
-        .catch(err => console.log(err))
+        .catch(err => {
+          console.log(err.response.status)
+          if(err.response.status === 403){
+            this.popup = true
+            setTimeout(() => {
+              this.popup = false
+            }, 4000)
+            this.color = 'red'
+            return this.usuarios = err.response.data
+          }
+        })
 
       },
       clearMemory() {
-          document.getElementById('email').value = this.stats;
-          document.getElementById('password').value = this.stats;
+        document.getElementById('email').value = this.stats;
+        document.getElementById('password').value = this.stats;
       },
 
   }

@@ -96,20 +96,18 @@ export default {
   methods: {
       enviar: function() {
           axios.post('http://localhost:3000/auth/register', this.fields)
-            .then(res => {
-          if(res.status === 203){
-            this.popup = true
-            this.color = 'red'
-            return this.usuarios = res.data.error
+            .then(res =>  console.log(res))
+            .catch(err => {
+              console.log(err.response.status)
+            if(err.response.status === 403){
+              this.popup = true
+              setTimeout(() => {
+              this.popup = false
+            }, 4000)
+              this.color = 'red'
+              return this.usuarios = err.response.data
           }
-          if(res.status === 200){
-          this.color = 'green'
-          return this.usuarios = 'Connectado com sucesso'
-        }
-
-
-        })
-        .catch(err => console.log(err))
+         })
       },
       clearMemory: function() {
           document.getElementById('nome').value = this.stats;
