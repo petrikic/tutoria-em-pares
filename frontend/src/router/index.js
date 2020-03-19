@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import ViewFeed from '../views/View-Feed'
 import ViewHome from '../views/View-Home.vue'
 import ViewRegister from '../views/View-Register.vue'
 import ViewLogin from '../views/View-Login.vue'
@@ -22,6 +23,11 @@ const routes = [
     name: 'View-Login',
     component: ViewLogin,
   },
+  {
+    path: '/feed',
+    name: 'View-Feed',
+    component: ViewFeed,
+  }
 ]
 
 const router = new VueRouter({

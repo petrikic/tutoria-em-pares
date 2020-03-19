@@ -23,5 +23,7 @@ export default {
 </script>
 
 <style>
-
+/* .blur {
+  filter: blur(8px);
+} */
 </style>

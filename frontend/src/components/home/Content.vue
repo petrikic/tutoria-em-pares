@@ -3,15 +3,21 @@
    <v-toolbar
    height="600px"
    >
-    <v-container class="d-flex flex-row">
       <v-card-text
       v-for="content in contents"
       :key="content"
       >
-      <v-icon xLarge class="d-flex justify-center mb-2" :class="content.color">{{content.icon}}</v-icon>
-      <p class="d-flex flex-column">{{content.texto}}</p>
+      <v-col
+      v-for="n in 1"
+      :key="n"
+      col=4
+      class="d-flex flex-column">
+      <v-btn-icon class="ma-2 d-flex justify-center align-center">
+        <v-icon xLarge class="border" :class="content.color">{{content.icon}}</v-icon>
+      </v-btn-icon>
+      <p class="d-flex justify-center">{{content.texto}}</p>
+      </v-col>
       </v-card-text>
-    </v-container>
   </v-toolbar>
   </v-card>
 </template>
@@ -25,12 +31,12 @@ export default {
         {
           icon: 'mdi-history',
           texto: 'O objetivo do tutoria em pares e para quando pessoas estao com dificuldades',
-          color: 'blue black--text'
+          color: 'blue yellow--text'
         },
         {
           icon: 'mdi-diamond',
           texto: 'O objetivo do tutoria em pares e para quando pessoas estao com dificuldades',
-          color: 'red black--text'
+          color: 'indigo darken-4--text'
         },
         {
           icon: 'mdi-recycle',
@@ -44,5 +50,14 @@ export default {
 </script>
 
 <style>
-
+/* .border {
+  background: blue;
+  border-radius: 25px;
+  height: 60px;
+  width: 60px;
+} */
+.border {
+  border-radius: 25px;
+  width: 15%;
+}
 </style>
