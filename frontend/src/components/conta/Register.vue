@@ -29,7 +29,7 @@
                 flat
               >
                 <v-spacer></v-spacer>
-                <v-toolbar-title class="mx-4 blue--text">Tutoria logo</v-toolbar-title>
+                <v-toolbar-title class="mx-4 blue--text">Register</v-toolbar-title>
                 <v-spacer></v-spacer>
               </v-toolbar>
             <v-form>
@@ -56,7 +56,7 @@
                     type="password"
                   ></v-text-field>
               <v-container >
-                  <v-btn color="blue" class="white--text" @click="enviar(), clearMemory()">
+                  <v-btn color="primary" class="white--text" @click="enviar(), clearMemory()">
                   Cadastrar
                   </v-btn>
               </v-container>
@@ -64,11 +64,9 @@
                 </v-form>
               <v-container>
 
-                  <v-card-actions>
-                    <div class="texto-card">
-                      <router-link to="/login"><a href="">Tenho uma conta</a></router-link>
-                    </div>
-                  </v-card-actions>
+              <v-card-actions class="d-flex justify-center blue--text">
+                <router-link to="/login"><a href="">Tenho uma conta</a></router-link>
+              </v-card-actions>
 
               </v-container>
           </v-flex>
@@ -121,14 +119,7 @@ export default {
 </script>
 
 <style>
-  a {
-    text-decoration: none;
-    margin: 15px;
-  }
-  .texto-card {
-    margin: 0px auto 0px auto;
-  }
-  .meio {
-    margin-left: 38%;
-  }
+a{
+  text-decoration: none;
+}
 </style>

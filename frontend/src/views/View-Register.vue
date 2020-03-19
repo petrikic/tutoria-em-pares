@@ -1,15 +1,19 @@
 <template>
-  <div>
+  <v-app>
+    <Nav/>
     <Register/>
-  </div>
+  </v-app>
+
 </template>
 
 <script>
 import Register from '../components/conta/Register'
+import Nav from '../components/main/Nav'
 export default {
   name: 'View-Register',
   components: {
-    Register
+    Register,
+    Nav,
   }
 }
 </script>
