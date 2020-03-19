@@ -18,29 +18,34 @@ function generateToken(params =  {}){
 
 router.post('/register', async (req, res) => {
     var { email } = req.body
-    const erros = []
     try{
         if(await User.findOne({ email }))
-            return res.status(400).send({error: 'Email ja existe'});
-            if(!req.body.nome || typeof req.body.nome == undefined || req.body.nome == null){
-                erros.push({texto: "Nome invalido"})
-                console.log(erros)
-                return res.status(400).send({error: "nome invalid"})
-            }
-            if(!req.body.email || typeof req.body.email == undefined || req.body.email == null){
-                erros.push({texto: "Email invalido"})
-                console.log(erros)
-                return res.status(400).send({error: "email invalid"})
-            }
-            if(req.body.password.length < 6){
-                erros.push({texto: "Senha invalida"})
-                return res.status(400).send({error: "Senha precisa no minino de 6 caracteres"})
-            }
-
-            if(erros > 0) {
-                res.render('/register', {erros: erros})
-            }
-
+        throw {
+          log_message: 'Credenciais de email invalido',
+          status: '403',
+          client_message: 'Email ja cadastrado'
+        }
+        if(!req.body.nome || typeof req.body.nome == undefined || req.body.nome == null){
+          throw {
+            log_message: 'Credenciais de nome invalido',
+            status: '403',
+            client_message: 'Nome invalido'
+          }
+        }
+        if(!req.body.email || typeof req.body.email == undefined || req.body.email == null){
+          throw {
+            log_message: 'Credenciais de email invalido',
+            status: '403',
+            client_message: 'Email invalido'
+          }
+        }
+        if(req.body.password.length < 6){
+          throw {
+            log_message: 'Credenciais de senha invalida',
+            status: '403',
+            client_message: 'Senha invalida, precisa ter no minino 6 digitos'
+          }
+        }
         const user = await User.create(req.body);
 
         user.password = undefined;
@@ -50,27 +55,36 @@ router.post('/register', async (req, res) => {
             token: generateToken({ id: user.id }),
         });
     }catch(err){
-        res.status(400).send("Falha ao criar usuario")
+        res.status(err.status).send(err.client_message)
     }
 })
 
 router.post('/authenticate', async (req, res) => {
     const { email, password } = req.body
+    try {
+      const user = await User.findOne({ email }).select('+password');
+      if(!user)
+        throw {
+          log_message: 'Credenciais de usuario invalido',
+          status: '403',
+          client_message: 'Usuario invalido'
+        }
 
-    const user = await User.findOne({ email }).select('+password');
-
-    if(!user)
-        return res.status(400).send({ error: "Usuario nao encontrando" });
-
-    if(!await bcrypt.compare(password, user.password))
-        return res.status(400).send({ error: "Senha invalida" })
-
-    user.password = undefined;
-
-    res.send({
+      if(!await bcrypt.compare(password, user.password))
+        throw {
+          log_message: 'Credenciais de senha invalido',
+          status: '403',
+          client_message: 'Senha invalida'
+        }
+      user.password = undefined;
+      res.send({
         user,
-        token: generateToken({ id: user.id }),
-     });
+          token: generateToken({ id: user.id }),
+      });
+    } catch (err) {
+
+      return res.status(err.status).send(err.client_message)
+    }
 })
 
 
@@ -82,7 +96,11 @@ router.post('/forgot_password', async (req, res) => {
         const user = await User.findOne({ email })
 
         if(!user)
-            return res.status(400).send({ error: "Usuario nao encontrando" });
+        throw {
+          log_message: 'Credenciais de usuario invalido',
+          status: '403',
+          client_message: 'Usuario invalido'
+        }
 
         const token = crypto.randomBytes(3).toString('hex');
 
@@ -104,16 +122,18 @@ router.post('/forgot_password', async (req, res) => {
         }, (err) => {
             if (err) {
                 console.log(err)
-                return res.status(400).send({ error: "Erro ao esquecer a senha, tente novamente"});
+                throw {
+                  log_message: 'Credenciais de senha invalido',
+                  status: '403',
+                  client_message: 'Erro na senha, tente novamente'
+                }
             }
             return res.send();
         })
 
 
     } catch (err) {
-
-        console.log(err)
-        res.status(400).send({error: "Erro na senha, tente novamente"})
+        res.status(err.status).send(err.client_message)
     }
 })
 
@@ -125,15 +145,27 @@ router.post('/reset_password' , async (req, res) => {
             .select('+passwordResetToken passwordResetExpires');
 
         if(!user)
-            return res.status(400).send({ error: "Usuario nao encontrando" });
+        throw {
+          log_message: 'Credenciais de usuario invalido',
+          status: '403',
+          client_message: 'Usuario invalido'
+        }
 
         if(token !== user.passwordResetToken)
-            return res.status(400).send({error : "Token invalido"})
+        throw {
+          log_message: 'Credenciais de token invalido',
+          status: '403',
+          client_message: 'Token invalido'
+        }
 
         const now = new Date();
 
         if(now > user.passwordResetExpires)
-            return res.status(400).send({ error: 'Token expirado'})
+        throw {
+          log_message: 'Credenciais de token expirado',
+          status: '403',
+          client_message: 'Token expirado'
+        }
 
         user.password = password;
 
@@ -142,7 +174,7 @@ router.post('/reset_password' , async (req, res) => {
         res.send();
 
     } catch (err) {
-        res.status(400).send({error: 'Nao foi possivel resetar a sua senha, tente novamente'})
+        res.status(err.status).send(err.client_message)
     }
 
 })
