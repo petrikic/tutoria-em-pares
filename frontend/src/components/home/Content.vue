@@ -1,5 +1,6 @@
 <template>
  <v-card>
+   <a href="" id="HOME"></a>
    <v-toolbar
    height="600px"
    >
@@ -12,10 +13,12 @@
       :key="n"
       col=4
       class="d-flex flex-column">
-      <v-btn-icon class="ma-2 d-flex justify-center align-center">
-        <v-icon xLarge class="border" :class="content.color">{{content.icon}}</v-icon>
-      </v-btn-icon>
-      <p class="d-flex justify-center">{{content.texto}}</p>
+      <p class="ma-2 d-flex justify-center align-center">
+        <v-icon size="150px" :class="content.color"  class="black--text">
+          {{ content.icon }}
+        </v-icon>
+      </p>
+      <p class="d-flex justify-center mt-10">{{content.texto}}</p>
       </v-col>
       </v-card-text>
   </v-toolbar>
@@ -29,19 +32,22 @@ export default {
     return {
       contents: [
         {
+          ref: '/',
           icon: 'mdi-history',
           texto: 'O objetivo do tutoria em pares e para quando pessoas estao com dificuldades',
-          color: 'blue yellow--text'
+          color: 'yellow--text'
         },
         {
+          ref: '/',
           icon: 'mdi-diamond',
           texto: 'O objetivo do tutoria em pares e para quando pessoas estao com dificuldades',
-          color: 'indigo darken-4--text'
+          color: 'indigo--text'
         },
         {
+          ref: '/',
           icon: 'mdi-recycle',
           texto: 'O objetivo do tutoria em pares e para quando pessoas estao com dificuldades',
-          color: 'purple blue--text'
+          color: 'blue--text'
         }
       ]
     }
@@ -50,14 +56,5 @@ export default {
 </script>
 
 <style>
-/* .border {
-  background: blue;
-  border-radius: 25px;
-  height: 60px;
-  width: 60px;
-} */
-.border {
-  border-radius: 25px;
-  width: 15%;
-}
+
 </style>

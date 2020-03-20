@@ -1,16 +1,16 @@
 <template>
- <v-card tile>
-    <v-toolbar
-      dark
-      height=80
-      fixed
-      color="purple darken-4"
-    >
-    <v-card-text class="d-flex flex-row justify-space-between">
-      <v-col col=4 class="d-flex align-center">
-        <h1><a :href="hrefLogo" class="white--text">LOGO TUTORIA</a> </h1>
-      </v-col>
-    <v-col col=4 class="d-flex mt-8">
+  <v-app-bar
+    app
+    clipped-left
+    color="purple darken-4"
+    dark
+    height=80
+  >
+    <v-card-text class="d-flex flex-wrap flex-row justify-space-between wrap">
+    <v-col col=4 class="d-flex align-center">
+      <h1><a :href="hrefLogo" class="white--text">LOGO TUTORIA</a> </h1>
+    </v-col>
+    <v-col col=4 class="mt-8">
       <v-text-field
       id="search"
       placeholder="Search"
@@ -22,20 +22,15 @@
       </v-text-field>
     </v-col>
     <v-col col=4 class="d-flex justify-end align-center">
-    <router-link to='/login' class="white--text">
-    <v-btn class="purple darken-4 mr-3" xLarge  text>
+    <v-btn class="purple darken-4 mr-3" xLarge text router to="/login">
     Login
     </v-btn>
-    </router-link>
-    <router-link to='/register' class="white--text">
-    <v-btn text class="purple darken-4 mr-6" xLarge>
+    <v-btn text class="purple darken-4 mr-6" xLarge router to="/register">
     Register
     </v-btn>
-    </router-link>
     </v-col>
     </v-card-text>
-  </v-toolbar>
-</v-card>
+  </v-app-bar>
 </template>
 
 <script>

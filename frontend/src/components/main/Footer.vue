@@ -5,31 +5,23 @@
       dark
       padless
     >
-    <v-card-text class="d-flex flex-row justify-space-between">
-    <v-col col=3 class="d-flex justify-end align-center">
+    <v-card-text class="d-flex flex-wrap flex-row justify-space-between">
+    <v-col col=3 class="d-flex justify-center align-center">
       <h1>LOGO</h1>
     </v-col>
-    <v-col col=3 class="d-flex flex-column">
-      <v-btn text  large>
-      <router-link to='' class="white--text body-1">
+    <v-col col=3 class="d-flex flex-column align-center ">
+      <a href="#HOME" text  large class="text-center white--text body-1 mb-3">
       O que e Tutoria em Pares?
-      </router-link>
-      </v-btn>
-      <v-btn text class="mr-6" large>
-      <router-link to='' class="white--text body-1">
+      </a>
+      <a href="#HOME" text  large class="text-center white--text body-1 mb-3">
       O que e o PET Sistemas
-      </router-link>
-      </v-btn>
-      <v-btn text class="mr-6" large>
-      <router-link to='' class="white--text body-1">
+      </a>
+      <a href="#HOME" text  large class="text-center white--text body-1 mb-3">
       Blog
-      </router-link>
-      </v-btn>
-      <v-btn text class="mr-6" large>
-      <router-link to='' class="white--text body-1">
+      </a>
+      <a href="#HOME" text  large class="text-center white--text body-1 mb-3">
       Pessoas que colaboraram!
-      </router-link>
-      </v-btn>
+      </a>
     </v-col>
     <v-col col=3 class="d-flex align-center">
       <p class="text-justify subtitle-1">
