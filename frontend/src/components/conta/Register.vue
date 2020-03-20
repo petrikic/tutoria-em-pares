@@ -39,13 +39,17 @@
                     label="Nome"
                     name="nome"
                     type="nome"
+                    :rules="nameRules"
+                    required
                   ></v-text-field>
                   <v-text-field
                     v-model="fields.email"
+                    type="email"
                     id="email"
                     label="Email"
+                    :rules="emailRules"
                     name="email"
-                    type="email"
+                    required
                   ></v-text-field>
 
                   <v-text-field
@@ -54,6 +58,8 @@
                     label="Password"
                     name="password"
                     type="password"
+                    :rules="passwordRules"
+                    required
                   ></v-text-field>
               <v-container >
                   <v-btn color="primary" class="white--text" @click="enviar(), clearMemory()">
@@ -88,7 +94,20 @@ export default {
         drawer: null,
         usuarios: '',
         popup: false,
-        color: ''
+        color: '',
+        emailRules: [
+        v => !!v || 'E-mail is required',
+        v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+        ],
+        nameRules: [
+          v => !!v || 'Name is required',
+          v => (v && v.length <= 10) || 'Name must be less than 10 characters',
+        ],
+        passwordRules: [
+          v => !!v || 'Password is required',
+          v => (v && v.length <= 15) || 'Password must be less than 15 characters',
+          v => (v && v.length >= 6) || 'Password must be more than 6 characters',
+        ],
       }
     },
   methods: {
@@ -102,6 +121,7 @@ export default {
               setTimeout(() => {
               this.popup = false
             }, 4000)
+            if(err.response.status > 200 && err.response.status < 300)
               this.color = 'red'
               return this.usuarios = err.response.data
           }

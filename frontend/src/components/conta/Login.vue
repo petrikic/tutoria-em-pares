@@ -1,15 +1,10 @@
 <template>
-
-  <div id="app">
-  <v-app id="inspire">
-    <v-content>
-<!-- How about adding fill-height to the v-container and align-center to the v-layout: -->
+  <v-app>
       <v-container
         fill-height
       >
         <v-layout
-          align-center
-          justify-space-around
+          class="d-flex flex-wrap justify-space-around align-center"
         >
           <v-flex
            xs12
@@ -49,6 +44,7 @@
                 label="Email"
                 name="email"
                 type="email"
+                :rules="emailRules"
                 v-model="fields.email"
               ></v-text-field>
               <v-text-field
@@ -56,6 +52,7 @@
                 label="Password"
                 name="password"
                 type="password"
+                :rules="passwordRules"
                 v-model="fields.password"
               ></v-text-field>
               <v-container >
@@ -74,14 +71,12 @@
                     <div class="texto-card">
                       <router-link to="/register"><a href="">Esqueci minha senha</a></router-link>
                     </div>
-                  </v-card-actions>
-              </v-container>
-          </v-flex>
-        </v-layout>
-      </v-container>
-    </v-content>
+                </v-card-actions>
+            </v-container>
+        </v-flex>
+      </v-layout>
+    </v-container>
   </v-app>
-</div>
 </template>
 
 
@@ -103,15 +98,41 @@ export default {
         drawer: null,
         usuarios: '',
         popup: false,
-        color: ''
+        color: '',
+          emailRules: [
+        v => !!v || 'E-mail is required',
+        v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+        ],
+        passwordRules: [
+          v => !!v || 'Password is required',
+          v => (v && v.length <= 15) || 'Password must be less than 15 characters',
+          v => (v && v.length >= 6) || 'Password must be more than 6 characters',
+        ],
       }
     },
      methods: {
       enviar() {
       axios.post('http://localhost:3000/auth/authenticate', this.fields)
-        .then(res => {
-          console.log(res.data)
-        })
+        .then(response => {
+          let is_admin = response.data.user.is_admin
+          localStorage.setItem('user',JSON.stringify(response.data.user))
+          localStorage.setItem('jwt',response.data.token)
+
+          if (localStorage.getItem('jwt') != null){
+              this.$emit('loggedIn')
+              if(this.$route.params.nextUrl != null){
+                  this.$router.push(this.$route.params.nextUrl)
+              }
+              else {
+                  if(is_admin== 1){
+                      this.$router.push('admin')
+                  }
+                  else {
+                      this.$router.push('dashboard')
+                  }
+              }
+          }
+      })
         .catch(err => {
           console.log(err.response.status)
           if(err.response.status === 403){

@@ -2,9 +2,7 @@
   <v-app>
     <Header/>
     <Content/>
-    <div>
     <Rank/>
-    </div>
   </v-app>
 </template>
 

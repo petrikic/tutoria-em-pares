@@ -1,17 +1,26 @@
 <template>
  <v-card>
+   <a href="" id="HOME"></a>
    <v-toolbar
    height="600px"
    >
-    <v-container class="d-flex flex-row">
       <v-card-text
       v-for="content in contents"
       :key="content"
       >
-      <v-icon xLarge class="d-flex justify-center mb-2" :class="content.color">{{content.icon}}</v-icon>
-      <p class="d-flex flex-column">{{content.texto}}</p>
+      <v-col
+      v-for="n in 1"
+      :key="n"
+      col=4
+      class="d-flex flex-column">
+      <p class="ma-2 d-flex justify-center align-center">
+        <v-icon size="150px" :class="content.color"  class="black--text">
+          {{ content.icon }}
+        </v-icon>
+      </p>
+      <p class="d-flex justify-center mt-10">{{content.texto}}</p>
+      </v-col>
       </v-card-text>
-    </v-container>
   </v-toolbar>
   </v-card>
 </template>
@@ -23,19 +32,22 @@ export default {
     return {
       contents: [
         {
+          ref: '/',
           icon: 'mdi-history',
           texto: 'O objetivo do tutoria em pares e para quando pessoas estao com dificuldades',
-          color: 'blue black--text'
+          color: 'yellow--text'
         },
         {
+          ref: '/',
           icon: 'mdi-diamond',
           texto: 'O objetivo do tutoria em pares e para quando pessoas estao com dificuldades',
-          color: 'red black--text'
+          color: 'indigo--text'
         },
         {
+          ref: '/',
           icon: 'mdi-recycle',
           texto: 'O objetivo do tutoria em pares e para quando pessoas estao com dificuldades',
-          color: 'purple blue--text'
+          color: 'blue--text'
         }
       ]
     }
