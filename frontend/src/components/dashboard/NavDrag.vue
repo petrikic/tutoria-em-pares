@@ -1,8 +1,8 @@
 <template>
   <div>
-    <v-snackbar v-model="snackbar" :timeout="4000" top color="success">
-      <span>Awesome! You added a new project.</span>
-      <v-btn color="white" flat @click="snackbar = false">Close</v-btn>
+    <v-snackbar v-model="snackbar" :timeout="4000" top :color=color>
+      <span>{{texto}}</span>
+      <v-btn text color="white" flat @click="snackbar= false">Close</v-btn>
     </v-snackbar>
     <v-app-bar
       app
@@ -55,7 +55,8 @@
     </v-list-item-avatar>
     <v-spacer></v-spacer>
     <v-list-item class="d-flex justify-center mb-6">
-          <Popup @projectAdded="snackbar = true" />
+          <Popup @projectAdded="snackbar=true, color='teal lighten-2', texto='Tutoria cadastrada com Sucesso!'"
+           @projectFalied="snackbar=true, color='red', texto='Nao foi possivel cadastrar a tutoria!'" />
     </v-list-item>
       <v-list dense flat>
         <v-list-item
@@ -102,6 +103,9 @@ export default {
   },
   data: () => ({
     drawer: null,
+    snackbar: false,
+    color: "",
+    texto: '',
     items: [
       { icon: 'mdi-youtube-subscription', text: 'Perfil', route: '/dashboard/perfil' },
       { icon: 'mdi-plus-circle', text: 'Dashboard', route: '/dashboard' },
