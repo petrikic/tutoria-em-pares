@@ -5,11 +5,11 @@
 </template>
 
 <script>
-import NavDrag from '../components/feed/NavDrag'
+import NavDrag from '../components/dashboard/NavDrag'
 export default {
-  name: 'View-Feed',
+  name: 'View-Tutoria',
   components: {
-    NavDrag
+    NavDrag,
   },
   data(){
     return{

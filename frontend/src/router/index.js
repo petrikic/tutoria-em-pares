@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import ViewFeed from '../views/View-Feed'
+import ViewDashboard from '../views/View-Dashboard'
+import ViewPerfil from '../views/View-Perfil'
+import ViewTutoria from '../views/View-Tutoria'
+import ViewSugestao from '../views/View-Sugestao'
 import ViewHome from '../views/View-Home.vue'
 import ViewRegister from '../views/View-Register.vue'
 import ViewLogin from '../views/View-Login.vue'
@@ -35,8 +38,32 @@ let router = new VueRouter({
       },
       {
         path: '/dashboard',
-        name: 'View-Feed',
-        component: ViewFeed,
+        name: 'View-Dashboard',
+        component: ViewDashboard,
+        meta: {
+            requiresAuth: true
+        }
+      },
+      {
+        path: '/dashboard/perfil',
+        name: 'View-Perfil',
+        component: ViewPerfil,
+        meta: {
+            requiresAuth: true
+        }
+      },
+      {
+        path: '/dashboard/tutorias',
+        name: 'View-Dashboard',
+        component: ViewTutoria,
+        meta: {
+            requiresAuth: true
+        }
+      },
+      {
+        path: '/dashboard/sugestao',
+        name: 'View-Dashboard',
+        component: ViewSugestao,
         meta: {
             requiresAuth: true
         }
@@ -56,28 +83,26 @@ router.beforeEach((to, from, next) => {
               path: '/login',
               params: { nextUrl: to.fullPath }
           })
+          return localStorage.getItem('jwt')
       } else {
           let user = JSON.parse(localStorage.getItem('user'))
           if(to.matched.some(record => record.meta.is_admin)) {
               if(user.is_admin == 1){
-                  next()
+                next()
+                return localStorage.getItem('jwt')
               }
               else{
-                  next({ name: 'userboard'})
+                next({ name: 'userboard'})
+                return localStorage.getItem('jwt')
               }
           }else {
-              next()
+            next()
+            return localStorage.getItem('jwt')
           }
       }
-  } else if(to.matched.some(record => record.meta.guest)) {
-      if(localStorage.getItem('jwt') == null){
-          next()
-      }
-      else{
-          next({ name: 'userboard'})
-      }
   }else {
-      next()
+    next()
+    return localStorage.getItem('jwt')
   }
 })
 

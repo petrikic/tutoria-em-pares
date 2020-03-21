@@ -101,29 +101,35 @@ export default {
         ],
         nameRules: [
           v => !!v || 'Name is required',
-          v => (v && v.length <= 10) || 'Name must be less than 10 characters',
+          v => (v && v.length <= 15) || 'Name must be less than 15 characters',
         ],
         passwordRules: [
           v => !!v || 'Password is required',
           v => (v && v.length <= 15) || 'Password must be less than 15 characters',
-          v => (v && v.length >= 6) || 'Password must be more than 6 characters',
         ],
       }
     },
   methods: {
       enviar: function() {
           axios.post('http://localhost:3000/auth/register', this.fields)
-            .then(res =>  console.log(res))
+            .then(response =>  {
+              console.log(response.data)
+              this.popup = true
+              this.color = 'green'
+              setTimeout(() => {
+              this.popup = false
+            }, 4000)
+              return this.usuarios = 'Usuario cadastrado com sucesso'
+            })
             .catch(err => {
               console.log(err.response.status)
             if(err.response.status === 403){
               this.popup = true
+              this.color = 'red'
               setTimeout(() => {
               this.popup = false
             }, 4000)
-            if(err.response.status > 200 && err.response.status < 300)
-              this.color = 'red'
-              return this.usuarios = err.response.data
+            return this.usuarios = err.response.data
           }
          })
       },
