@@ -1,57 +1,49 @@
 <template>
-<v-toolbar
+  <v-app-bar
+    app
+    clipped-left
+    color="purple darken-4"
+    dark
+    height=80
   >
-    <v-toolbar-title class="title-margin">Tutoria em Pares</v-toolbar-title>
-
-    <!-- <v-divider
-      class="mx-4 subtitle-margin"
-      vertical
-    ></v-divider> -->
-
-
-    <v-spacer></v-spacer>
-
-    <v-toolbar-items class="hidden-sm-and-down">
-      <v-btn text><router-link class="menu" to="/login">
-      Login
-      </router-link>
-      </v-btn>
-
-      <v-divider vertical></v-divider>
-
-      <v-btn text><router-link class="menu" to="/register">
-      Register
-      </router-link>
-      </v-btn>
-
-      <v-divider vertical></v-divider>
-
-      <v-btn text>
-        Music
-      </v-btn>
-
-      <v-divider vertical></v-divider>
-    </v-toolbar-items>
-
-    <v-app-bar-nav-icon></v-app-bar-nav-icon>
-  </v-toolbar>
+    <v-card-text class="d-flex flex-wrap flex-row justify-space-between wrap">
+    <v-col col=4 class="d-flex align-center">
+      <h1><a :href="hrefLogo" class="white--text">LOGO TUTORIA</a> </h1>
+    </v-col>
+    <v-col col=4 class="mt-8">
+      <v-text-field
+      id="search"
+      placeholder="Search"
+      name="search"
+      type="search"
+      outlined
+      append-icon="mdi-magnify"
+      >
+      </v-text-field>
+    </v-col>
+    <v-col col=4 class="d-flex justify-end align-center">
+    <v-btn class="purple darken-4 mr-3" xLarge text router to="/login">
+    Login
+    </v-btn>
+    <v-btn text class="purple darken-4 mr-6" xLarge router to="/register">
+    Register
+    </v-btn>
+    </v-col>
+    </v-card-text>
+  </v-app-bar>
 </template>
 
 <script>
 export default {
-  name: 'nav'
+  name: 'Nav',
+  data(){
+    return{
+      hrefLogo: '/',
+    }
+  }
 }
 </script>
 
 <style>
-  .menu {
-    /* text-decoration: none;
-    color:white */
-  }
-  .title-margin {
-    /* margin-right: 15px; */
-  }
-  .subtitle-margin{
-    /* margin: 15px; */
-  }
+
 </style>

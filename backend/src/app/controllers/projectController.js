@@ -53,7 +53,7 @@ router.post('/' , async (req, res) => {
         return res.send({ project })
     } catch (err) {
         console.log(err)
-        return res.status(400).send({error: "Erro ao criar um novo projeto"})
+        return res.status(403).send({error: "Erro ao criar um novo projeto"})
     }
 })
 // UPDATE
