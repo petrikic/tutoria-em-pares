@@ -4,21 +4,43 @@
 
     <v-container class="my-5">
 
+      <v-layout row class="mb-3">
+        <v-btn small flat color="grey" class="mr-3" @click="sortBy('title')">
+          <v-icon left small>mdi-folder</v-icon>
+          <span class="body-1">Ordenar por Bloco</span>
+        </v-btn>
+        <v-btn small flat color="grey" @click="sortBy('person')">
+          <v-icon left small>mdi-face</v-icon>
+          <span class="body-1 ">Ordenar por nome</span>
+        </v-btn>
+        <v-btn small flat color="grey" class="d-flex ml-5" @click="refresh(), refreshProject()">
+          <v-icon left medium class="ml-2">mdi-refresh</v-icon>
+        </v-btn>
+      </v-layout>
+
       <v-card flat class="mb-10" v-for="project in projects" :key="project.title">
         <v-layout row wrap :class="`pa-3 project ${project.status}`">
-          <v-flex xs12 md6>
-            <div class="caption grey--text">Project title</div>
-            <div>{{ project.title }}</div>
+          <v-flex xs12 md4>
+            <div class="caption grey--text">Conteudo</div>
+            <div>{{ project.content }}</div>
+          </v-flex>
+          <v-flex xs2 sm4 md1>
+            <div class="caption grey--text">Pessoa</div>
+            <div>{{ project.user.name }}</div>
           </v-flex>
           <v-flex xs6 sm4 md2>
-            <div class="caption grey--text">Person</div>
-            <div>{{ project.person }}</div>
+            <div class="caption grey--text">Bloco</div>
+            <div>{{ project.institution }}</div>
           </v-flex>
           <v-flex xs6 sm4 md2>
-            <div class="caption grey--text">Due by</div>
-            <div>{{ project.due }}</div>
+            <div class="caption grey--text">Disciplina</div>
+            <div>{{ project.discipline }}</div>
           </v-flex>
           <v-flex xs2 sm4 md2>
+            <div class="caption grey--text">Data</div>
+            <div>{{ project.data }}</div>
+          </v-flex>
+          <v-flex xs2 sm4 md1>
             <div class="caption grey--text">Status</div>
             <div>{{ project.status }}</div>
           </v-flex>
@@ -32,23 +54,29 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   data() {
     return {
-      projects: [
-        { title: 'FACOM', person: 'Renato', due: '1st Jan 2019', status: 'ongoing', content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt consequuntur eos eligendi illum minima adipisci deleniti, dicta mollitia enim explicabo fugiat quidem ducimus praesentium voluptates porro molestias non sequi animi!'},
-        { title: 'FADIR', person: 'Jessica', due: '10th Jan 2019', status: 'complete', content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt consequuntur eos eligendi illum minima adipisci deleniti, dicta mollitia enim explicabo fugiat quidem ducimus praesentium voluptates porro molestias non sequi animi!'},
-        { title: 'FAENG', person: 'Pedro', due: '20th Dec 2018', status: 'complete', content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt consequuntur eos eligendi illum minima adipisci deleniti, dicta mollitia enim explicabo fugiat quidem ducimus praesentium voluptates porro molestias non sequi animi!'},
-        { title: 'FAMED', person: 'Leticia', due: '20th Oct 2018', status: 'overdue', content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt consequuntur eos eligendi illum minima adipisci deleniti, dicta mollitia enim explicabo fugiat quidem ducimus praesentium voluptates porro molestias non sequi animi!'},
-        { title: 'FACOM', person: 'Renato', due: '1st Jan 2019', status: 'ongoing', content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt consequuntur eos eligendi illum minima adipisci deleniti, dicta mollitia enim explicabo fugiat quidem ducimus praesentium voluptates porro molestias non sequi animi!'},
-        { title: 'FADIR', person: 'Jessica', due: '10th Jan 2019', status: 'complete', content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt consequuntur eos eligendi illum minima adipisci deleniti, dicta mollitia enim explicabo fugiat quidem ducimus praesentium voluptates porro molestias non sequi animi!'},
-        { title: 'FAENG', person: 'Pedro', due: '20th Dec 2018', status: 'complete', content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt consequuntur eos eligendi illum minima adipisci deleniti, dicta mollitia enim explicabo fugiat quidem ducimus praesentium voluptates porro molestias non sequi animi!'},
-        { title: 'FAMED', person: 'Leticia', due: '20th Oct 2018', status: 'overdue', content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt consequuntur eos eligendi illum minima adipisci deleniti, dicta mollitia enim explicabo fugiat quidem ducimus praesentium voluptates porro molestias non sequi animi!'},
-        { title: 'FACOM', person: 'Renato', due: '1st Jan 2019', status: 'ongoing', content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt consequuntur eos eligendi illum minima adipisci deleniti, dicta mollitia enim explicabo fugiat quidem ducimus praesentium voluptates porro molestias non sequi animi!'},
-        { title: 'FADIR', person: 'Jessica', due: '10th Jan 2019', status: 'complete', content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt consequuntur eos eligendi illum minima adipisci deleniti, dicta mollitia enim explicabo fugiat quidem ducimus praesentium voluptates porro molestias non sequi animi!'},
-        { title: 'FAENG', person: 'Pedro', due: '20th Dec 2018', status: 'complete', content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt consequuntur eos eligendi illum minima adipisci deleniti, dicta mollitia enim explicabo fugiat quidem ducimus praesentium voluptates porro molestias non sequi animi!'},
-        { title: 'FAMED', person: 'Leticia', due: '20th Oct 2018', status: 'overdue', content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt consequuntur eos eligendi illum minima adipisci deleniti, dicta mollitia enim explicabo fugiat quidem ducimus praesentium voluptates porro molestias non sequi animi!'},
-      ]
+      projects: []
+    }
+  },
+  mounted(){
+    this.refresh()
+  },
+  methods: {
+    sortBy(prop){
+      this.projects.sort((a,b) => a[prop] < b[prop] ? -1 : 1)
+    },
+    refresh(){
+      axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('jwt')}`
+      axios.get('http://localhost:3000/tutorias/').then(response => {
+      this.projects = response.data.tutorias
+      console.log(response.data.tutorias)
+    })
+    .catch(err => {
+      console.log(err.response.data)
+    })
     }
   }
 }
@@ -58,7 +86,7 @@ export default {
 .project.complete{
   border-left: 4px solid #3CD1C2;
 }
-.project.ongoing{
+.project.Aguardando{
   border-left: 4px solid orange
 }
 .project.overdue{

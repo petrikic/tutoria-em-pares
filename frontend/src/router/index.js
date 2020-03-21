@@ -76,6 +76,8 @@ let router = new VueRouter({
   ]
 })
 
+
+
 router.beforeEach((to, from, next) => {
   if(to.matched.some(record => record.meta.requiresAuth)) {
       if (localStorage.getItem('jwt') == null) {
@@ -83,26 +85,23 @@ router.beforeEach((to, from, next) => {
               path: '/login',
               params: { nextUrl: to.fullPath }
           })
-          return localStorage.getItem('jwt')
       } else {
           let user = JSON.parse(localStorage.getItem('user'))
           if(to.matched.some(record => record.meta.is_admin)) {
               if(user.is_admin == 1){
                 next()
-                return localStorage.getItem('jwt')
+
               }
               else{
                 next({ name: 'userboard'})
-                return localStorage.getItem('jwt')
+
               }
           }else {
             next()
-            return localStorage.getItem('jwt')
           }
       }
   }else {
     next()
-    return localStorage.getItem('jwt')
   }
 })
 

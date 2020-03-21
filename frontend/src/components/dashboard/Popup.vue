@@ -8,21 +8,21 @@
       <v-card-text>
         <v-form class="px-3" ref="form">
           <v-text-field
-          v-model="fields.title"
+          v-model="fields.institution"
           label="Title"
           prepend-icon="mdi-castle"
           :rules="inputRules"
           >
           </v-text-field>
           <v-text-field
-          v-model="fields.description"
+          v-model="fields.discipline"
           label="Title"
           prepend-icon="mdi-folder"
           :rules="inputRules"
           >
           </v-text-field>
           <v-textarea
-
+          v-model="fields.content"
           label="Information"
           prepend-icon="mdi-table-edit"
           :rules="inputRules"
@@ -42,7 +42,11 @@ import axios from 'axios'
 export default {
   data() {
     return {
-      fields: {},
+      fields: {
+        institution: '',
+        discipline: '',
+        content: '',
+      },
       menu: false,
       inputRules: [
         v => !!v || 'This field is required',
@@ -54,24 +58,34 @@ export default {
   },
   methods: {
   submit() {
+    axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('jwt')}`
     this.loading = true
-    console.log(this.fields)
-    axios.post('http://localhost:3000/projects/', this.fields)
+    axios.post('http://localhost:3000/tutorias/', this.fields)
       .then(response => {
-        console.log(response.headers)
-        response.headers = localStorage.getItem('jwt')
-        console.log(localStorage.getItem('jwt'))
-        this.loading = false
+        console.log(response.data)
+        setTimeout(() => {
+          this.loading = false
+        }, 500)
+        this.dialog = false
+        this.clearMemory()
+        this.$emit('projectAdded')
+        this.$emit('refreshProject')
+
       })
       .catch(err => {
         console.log(err.response.data)
         setTimeout(() => {
           this.loading = false
         }, 1000)
-
+        this.dialog = false
+        this.clearMemory()
+        this.$emit('projectFalied')
       })
-
-
+   },
+   clearMemory(){
+     this.fields.institution = ""
+     this.fields.discipline = ""
+     this.fields.content = ""
    }
   }
 }
