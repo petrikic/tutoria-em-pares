@@ -1,28 +1,23 @@
 <template>
   <a-app>
-    <NavDragChat/>
+    <NavDragChat />
   </a-app>
 </template>
 
 <script>
-import NavDragChat from '../components/chat/NavDragChat'
+import NavDragChat from "../components/chat/NavDragChat";
 
 export default {
-  name: 'View-Chat',
+  name: "View-Chat",
   components: {
-    NavDragChat,
+    NavDragChat
   },
-  data () {
-      return {
-
-      }
-    },
-  methods: {
-
-  }
-}
+  data() {
+    return {};
+  },
+  methods: {}
+};
 </script>
 
 <style>
-
 </style>

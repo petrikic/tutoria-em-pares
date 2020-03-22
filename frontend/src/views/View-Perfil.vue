@@ -1,27 +1,24 @@
 <template>
   <v-app>
-    <NavDrag/>
-    <DashPerfil/>
+    <NavDrag />
+    <DashPerfil />
   </v-app>
 </template>
 
 <script>
-import NavDrag from '../components/dashboard/NavDrag'
-import DashPerfil from '../components/dashboard/perfil/DashPerfil'
+import NavDrag from "../components/dashboard/NavDrag";
+import DashPerfil from "../components/dashboard/perfil/DashPerfil";
 export default {
-  name: 'View-Perfil',
+  name: "View-Perfil",
   components: {
     NavDrag,
     DashPerfil
   },
-  data(){
-    return{
-
-    }
+  data() {
+    return {};
   }
-}
+};
 </script>
 
 <style>
-
 </style>

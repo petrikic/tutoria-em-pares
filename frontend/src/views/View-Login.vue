@@ -1,19 +1,18 @@
 <template>
   <v-app>
-    <Nav/>
-    <Login/>
+    <Nav />
+    <Login />
   </v-app>
 </template>
 
 <script>
-
-import Login from '../components/conta/Login'
-import Nav from '../components/main/Nav'
+import Login from "../components/conta/Login";
+import Nav from "../components/main/Nav";
 export default {
-  name: 'View-Login',
+  name: "View-Login",
   components: {
     Login,
-    Nav,
+    Nav
   }
-}
+};
 </script>

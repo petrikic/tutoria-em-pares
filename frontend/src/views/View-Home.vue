@@ -1,8 +1,8 @@
 <template>
   <v-app>
-    <Header/>
-    <Content/>
-    <Rank/>
+    <Header />
+    <Content />
+    <Rank />
   </v-app>
 </template>
 
@@ -10,20 +10,18 @@
 
 
 <script>
-import Header from '../components/main/Header'
-import Content from '../components/home/Content'
-import Rank from '../components/home/Rank'
+import Header from "../components/main/Header";
+import Content from "../components/home/Content";
+import Rank from "../components/home/Rank";
 export default {
-  name: 'View-Home',
-    components: {
+  name: "View-Home",
+  components: {
     Header,
     Content,
     Rank
   },
-    data: () => ({
-    }),
-}
+  data: () => ({})
+};
 </script>
 <style>
-
 </style>

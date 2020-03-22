@@ -1,27 +1,24 @@
 <template>
   <v-app>
-    <NavDrag/>
-    <Dashboard/>
+    <NavDrag />
+    <Dashboard />
   </v-app>
 </template>
 
 <script>
-import NavDrag from '../components/dashboard/NavDrag'
-import Dashboard from '../components/dashboard/Dashboard'
+import NavDrag from "../components/dashboard/NavDrag";
+import Dashboard from "../components/dashboard/Dashboard";
 export default {
-  name: 'View-Feed',
+  name: "View-Feed",
   components: {
     NavDrag,
     Dashboard
   },
-  data(){
-    return{
-
-    }
+  data() {
+    return {};
   }
-}
+};
 </script>
 
 <style>
-
 </style>
