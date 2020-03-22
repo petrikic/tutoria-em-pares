@@ -30,15 +30,7 @@
             <div v-if="project.status === 'Completo' ? true : false">
               <v-layout row wrap :class="`pa-3 project
         ${project.status}`">
-                <v-flex xs12 md4>
-                  <div class="caption grey--text">Conteudo</div>
-                  <div>{{ project.content }}</div>
-                </v-flex>
-                <v-flex xs2 sm4 md1>
-                  <div class="caption grey--text">Pessoa</div>
-                  <div>{{ project.user.name }}</div>
-                </v-flex>
-                <v-flex xs6 sm4 md2>
+                <v-flex xs6 sm4 md1>
                   <div class="caption grey--text">Bloco</div>
                   <div>{{ project.institution }}</div>
                 </v-flex>
@@ -46,9 +38,17 @@
                   <div class="caption grey--text">Disciplina</div>
                   <div>{{ project.discipline }}</div>
                 </v-flex>
+                <v-flex xs12 md4>
+                  <div class="caption grey--text">Conteudo</div>
+                  <div>{{ project.content }}</div>
+                </v-flex>
                 <v-flex xs2 sm4 md2>
                   <div class="caption grey--text">Data</div>
                   <div>{{ project.data }}</div>
+                </v-flex>
+                 <v-flex xs2 sm4 md2>
+                  <div class="caption grey--text">Nome</div>
+                  <div>{{ project.user.name }}</div>
                 </v-flex>
                 <v-flex xs2 sm4 md1>
                   <div class="caption grey--text">Status</div>

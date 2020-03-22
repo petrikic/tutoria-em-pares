@@ -1,11 +1,16 @@
 require("dotenv/config")
 const mongoose = require("mongoose")
 
+// mongoose.connect(`mongodb://${process.env.USERS}:${process.env.PASSWORD}@${process.env.DOCKER_MONGO_LOCAL}:${process.env.DOCKER_MONGO_PORT}`, {
+  //     useNewUrlParser: true,
+  //     useUnifiedTopology: true,
+  //     useFindAndModify: false
+  //   })
+  //   .catch((err) => console.log("error: " + err))
+mongoose.connect(`mongodb+srv://renato:renato123@cluster0-y0qaz.mongodb.net/test?retryWrites=true&w=majority`, { useUnifiedTopology: true, useNewUrlParser: true })
 const db = mongoose.connection
-    mongoose.connect(`mongodb://${process.env.USERS}:${process.env.PASSWORD}@${process.env.DOCKER_MONGO_LOCAL}:${process.env.DOCKER_MONGO_PORT}`, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
-        .catch((err) => console.log("error: " + err))
 
-    db.once('open', () =>  console.log("Banco de dados funcionando ..."))
+db.once('open', () => console.log("Banco de dados funcionando ..."))
 
 
 mongoose.Promise = global.Promise;

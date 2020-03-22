@@ -12,6 +12,12 @@ email: {
     unique: true,
     lowercase: true,
 },
+telefone: {
+  type: Number,
+},
+endereco: {
+  type: String,
+},
 password: {
     type: String,
     require: true,

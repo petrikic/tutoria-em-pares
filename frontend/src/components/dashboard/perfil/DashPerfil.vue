@@ -23,7 +23,7 @@
                   <v-icon>mdi-face</v-icon>
                 </v-list-item-action>
 
-                <v-text-field :disabled="!isEditing" color="white" label="Nome"></v-text-field>
+                <v-text-field :disabled="!isEditing" :value=fields.nome color="white" label="Nome"></v-text-field>
 
                 <v-list-item-action>
                   <v-icon>mdi-message-text</v-icon>
@@ -35,7 +35,7 @@
                   <v-icon>mdi-phone</v-icon>
                 </v-list-item-action>
 
-                <v-text-field :disabled="!isEditing" color="white" label="Telefone"></v-text-field>
+                <v-text-field :disabled="!isEditing" :value=fields.telefone color="white" label="Telefone"></v-text-field>
 
                 <v-list-item-action>
                   <v-icon>mdi-message-text</v-icon>
@@ -47,7 +47,7 @@
                   <v-icon>mdi-email</v-icon>
                 </v-list-item-action>
 
-                <v-text-field :disabled="!isEditing" color="white" label="Email"></v-text-field>
+                <v-text-field :disabled="!isEditing" :value=fields.email color="white" label="Email"></v-text-field>
               </v-list-item>
 
               <v-list-item>
@@ -55,7 +55,7 @@
                   <v-icon>mdi-map-marker</v-icon>
                 </v-list-item-action>
 
-                <v-text-field :disabled="!isEditing" color="white" label="Endereco"></v-text-field>
+                <v-text-field :disabled="!isEditing" color="white" :value=fields.endereco label="Endereco"></v-text-field>
               </v-list-item>
               <v-spacer></v-spacer>
 
@@ -76,18 +76,37 @@
 
 
 <script>
+import axios from "axios";
 export default {
   name: "DashPerfil",
   data() {
     return {
       hasSaved: false,
-      isEditing: null
+      isEditing: null,
+      fields: {},
     };
+  },
+  mounted() {
+    this.get();
   },
   methods: {
     save() {
       this.isEditing = !this.isEditing;
       this.hasSaved = true;
+    },
+    get() {
+      axios
+        .get("http://localhost:3000/users")
+        .then(response => {
+        console.log(response)
+        this.fields = JSON.parse(localStorage.getItem('user'))
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    put(){
+      axios.put("http://localhost:3000/users/update")
     }
   }
 };
