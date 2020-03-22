@@ -141,25 +141,6 @@ router.post('/forgot_password', async (req, res) => {
       res.status(500).send({error: "Erro ao tentar enviar o email"})
     }
 
-
-    // await mailer.sendMail({
-    //     to: email,
-    //     from: 'progrenato@gmail.com',
-    //     template: 'auth/forgot_password',
-    //     context: { token, email }
-    // }, (err) => {
-    //     if (err) {
-    //         console.log(err)
-    //         throw {
-    //           log_message: 'Credenciais de senha invalido',
-    //           status: '403',
-    //           client_message: 'Erro na senha, tente novamente'
-    //         }
-    //     }
-    //     return res.send();
-    // })
-
-
   } catch (err) {
     res.status(err.status).send(err.client_message)
   }
