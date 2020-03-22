@@ -1,36 +1,36 @@
-<template>
+<template >
   <v-dialog max-width="600px" v-model="dialog">
     <v-btn text slot="activator" @click="dialog = !dialog" class="success">Adicionar Tutoria</v-btn>
     <v-card>
       <v-card-title>
-        <h2>Add a New Project</h2>
+        <h2>Adicionar nova Tutoria</h2>
       </v-card-title>
       <v-card-text>
         <v-form class="px-3" ref="form">
           <v-text-field
           v-model="fields.institution"
-          label="Title"
+          label="Bloco"
           prepend-icon="mdi-castle"
           :rules="inputRules"
           >
           </v-text-field>
           <v-text-field
           v-model="fields.discipline"
-          label="Title"
+          label="Disciplina"
           prepend-icon="mdi-folder"
           :rules="inputRules"
           >
           </v-text-field>
           <v-textarea
           v-model="fields.content"
-          label="Information"
+          label="Duvida"
           prepend-icon="mdi-table-edit"
           :rules="inputRules"
           >
           </v-textarea>
           <v-spacer></v-spacer>
 
-          <v-btn flat @click="submit()" class="success mx-0 mt-3" :loading="loading">Add Project</v-btn>
+          <v-btn flat @click="submit()" class="success mx-0 mt-3" :loading="loading">Add Tutoria</v-btn>
         </v-form>
       </v-card-text>
     </v-card>
@@ -49,8 +49,8 @@ export default {
       },
       menu: false,
       inputRules: [
-        v => !!v || 'This field is required',
-        v => v.length >= 3 || 'Minimum length is 3 characters'
+        v => !!v || 'Este campo é requerido',
+        v => v.length >= 3 || 'O tamanho minino de caracteres é de 3'
       ],
       loading: false,
       dialog: false

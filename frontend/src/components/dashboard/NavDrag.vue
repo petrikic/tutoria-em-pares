@@ -55,8 +55,8 @@
     </v-list-item-avatar>
     <v-spacer></v-spacer>
     <v-list-item class="d-flex justify-center mb-6">
-          <Popup @projectAdded="snackbar=true, color='teal lighten-2', texto='Tutoria cadastrada com Sucesso!'"
-           @projectFalied="snackbar=true, color='red', texto='Nao foi possivel cadastrar a tutoria!'" />
+    <Popup @projectAdded="snackbar=true, color='teal lighten-2', texto='Tutoria cadastrada com Sucesso!'"
+      @projectFalied="snackbar=true, color='red', texto='Nao foi possivel cadastrar a tutoria!'" />
     </v-list-item>
       <v-list dense flat>
         <v-list-item
@@ -110,6 +110,7 @@ export default {
       { icon: 'mdi-youtube-subscription', text: 'Perfil', route: '/dashboard/perfil' },
       { icon: 'mdi-plus-circle', text: 'Dashboard', route: '/dashboard' },
       { icon: 'mdi-clock', text: 'Tutorias agendadas', route: '/dashboard/tutorias' },
+      { icon: 'mdi-marker-check', text: 'Tutorias completas', route: '/dashboard/completos' },
       { icon: 'mdi-youtube-subscription', text: 'Enviar sugestao', route: '/dashboard/sugestao' },
     ],
     items2: [

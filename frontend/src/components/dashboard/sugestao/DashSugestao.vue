@@ -2,84 +2,75 @@
 <div class="altura">
   <h1 class="d-flex justify-center subheading grey--text">Envie sua sugestao</h1>
 
-  <v-container class="my-5">
-    <v-card
+  <v-container class="my-4">
+  <v-card
     max-width="100%"
     class="mx-auto"
   >
-    <v-system-bar></v-system-bar>
-
-    <v-row
-      class="px-6 py-3"
-      align="center"
-    >
-      <span class="mr-4">To</span>
-      <v-menu
-        v-model="menu"
-        bottom
-        right
-        transition="scale-transition"
-        origin="top left"
-      >
-        <template v-slot:activator="{ on }">
-          <v-chip
-            pill
-            v-on="on"
-          >
-            <v-avatar left>
-              <v-img src="../../../assets/51562006_1426376510831490_5197592748139479040_n.jpg"></v-img>
-            </v-avatar>
-            Renato Tomio
-          </v-chip>
-        </template>
-        <v-card width="300">
-          <v-list dark>
-            <v-list-item>
-              <v-list-item-avatar>
-                <v-img src="../../../assets/51562006_1426376510831490_5197592748139479040_n.jpg"></v-img>
-              </v-list-item-avatar>
-              <v-list-item-content>
-                <v-list-item-title>Renato Tomio</v-list-item-title>
-                <v-list-item-subtitle>renato.re2012@hotmail.com</v-list-item-subtitle>
-              </v-list-item-content>
-              <v-list-item-action>
-                <v-btn
-                  icon
-                  @click="menu = false"
-                >
-                  <v-icon>mdi-close-circle</v-icon>
-                </v-btn>
-              </v-list-item-action>
-            </v-list-item>
-          </v-list>
-          <v-list>
-            <v-list-item @click="() => {}">
-              <v-list-item-action>
-                <v-icon>mdi-briefcase</v-icon>
-              </v-list-item-action>
-              <v-list-item-subtitle>renato.re2012@hotmail.com</v-list-item-subtitle>
-            </v-list-item>
-          </v-list>
-        </v-card>
-      </v-menu>
-    </v-row>
-
-    <v-divider></v-divider>
+  <v-form method="POST" action="https://formspree.io/renato.re2012@hotmail.com">
+    <input
+      name="_subject"
+      value="Novo contato!"
+      type="hidden"
+    />
+    <input
+      name="_next"
+      value="https://www.rossener.com/contato/men"
+      type="hidden"
+    />
+    <input
+      name="_language"
+      value="pt"
+      type="hidden"
+    />
+    <v-text-field
+      label="Seu nome"
+      type="text"
+      id="nome"
+      outlined
+      class="mx-10"
+      v-model="fields.nome"
+      required
+    ></v-text-field>
 
     <v-text-field
-      full-width
-      value="Re: "
-      label="Subject"
-      single-line
+      label="Email"
+      type="email"
+      id="email"
+      outlined
+      class="mx-10"
+      v-model="fields.email"
+      :rules="emailRules"
+      required
     ></v-text-field>
 
     <v-textarea
-      full-width
-      single-line
-      placeholder='Message'
+      id="assunto"
+      type="text"
+      placeholder='Assunto'
+      outlined
+      v-model="fields.assunto"
+      class="mx-10"
+      required
     ></v-textarea>
-  </v-card>
+  </v-form>
+    <v-list class="d-flex flex-row">
 
+    <v-btn class="mx-5" flat medium color='blue white--text'>Enviar
+    </v-btn>
+    <v-btn  flat medium color='white black--text'>Descartar
+    </v-btn>
+    <v-btn text flat color='grey' @click="loadingFile(file)">
+      <v-icon size="30px">mdi-paperclip</v-icon>
+    </v-btn>
+    <q-uploader
+      :factory="factoryFn"
+      multiple
+      style="max-width: 300px"
+    />
+
+    </v-list>
+  </v-card>
 
   </v-container>
 
@@ -91,8 +82,29 @@ export default {
   name: "DashSugestao",
     data: () => ({
       menu: false,
+      fields: {},
+       emailRules: [
+        v => !!v || 'E-mail is required',
+        v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+      ],
     }),
+    methods: {
+      loadingFile(file){
+        console.log(file)
+      },
+      factoryFn (files) {
+      console.log(files)
 
+      return new Promise((resolve) => {
+        // simulating a delay of 2 seconds
+        setTimeout(() => {
+          resolve({
+            url: 'http://localhost:4444/upload'
+          })
+        }, 2000)
+      })
+    }
+  },
 }
 </script>
 

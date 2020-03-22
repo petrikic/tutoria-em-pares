@@ -1,18 +1,18 @@
 <template>
   <v-app>
     <NavDrag/>
-    <DashTutoria/>
+    <DashCompleto/>
   </v-app>
 </template>
 
 <script>
 import NavDrag from '../components/dashboard/NavDrag'
-import DashTutoria from '../components/dashboard/tutoria/DashTutoria'
+import DashCompleto from '../components/dashboard/completo/DashCompleto'
 export default {
-  name: 'View-Tutoria',
+  name: 'View-Completo',
   components: {
     NavDrag,
-    DashTutoria
+    DashCompleto
   },
   data(){
     return{

@@ -12,32 +12,39 @@
         transition="fade-transition"
       >
   <div class="altura">
-    <h1 class="d-flex justify-center subheading grey--text">Dashboard</h1>
+    <h1 class="d-flex justify-center subheading grey--text">Tutoria</h1>
 
     <v-container class="my-5">
 
       <v-layout row class="mb-3">
-        <v-btn small text color="black" class="mr-3" @click="sortBy('institution')">
+        <v-btn small flat color="grey" class="mr-3" @click="sortBy('institution')">
           <v-icon left small>mdi-folder</v-icon>
           <span class="body-1">Ordenar por Bloco</span>
         </v-btn>
-        <v-btn small text color="black" @click="sortBy('nome')">
+        <v-btn small flat color="grey" @click="sortBy('nome')">
           <v-icon left small>mdi-face</v-icon>
           <span class="body-1 ">Ordenar por nome</span>
         </v-btn>
-        <v-btn small text color="black" class="d-flex ml-5" @click="refresh(), refreshProject()">
+        <v-btn small flat color="grey" class="d-flex ml-5" @click="refresh(), refreshProject()">
           <v-icon left medium class="ml-2">mdi-refresh</v-icon>
         </v-btn>
       </v-layout>
 
-      <v-card flat class="mb-10" v-for="project in projects" :key="project.nome" >
-        <div  v-if="project.status === 'Aguardando' ? true : false">
+      <v-card flat class="mb-10"
+      v-for="project in projects"
+      :key="project.title"
+      >
+      <div  v-if="project.status === 'Completo' ? true : false">
         <v-layout row wrap
-        :class="`pa-3 project ${project.status}`"
-        >
+        :class="`pa-3 project
+        ${project.status}`">
           <v-flex xs12 md4>
             <div class="caption grey--text">Conteudo</div>
             <div>{{ project.content }}</div>
+          </v-flex>
+          <v-flex xs2 sm4 md1>
+            <div class="caption grey--text">Pessoa</div>
+            <div>{{ project.user.name }}</div>
           </v-flex>
           <v-flex xs6 sm4 md2>
             <div class="caption grey--text">Bloco</div>
@@ -51,13 +58,13 @@
             <div class="caption grey--text">Data</div>
             <div>{{ project.data }}</div>
           </v-flex>
-          <v-flex xs2 sm4 md2>
+          <v-flex xs2 sm4 md1>
             <div class="caption grey--text">Status</div>
             <div>{{ project.status }}</div>
           </v-flex>
         </v-layout>
         <v-divider></v-divider>
-        </div>
+      </div>
       </v-card>
 
     </v-container>
@@ -74,6 +81,7 @@ export default {
     return {
       projects: [],
       isActive: false,
+      Agendado: true,
     }
   },
   mounted(){

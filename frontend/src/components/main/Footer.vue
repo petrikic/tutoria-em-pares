@@ -32,7 +32,7 @@
     <v-col col=3 class="d-flex align-center">
       <v-btn
         v-for="icon in icons"
-        :key="icon"
+        :key="icon.icone"
         class="mx-4 white--text "
         icon
       >
