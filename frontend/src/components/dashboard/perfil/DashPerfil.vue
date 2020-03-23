@@ -23,7 +23,13 @@
                   <v-icon>mdi-face</v-icon>
                 </v-list-item-action>
 
-                <v-text-field :disabled="!isEditing" :value=fields.nome color="white" label="Nome"></v-text-field>
+                <v-text-field
+                :disabled="!isEditing"
+                :value=fields.nome
+                v-model="fields.nome"
+                color="white"
+                label="Nome">
+                </v-text-field>
 
                 <v-list-item-action>
                   <v-icon>mdi-message-text</v-icon>
@@ -35,7 +41,12 @@
                   <v-icon>mdi-phone</v-icon>
                 </v-list-item-action>
 
-                <v-text-field :disabled="!isEditing" :value=fields.telefone color="white" label="Telefone"></v-text-field>
+                <v-text-field
+                :disabled="!isEditing"
+                :value=fields.telefone
+                v-model="fields.telefone"
+                color="white"
+                label="Telefone"></v-text-field>
 
                 <v-list-item-action>
                   <v-icon>mdi-message-text</v-icon>
@@ -47,7 +58,13 @@
                   <v-icon>mdi-email</v-icon>
                 </v-list-item-action>
 
-                <v-text-field :disabled="!isEditing" :value=fields.email color="white" label="Email"></v-text-field>
+                <v-text-field
+                :disabled="!isEditing"
+                 :value=fields.email
+                 v-model="fields.email"
+                 color="white"
+                 label="Email">
+                 </v-text-field>
               </v-list-item>
 
               <v-list-item>
@@ -55,15 +72,25 @@
                   <v-icon>mdi-map-marker</v-icon>
                 </v-list-item-action>
 
-                <v-text-field :disabled="!isEditing" color="white" :value=fields.endereco label="Endereco"></v-text-field>
+                <v-text-field
+                :disabled="!isEditing"
+                color="white"
+                :value=fields.endereco
+                v-model="fields.endereco"
+                label="Endereco">
+                </v-text-field>
               </v-list-item>
               <v-spacer></v-spacer>
 
-              <v-card-actions class="d-flex justify-end">
-                <v-btn :disabled="!isEditing" color="success" @click="save" large>Salvar</v-btn>
+              <v-card-actions class="d-flex justify-end align-center">
+              <v-btn :disabled="!isEditing" color="success" @click="put()" large>Salvar</v-btn>
+              <input style="display: none;" type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
+              <v-btn fab large :disabled="!isEditing" text @click="$refs.file.click()">
+                <v-icon>mdi-paperclip</v-icon>
+                </v-btn>
+              <v-btn large :disabled="!isEditing" @click="submitFile()">Upload</v-btn>
               </v-card-actions>
             </v-list>
-
             <v-img src="../../../assets/silhueta-interrogação.jpg" height="500px"></v-img>
           </v-card>
         </v-col>
@@ -71,8 +98,6 @@
     </v-container>
   </div>
 </template>
-
-
 
 
 <script>
@@ -84,31 +109,72 @@ export default {
       hasSaved: false,
       isEditing: null,
       fields: {},
+      use: {},
+      file: '',
+      nome: '',
+      telefone: '',
+      email: '',
+      endereco: '',
     };
   },
   mounted() {
     this.get();
   },
   methods: {
-    save() {
-      this.isEditing = !this.isEditing;
-      this.hasSaved = true;
-    },
     get() {
       axios
         .get("http://localhost:3000/users")
         .then(response => {
-        console.log(response)
+          response
         this.fields = JSON.parse(localStorage.getItem('user'))
+        const array = response.data.user
+          array.forEach(element => {
+            if(this.fields._id === element._id ){
+              this.fields = element
+            }
+          });
         })
         .catch(err => {
           console.log(err);
         });
     },
     put(){
-      axios.put("http://localhost:3000/users/update")
+      this.isEditing = !this.isEditing;
+      this.hasSaved = true;
+      axios.put(`http://localhost:3000/users/update/${this.fields._id}` , this.fields)
+        .then(response => {
+          console.log(response.data)
+        })
+        .catch(err => console.log(err.response.data))
+    },
+    submitFile(){
+        let formData = new FormData();
+            /*
+                Add the form data we need to submit
+            */
+            formData.append('file', this.file);
+
+        /*
+          Make the request to the POST /single-file URL
+        */
+            axios.post( 'http://localhost:3000/users/upload',
+                formData,
+                {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+              }
+            ).then(function(){
+          console.log('SUCCESS!!');
+        })
+        .catch(function(){
+          console.log('FAILURE!!');
+        });
+    },
+    handleFileUpload(){
+     this.file = this.$refs.file.files[0];
     }
-  }
+  },
 };
 </script>
 
@@ -116,4 +182,5 @@ export default {
 .altura {
   margin-top: 5%;
 }
+
 </style>

@@ -12,7 +12,7 @@ app.get('/', (req, res) => {
   return res.sendFile('index.html', {root : __dirname + '/public'})
 })
 
-
+app.set('view engine', 'ejs')
 require("./database/index")
 
 app.use(function (req, res, next) {
