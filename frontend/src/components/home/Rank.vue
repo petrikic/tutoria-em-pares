@@ -9,7 +9,7 @@
 
       <template v-slot:default="props">
         <v-row>
-          <v-col v-for="item in props.items" :key="item.name" cols="12" sm="6" md="4" lg="3">
+          <v-col v-for="item in props.items" :key="item.title" cols="12" sm="6" md="4" lg="3">
             <v-card>
               <v-card-title class="subheading font-weight-bold">{{ item.name }}</v-card-title>
 

@@ -70,36 +70,28 @@
 </template>
 
 <script>
-import axios from "axios";
+import tutorias from "../../service/tutorias";
 export default {
   data() {
     return {
-      projects: [],
+      projects: {},
       isActive: false
     };
   },
-  mounted() {
-    this.refresh();
+  async mounted() {
+    this.refresh()
   },
   methods: {
     sortBy(prop) {
       this.projects.sort((a, b) => (a[prop] < b[prop] ? -1 : 1));
     },
-    refresh() {
-      axios.defaults.headers.common[
-        "Authorization"
-      ] = `Bearer ${localStorage.getItem("jwt")}`;
-      axios
-        .get("http://localhost:3000/tutorias/")
-        .then(response => {
-          this.projects = response.data.tutorias;
-        })
-        .catch(err => {
-          console.log(err.response.data);
-        });
+    async refresh() {
+      this.projects = await tutorias.listar()
+
+
     }
   }
-};
+}
 </script>
 
 <style>
