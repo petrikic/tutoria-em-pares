@@ -27,12 +27,12 @@
       </v-row>
     </v-app-bar>
 
-    <v-navigation-drawer v-model="drawer" app>
+    <v-navigation-drawer v-model="drawer" app >
       <v-list-item-avatar height="150px" width="100%" class="d-flex flex-column mt-10">
         <v-avatar size="100" class>
           <img class="text-lg-center" src="https://picsum.photos/250/300?image=660" />
         </v-avatar>
-        <p class="d-flex justify-center black--text subheading mt-1">User</p>
+        <p class="d-flex justify-center black--text subheading mt-1">{{fields.nome}}</p>
       </v-list-item-avatar>
       <v-spacer></v-spacer>
       <v-list-item class="d-flex justify-center mb-6">
@@ -63,11 +63,13 @@
         </v-list>
       </v-list>
     </v-navigation-drawer>
+
   </div>
 </template>
 
 <script>
 import Popup from "./Popup";
+import tutorias from '../../service/tutorias'
 export default {
   name: "NavDrag",
   components: {
@@ -76,6 +78,7 @@ export default {
   data: () => ({
     drawer: null,
     snackbar: false,
+    fields: {},
     color: "",
     texto: "",
     items: [
@@ -108,7 +111,24 @@ export default {
       { picture: 58, text: "Nokia" },
       { picture: 78, text: "MKBHD" }
     ]
-  })
+  }),
+  mounted(){
+    this.pickUser()
+  },
+  methods: {
+    pickUser(){
+      tutorias.listarUsers()
+        .then(response => {
+         const user = JSON.parse(localStorage.getItem('user'))
+          response.forEach(element => {
+            if(user._id === element._id){
+             this.fields = element
+            }
+          });
+        })
+        .catch(err => console.log(err))
+    }
+  }
 };
 </script>
 

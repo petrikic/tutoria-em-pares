@@ -18,10 +18,9 @@ telefone: {
 endereco: {
   type: String,
 },
-image: {
+post: {
   type: mongoose.Schema.Types.ObjectId,
   ref: 'Post',
-  required: true
 },
 password: {
     type: String,

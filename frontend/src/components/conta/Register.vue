@@ -51,7 +51,8 @@
   </v-container>
 </template>
 <script>
-import axios from "axios";
+// import axios from "axios";
+import tutorias from "../../service/tutorias";
 export default {
   name: "Register",
   data() {
@@ -77,9 +78,8 @@ export default {
     };
   },
   methods: {
-    enviar: function() {
-      axios
-        .post("http://localhost:3000/auth/register", this.fields)
+    enviar() {
+      tutorias.registrar(this.fields)
         .then(response => {
           console.log(response.data);
           this.popup = true;
@@ -87,7 +87,7 @@ export default {
           setTimeout(() => {
             this.popup = false;
           }, 4000);
-          return (this.usuarios = "Usuario cadastrado com sucesso");
+          return this.usuarios = "Usuario cadastrado com sucesso";
         })
         .catch(err => {
           console.log(err.response.status);
@@ -97,7 +97,7 @@ export default {
             setTimeout(() => {
               this.popup = false;
             }, 4000);
-            return (this.usuarios = err.response.data);
+            return this.usuarios = err.response.data;
           }
         });
     },

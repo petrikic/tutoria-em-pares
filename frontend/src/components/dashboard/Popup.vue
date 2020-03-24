@@ -39,11 +39,7 @@ import axios from "axios";
 export default {
   data() {
     return {
-      fields: {
-        institution: "",
-        discipline: "",
-        content: ""
-      },
+      fields: {},
       menu: false,
       inputRules: [
         v => !!v || "Este campo é requerido",

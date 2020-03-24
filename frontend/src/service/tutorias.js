@@ -1,7 +1,7 @@
-import  AXIOS_INSTANCE  from "./config";
+import AXIOS_INSTANCE from "./config";
 
 class TutoriaService {
-    static async listar(){
+  static async listar() {
     try {
 
       const response = await AXIOS_INSTANCE.get('tutorias')
@@ -11,9 +11,9 @@ class TutoriaService {
       throw err.response.data;
     }
   }
-  static  enviar(fields){
+  static async logar(fields) {
     try {
-      const response = AXIOS_INSTANCE.post('/auth/authenticate', fields)
+      const response = await AXIOS_INSTANCE.post('/auth/authenticate', fields)
 
       return response
     } catch (err) {
@@ -22,8 +22,47 @@ class TutoriaService {
 
     }
   }
+  static async registrar(fields) {
+    try {
+      const response = await AXIOS_INSTANCE.post('auth/register', fields)
+
+      return response
+    } catch (err) {
+      console.log(err)
+      throw err.response.data;
+
+    }
+  }
+  static async sendEmail(fields) {
+    try {
+      const response = await AXIOS_INSTANCE.post('email', fields)
+
+      return response
+    } catch (err) {
+      console.log(err)
+      throw err.response.data;
+    }
+  }
+  static async listarUsers() {
+    try {
+
+      const response = await AXIOS_INSTANCE.get('users')
+
+      return response.data.user
+    } catch (err) {
+      throw err.response.data;
+    }
+  }
+  static async updateUser(id, fields) {
+    try {
+      const response = await AXIOS_INSTANCE.put(`users/update/${id}` , fields)
+
+      return response
+    } catch (err) {
+      console.log(err)
+      throw err.response.data;
+    }
+  }
 }
 
 export default TutoriaService
-
-

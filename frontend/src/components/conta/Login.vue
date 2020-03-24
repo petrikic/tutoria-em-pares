@@ -51,7 +51,6 @@
 
 
 <script>
-// import axios from "axios";
 import tutorias from "../../service/tutorias";
 import Carrossel from "../Carrossel.vue";
 export default {
@@ -78,8 +77,8 @@ export default {
     };
   },
   methods: {
-    async enviar() {
-          tutorias.enviar(this.fields)
+    enviar() {
+          tutorias.logar(this.fields)
             .then(response => {
                 let is_admin = response.data.user.is_admin;
           localStorage.setItem("user", JSON.stringify(response.data.user));

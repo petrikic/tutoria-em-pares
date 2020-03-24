@@ -17,13 +17,9 @@ function generateToken(params = {}) {
 }
 
 router.post('/register', async (req, res) => {
-  var {
-    email
-  } = req.body
+  var { email } = req.body
   try {
-    if (await User.findOne({
-        email
-      }))
+    if (await User.findOne({email}))
       throw {
         log_message: 'Credenciais de email invalido',
         status: '403',

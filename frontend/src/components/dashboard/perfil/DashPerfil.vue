@@ -1,13 +1,13 @@
 <template>
   <div class="altura">
-    <h1 class="d-flex justify-center subheading grey--text">Perfil</h1>
+    <h1 class="d-flex justify-center align-center mt-12 subheading grey--text">Perfil</h1>
 
-    <v-container class="my-5">
+    <v-container class="d-flex justify-center align-center">
       <v-row justify="center">
         <v-col cols="12" sm="8">
           <v-card>
             <v-card-title class="cyan darken-1">
-              <span class="headline white--text">Renato Tomio</span>
+              <span class="headline white--text">{{fields.nome}}</span>
 
               <v-spacer></v-spacer>
 
@@ -24,12 +24,12 @@
                 </v-list-item-action>
 
                 <v-text-field
-                :disabled="!isEditing"
-                :value=fields.nome
-                v-model="fields.nome"
-                color="white"
-                label="Nome">
-                </v-text-field>
+                  :disabled="!isEditing"
+                  :value="fields.nome"
+                  v-model="fields.nome"
+                  color="white"
+                  label="Nome"
+                ></v-text-field>
 
                 <v-list-item-action>
                   <v-icon>mdi-message-text</v-icon>
@@ -42,11 +42,12 @@
                 </v-list-item-action>
 
                 <v-text-field
-                :disabled="!isEditing"
-                :value=fields.telefone
-                v-model="fields.telefone"
-                color="white"
-                label="Telefone"></v-text-field>
+                  :disabled="!isEditing"
+                  :value="fields.telefone"
+                  v-model="fields.telefone"
+                  color="white"
+                  label="Telefone"
+                ></v-text-field>
 
                 <v-list-item-action>
                   <v-icon>mdi-message-text</v-icon>
@@ -59,12 +60,12 @@
                 </v-list-item-action>
 
                 <v-text-field
-                :disabled="!isEditing"
-                 :value=fields.email
-                 v-model="fields.email"
-                 color="white"
-                 label="Email">
-                 </v-text-field>
+                  :disabled="!isEditing"
+                  :value="fields.email"
+                  v-model="fields.email"
+                  color="white"
+                  label="Email"
+                ></v-text-field>
               </v-list-item>
 
               <v-list-item>
@@ -73,22 +74,28 @@
                 </v-list-item-action>
 
                 <v-text-field
-                :disabled="!isEditing"
-                color="white"
-                :value=fields.endereco
-                v-model="fields.endereco"
-                label="Endereco">
-                </v-text-field>
+                  :disabled="!isEditing"
+                  color="white"
+                  :value="fields.endereco"
+                  v-model="fields.endereco"
+                  label="Endereco"
+                ></v-text-field>
               </v-list-item>
               <v-spacer></v-spacer>
 
-              <v-card-actions class="d-flex justify-end align-center">
-              <v-btn :disabled="!isEditing" color="success" @click="put()" large>Salvar</v-btn>
-              <input style="display: none;" type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
-              <v-btn fab large :disabled="!isEditing" text @click="$refs.file.click()">
-                <v-icon>mdi-paperclip</v-icon>
+              <v-card-actions class="d-flex justify-end align-center mr-10">
+                <v-btn :disabled="!isEditing" color="success" @click="put()" large>Salvar</v-btn>
+                <input
+                  style="display: none;"
+                  type="file"
+                  id="file"
+                  ref="file"
+                  v-on:change="handleFileUpload()"
+                />
+                <v-btn fab large :disabled="!isEditing" text @click="$refs.file.click()">
+                  <v-icon>mdi-paperclip</v-icon>
                 </v-btn>
-              <v-btn large :disabled="!isEditing" @click="submitFile()">Upload</v-btn>
+                <v-btn large :disabled="!isEditing" @click="submitFile()">Upload</v-btn>
               </v-card-actions>
             </v-list>
             <v-img src="../../../assets/silhueta-interrogação.jpg" height="500px"></v-img>
@@ -101,7 +108,8 @@
 
 
 <script>
-import axios from "axios";
+import tutorias from '../../../service/tutorias'
+import axios from 'axios'
 export default {
   name: "DashPerfil",
   data() {
@@ -110,11 +118,7 @@ export default {
       isEditing: null,
       fields: {},
       use: {},
-      file: '',
-      nome: '',
-      telefone: '',
-      email: '',
-      endereco: '',
+      file: "",
     };
   },
   mounted() {
@@ -122,59 +126,48 @@ export default {
   },
   methods: {
     get() {
-      axios
-        .get("http://localhost:3000/users")
+        tutorias.listarUsers()
         .then(response => {
-          response
-        this.fields = JSON.parse(localStorage.getItem('user'))
-        const array = response.data.user
-          array.forEach(element => {
-            if(this.fields._id === element._id ){
-              this.fields = element
+         const user = JSON.parse(localStorage.getItem('user'))
+          response.forEach(element => {
+            if(user._id === element._id){
+             this.fields = element
             }
           });
         })
-        .catch(err => {
-          console.log(err);
-        });
+        .catch(err => console.log(err))
     },
-    put(){
+    put() {
       this.isEditing = !this.isEditing;
       this.hasSaved = true;
-      axios.put(`http://localhost:3000/users/update/${this.fields._id}` , this.fields)
+      tutorias.updateUser(this.fields._id, this.fields)
         .then(response => {
-          console.log(response.data)
+          console.log(response);
         })
-        .catch(err => console.log(err.response.data))
+        .catch(err => console.log(err));
     },
-    submitFile(){
-        let formData = new FormData();
-            /*
-                Add the form data we need to submit
-            */
-            formData.append('file', this.file);
+    submitFile() {
+      let formData = new FormData();
 
-        /*
-          Make the request to the POST /single-file URL
-        */
-            axios.post( 'http://localhost:3000/users/upload',
-                formData,
-                {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-              }
-            ).then(function(){
-          console.log('SUCCESS!!');
+      formData.append("file", this.file);
+
+      axios
+        .post("http://localhost:3000/users/upload", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
         })
-        .catch(function(){
-          console.log('FAILURE!!');
+        .then(response => {
+          console.log("SUCCESS!!" + response);
+        })
+        .catch(err => {
+          console.log("FAILURE!!" + err);
         });
     },
-    handleFileUpload(){
-     this.file = this.$refs.file.files[0];
+    handleFileUpload() {
+      this.file = this.$refs.file.files[0];
     }
-  },
+  }
 };
 </script>
 
@@ -182,5 +175,4 @@ export default {
 .altura {
   margin-top: 5%;
 }
-
 </style>

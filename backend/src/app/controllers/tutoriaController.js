@@ -33,7 +33,7 @@ router.post('/' , async (req, res) => {
     try {
         const { institution, discipline, content} = req.body
 
-        const tutorias = await Tutoria.create({ institution, discipline, content, user: req.userId})
+        const tutorias = await Tutoria.create({institution, discipline, content, user: req.userId})
         if(!tutorias)
           throw {
             message_log: 'Falha ao criar uma tutoria',
