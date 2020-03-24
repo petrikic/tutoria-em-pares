@@ -11,7 +11,6 @@ router.post('/', async (req, res) => {
       })
 
       const email = await serviceEmail.sendEmail(req.body)
-      console.log(email)
       return res.send({ email })
   } catch (err) {
     console.log(err)

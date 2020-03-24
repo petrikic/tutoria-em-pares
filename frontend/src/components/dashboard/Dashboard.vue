@@ -11,27 +11,20 @@
       <div class="altura">
         <h1 class="d-flex justify-center subheading grey--text">Dashboard</h1>
 
-        <v-container class="my-5">
-          <v-layout row class="mb-3">
-            <v-btn small text color="black" class="mr-3" @click="sortBy('institution')">
-              <v-icon left small>mdi-folder</v-icon>
-              <span class="body-1">Ordenar por Bloco</span>
-            </v-btn>
-            <v-btn small text color="black" @click="sortBy('nome')">
-              <v-icon left small>mdi-face</v-icon>
-              <span class="body-1">Ordenar por nome</span>
-            </v-btn>
-            <v-btn
-              small
-              text
-              color="black"
-              class="d-flex ml-5"
-              @click="refresh(), refreshProject()"
-            >
-              <v-icon left medium class="ml-2">mdi-refresh</v-icon>
-            </v-btn>
-          </v-layout>
-
+        <v-container class="d-flex justify-center">
+          <v-btn small text color="black" class="mr-3" @click="sortBy('institution')">
+            <v-icon left small>mdi-folder</v-icon>
+            <span class="body-1">Ordenar por Bloco</span>
+          </v-btn>
+          <v-btn small text color="black" @click="sortBy('nome')">
+            <v-icon left small>mdi-face</v-icon>
+            <span class="body-1">Ordenar por nome</span>
+          </v-btn>
+          <v-btn small text color="black" @click="refresh(), refreshProject()">
+            <v-icon left medium class="ml-2">mdi-refresh</v-icon>
+          </v-btn>
+        </v-container>
+        <v-container class="d-flex flex-column justify-center">
           <v-card flat class="mb-10" v-for="project in projects" :key="project.nome">
             <div v-if="project.status === 'Aguardando' ? true : false">
               <v-layout row wrap :class="`pa-3 project ${project.status}`">
@@ -44,16 +37,16 @@
                   <div>{{ project.discipline }}</div>
                 </v-flex>
                 <v-flex xs12 md4>
-                  <div class="caption grey--text">Conteudo</div>
-                  <div>{{ project.content }}</div>
+                  <div class="caption  grey--text">Conteudo</div>
+                  <p class="text-justify mr-12">{{ project.content }}</p>
                 </v-flex>
                 <v-flex xs2 sm4 md2>
                   <div class="caption grey--text">Data</div>
-                  <div>{{ project.data }}</div>
+                  <div>{{ project.data |  moment("DD/MM/YYYY") }}</div>
                 </v-flex>
                 <v-flex xs6 sm4 md2>
                   <div class="caption grey--text">Nome</div>
-                  <div>{{  }}</div>
+                  <div>{{ project.nome }}</div>
                 </v-flex>
                 <v-flex xs2 sm4 md1>
                   <div class="caption grey--text">Status</div>
@@ -70,11 +63,12 @@
 </template>
 
 <script>
-import axios from "axios";
+import tutorias from "../../service/tutorias";
 export default {
   data() {
     return {
-      projects: [],
+      projects: {},
+      nomes: {},
       isActive: false
     };
   },
@@ -86,24 +80,18 @@ export default {
       this.projects.sort((a, b) => (a[prop] < b[prop] ? -1 : 1));
     },
     refresh() {
-      axios.defaults.headers.common[
-        "Authorization"
-      ] = `Bearer ${localStorage.getItem("jwt")}`;
-      axios
-        .get("http://localhost:3000/tutorias/")
-        .then(response => {
-          this.projects = response.data.tutorias;
-        })
-        .catch(err => {
-          console.log(err.response.data);
-        });
+    tutorias.listar()
+      .then(response => {
+        this.projects = response
+      })
+      .catch(err => console.log(err))
     }
   }
 };
 </script>
 
 <style>
-.project.Completo {
+.project.Completada {
   border-left: 4px solid #3cd1c2;
 }
 .project.Aguardando {

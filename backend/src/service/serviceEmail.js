@@ -1,3 +1,4 @@
+require("dotenv/config")
 const sgMail = require('@sendgrid/mail');
 module.exports = class EmailService {
   static async sendEmail(bodyEmail){
@@ -7,7 +8,7 @@ module.exports = class EmailService {
         to: 'renato.re2012@hotmail.com',
         from: bodyEmail.email,
         subject: bodyEmail.assunto,
-        html: `<strong>EXEMPLO DE ENVIO: ${bodyEmail.email}</strong>
+        html: `<strong>EXEMPLO DE ENVIO:</strong>
         <div>${bodyEmail.content}</div>
         `,
       };
@@ -16,6 +17,7 @@ module.exports = class EmailService {
       return email ? {data: "Email enviado com Sucesso!", status: 200}
       : {data: "Falha ao enviar email", status: 500}
     } catch (err){
+      console.log(err)
       throw{
         data:'Falha ao enviar email!!',
         status: 500
