@@ -63,6 +63,26 @@ class TutoriaService {
       throw err.response.data;
     }
   }
+  static async removerTutoria(id) {
+    try {
+      const response = await AXIOS_INSTANCE.delete(`tutorias/${id}`)
+
+      return response
+    } catch (err) {
+      console.log(err)
+      throw err.response.data;
+    }
+  }
+  static async updateTutoria(id, fields) {
+    try {
+      const response = await AXIOS_INSTANCE.put(`tutorias/${id}` , fields)
+
+      return response
+    } catch (err) {
+      console.log(err)
+      throw err.response.data;
+    }
+  }
 }
 
 export default TutoriaService

@@ -1,24 +1,11 @@
 <template >
   <v-dialog max-width="600px" v-model="dialog">
     <v-btn
-      v-if="navDrag === false"
       text
       slot="activator"
       @click="dialog = !dialog"
       class="success"
     >Adicionar Tutoria</v-btn>
-
-    <v-btn v-else
-     text
-     slot="activator"
-     @click="dialog = !dialog"
-     class="green"
-     fab
-     >
-      <v-icon>
-        mdi-pencil
-      </v-icon>
-    </v-btn>
     <v-card>
       <v-card-title>
         <h2>{{msg}}</h2>
