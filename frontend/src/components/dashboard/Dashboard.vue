@@ -151,7 +151,8 @@
                   </v-list>
                 </v-flex>
                 <!-- FINAL DOS BOTOES -->
-                 <v-list-item class="d-flex justify-start align-end">
+                 <v-list-item class="d-flex justify-start align-end"
+                 v-if="project.user._id !== user._id ? true : false">
                   <v-btn
                     class="green black--text"
                     text
@@ -247,6 +248,7 @@ export default {
         });
     },
     doTutoriaUpdate(project) {
+      project.tutor = this.user._id
       project.status = 'Agendado'
       tutorias.updateTutoria(project._id, project)
         .then(response => {

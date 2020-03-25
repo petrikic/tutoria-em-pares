@@ -18,6 +18,10 @@ status: {
   type: String,
   default: "Aguardando"
 },
+tutor: {
+  type: mongoose.Schema.Types.ObjectId,
+  ref: 'User',
+},
 user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',

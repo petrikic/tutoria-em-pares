@@ -52,6 +52,11 @@
                   <div class="caption grey--text">Status</div>
                   <div>{{ project.status }}</div>
                 </v-flex>
+                <div v-if="project.user._id === user._id ? true : false">
+                <v-list-item class="d-flex justify-start align-end">
+                  <FinalizarTutoria/>
+                </v-list-item>
+                </div>
               </v-layout>
               <v-divider></v-divider>
             </div>
@@ -63,13 +68,19 @@
 </template>
 
 <script>
+import FinalizarTutoria from '../dialogs/FinalizarTutoria'
 import tutorias from "../../../service/tutorias";
 export default {
+  components: {
+    FinalizarTutoria,
+  },
   data() {
     return {
       projects: {},
       nomes: {},
-      isActive: false
+      isActive: false,
+      user: {},
+      dialogs: false,
     };
   },
   mounted() {
@@ -83,8 +94,26 @@ export default {
     tutorias.listar()
       .then(response => {
         this.projects = response
+        const user = JSON.parse(localStorage.getItem("user"));
+        this.user = user;
       })
       .catch(err => console.log(err))
+    },
+    doTutoriaUpdate(project) {
+      project.status = 'Completo'
+      tutorias.updateTutoria(project._id, project)
+        .then(response => {
+          console.log(response)
+          this.snackbar = true;
+          this.color = "green";
+          this.texto = "Finalizada com sucesso!";
+        })
+        .catch(err => {
+          console.log(err);
+          this.snackbar = true;
+          this.color = "red";
+          this.texto = "Falha na finalizacao da tutoria!";
+        })
     }
   }
 };
