@@ -49,14 +49,9 @@ router.post('/' , async (req, res) => {
 // UPDATE
 router.put('/:tutoriaId', async (req, res) => {
     try {
-      const {institution, discipline, content} = req.body
+
       console.log(req.params.tutoriaId)
-      const tutorias = await Tutoria.findByIdAndUpdate(req.params.tutoriaId ,
-        {
-        institution,
-        discipline,
-        content
-        })
+      const tutorias = await Tutoria.findByIdAndUpdate(req.params.tutoriaId , req.body)
 
 
         return res.send({ tutorias })

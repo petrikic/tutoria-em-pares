@@ -14,6 +14,10 @@ content: {
   type: String,
   required: true,
 },
+status: {
+  type: String,
+  default: "Aguardando"
+},
 user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
@@ -23,10 +27,6 @@ data : {
     type: Date,
     default: Date.now(),
 },
-status: {
-  type: String,
-  default: 'Aguardando'
-}
 });
 
 

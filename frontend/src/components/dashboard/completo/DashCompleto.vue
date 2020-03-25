@@ -46,7 +46,7 @@
                 </v-flex>
                 <v-flex xs6 sm4 md2>
                   <div class="caption grey--text">Nome</div>
-                  <div>{{ project.nome }}</div>
+                  <div>{{ project.user.nome }}</div>
                 </v-flex>
                 <v-flex xs2 sm4 md1>
                   <div class="caption grey--text">Status</div>

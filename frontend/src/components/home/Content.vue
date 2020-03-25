@@ -7,7 +7,7 @@
           <p class="ma-2 d-flex justify-center align-center">
             <v-icon size="150px" :class="content.color" class="black--text">{{ content.icon }}</v-icon>
           </p>
-          <p class="d-flex justify-center mt-10">{{content.texto}}</p>
+          <p class="d-flex justify-center mt-10 body-1 text-justify">{{content.texto}}</p>
         </v-col>
       </v-card-text>
     </v-toolbar>
@@ -31,7 +31,7 @@ export default {
           ref: "/",
           icon: "mdi-diamond",
           texto:
-            "O objetivo do tutoria em pares e para quando pessoas estao com dificuldades",
+            "Contribuir entre os tutores as ações de prática de ensino, como mais uma alternativa de carreira dentro de suas respectivas áreas de estudo/atuação Colaborar e criar oportunidades para o desenvolvimento prático da ato professoral entre os acadêmicos dos cursos de licenciaturas. Propiciar uma maior interação entre os acadêmicos de mesmos cursos de diferentes semestres, assim como acadêmicos de diferentes cursos, mas que possuem uma exigências conteudistas semelhantes.",
           color: "indigo--text"
         },
         {

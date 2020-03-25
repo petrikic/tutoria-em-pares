@@ -1,9 +1,14 @@
 <template >
   <v-dialog max-width="600px" v-model="dialog">
-    <v-btn text slot="activator" @click="dialog = !dialog" class="success">Adicionar Tutoria</v-btn>
+    <v-btn
+      text
+      slot="activator"
+      @click="dialog = !dialog"
+      class="success"
+    >Adicionar Tutoria</v-btn>
     <v-card>
       <v-card-title>
-        <h2>Adicionar nova Tutoria</h2>
+        <h2>{{msg}}</h2>
       </v-card-title>
       <v-card-text>
         <v-form class="px-3" ref="form">
@@ -27,7 +32,7 @@
           ></v-textarea>
           <v-spacer></v-spacer>
 
-          <v-btn flat @click="submit()" class="success mx-0 mt-3" :loading="loading">Add Tutoria</v-btn>
+          <v-btn text @click="submit()" class="success mx-0 mt-3" :loading="loading">Add Tutoria</v-btn>
         </v-form>
       </v-card-text>
     </v-card>
@@ -37,6 +42,10 @@
 <script>
 import axios from "axios";
 export default {
+  props: {
+    msg: String,
+    navDrag: Boolean
+  },
   data() {
     return {
       fields: {},

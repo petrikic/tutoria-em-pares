@@ -2,9 +2,10 @@
   <v-container fill-height>
     <v-layout align-center justify-space-around>
       <v-flex xs12 sm8 md4>
-        <v-toolbar v-if="popup" :class="color" height="30">
-          <v-toolbar-title class="mx-auto black--text">{{usuarios}}</v-toolbar-title>
-        </v-toolbar>
+        <v-snackbar v-model="snackbar" :timeout="4000" top :color="color">
+            <span>{{usuarios}}</span>
+          <v-btn text color="white"  @click="snackbar= false">Close</v-btn>
+        </v-snackbar>
         <v-toolbar flat>
           <v-spacer></v-spacer>
           <v-toolbar-title class="mx-4 blue--text">Register</v-toolbar-title>
@@ -38,20 +39,20 @@
             type="password"
             :rules="passwordRules"
             required
+            @keypress.enter="enviar(), clearMemory()"
           ></v-text-field>
         </v-form>
         <v-card-actions class="d-flex justify-start blue--text">
           <v-btn color="primary" class="white--text" @click="enviar(), clearMemory()">Cadastrar</v-btn>
         </v-card-actions>
         <v-card-actions class="d-flex justify-center blue--text">
-          <v-btn text class="body-1 blue--text">Tenho uma conta</v-btn>
+          <v-btn text class="body-1 blue--text" router to="/login">Tenho uma conta</v-btn>
         </v-card-actions>
       </v-flex>
     </v-layout>
   </v-container>
 </template>
 <script>
-// import axios from "axios";
 import tutorias from "../../service/tutorias";
 export default {
   name: "Register",
@@ -60,9 +61,9 @@ export default {
       fields: {},
       stats: "",
       drawer: null,
-      usuarios: "",
-      popup: false,
       color: "",
+      usuarios: '',
+      snackbar: false,
       emailRules: [
         v => !!v || "E-mail e requerido",
         v => /.+@.+\..+/.test(v) || "E-mail must be valid"
@@ -82,7 +83,7 @@ export default {
       tutorias.registrar(this.fields)
         .then(response => {
           console.log(response.data);
-          this.popup = true;
+          this.snackbar = true;
           this.color = "green";
           setTimeout(() => {
             this.popup = false;
@@ -92,7 +93,7 @@ export default {
         .catch(err => {
           console.log(err.response.status);
           if (err.response.status === 403) {
-            this.popup = true;
+            this.snackbar = true;
             this.color = "red";
             setTimeout(() => {
               this.popup = false;
@@ -102,9 +103,7 @@ export default {
         });
     },
     clearMemory: function() {
-      document.getElementById("nome").value = this.stats;
-      document.getElementById("email").value = this.stats;
-      document.getElementById("password").value = this.stats;
+      this.fields = {}
     }
   }
 };

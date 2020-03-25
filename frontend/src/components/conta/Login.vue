@@ -6,9 +6,10 @@
       </v-flex>
       <v-spacer></v-spacer>
       <v-flex xs12 sm8 md4>
-        <v-toolbar v-if="popup" :class="color" height="30">
-          <v-toolbar-title class="mx-auto black--text">{{usuarios}}</v-toolbar-title>
-        </v-toolbar>
+        <v-snackbar v-model="snackbar" :timeout="4000" top :color="color">
+            <span>{{usuarios}}</span>
+          <v-btn text color="white" @click="snackbar= false">Close</v-btn>
+        </v-snackbar>
         <v-toolbar flat>
           <v-spacer></v-spacer>
           <v-toolbar-title class="mx-4 blue--text">Tutoria logo</v-toolbar-title>
@@ -31,6 +32,7 @@
             type="password"
             :rules="passwordRules"
             v-model="fields.password"
+            @keypress.enter="enviar(), clearMemory()"
           ></v-text-field>
           <v-card-actions class="d-flex justify-start">
             <v-btn color="blue" class="white--text" @click="enviar(), clearMemory()">Acessar</v-btn>
@@ -38,10 +40,11 @@
         </v-form>
         <v-container>
           <v-card-actions class="d-flex justify-center">
-            <v-btn text class="body-1 blue--text">Nao tenho conta</v-btn>
+            <v-btn text class="body-1 blue--text" router to="/register">Nao tenho conta</v-btn>
           </v-card-actions>
           <v-card-actions class="d-flex justify-center">
-            <v-btn text class="body-1 blue--text">Esqueci minha senha</v-btn>
+            <v-btn text class="body-1 blue--text" router to="/forgot_password"
+            >Esqueci minha senha</v-btn>
           </v-card-actions>
         </v-container>
       </v-flex>
@@ -67,7 +70,7 @@ export default {
       stats: "",
       drawer: null,
       usuarios: "",
-      popup: false,
+      snackbar: false,
       color: "",
       emailRules: [
         v => !!v || "E-mail e requerido",
@@ -80,7 +83,7 @@ export default {
     enviar() {
           tutorias.logar(this.fields)
             .then(response => {
-                let is_admin = response.data.user.is_admin;
+          let is_admin = response.data.user.is_admin;
           localStorage.setItem("user", JSON.stringify(response.data.user));
           localStorage.setItem("jwt", response.data.token);
           if (localStorage.getItem("jwt") != null) {
@@ -97,20 +100,14 @@ export default {
           }
         })
         .catch(err => {
-           console.log(err.response.status);
-          if (err.response.status === 403) {
-            this.popup = true;
-            setTimeout(() => {
-              this.popup = false;
-            }, 4000);
+            this.snackbar = true;
             this.color = "red";
-            return (this.usuarios = err.response.data);
-          }
+            console.log(err)
+            return this.usuarios = err
         })
     },
     clearMemory() {
-      document.getElementById("email").value = this.stats;
-      document.getElementById("password").value = this.stats;
+      this.fields = {}
     }
   }
 };
