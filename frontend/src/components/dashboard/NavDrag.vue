@@ -30,7 +30,7 @@
     <v-navigation-drawer v-model="drawer" app >
       <v-list-item-avatar height="150px" width="100%" class="d-flex flex-column mt-10">
         <v-avatar size="100" class>
-          <img class="text-lg-center" src="https://picsum.photos/250/300?image=660" />
+          <img class="text-lg-center" src="../../assets/silhueta-interrogação.jpg" />
         </v-avatar>
         <p class="d-flex justify-center black--text subheading mt-1">{{fields.nome}}</p>
       </v-list-item-avatar>

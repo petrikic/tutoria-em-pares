@@ -32,8 +32,10 @@
                 </v-list-item>
 
                 <v-list-item>
-                  <v-list-item-content>Carga:</v-list-item-content>
-                  <v-list-item-content class="align-end">{{ item.carga }}</v-list-item-content>
+                  <v-list-item-content>Avaliacao:</v-list-item-content>
+                  <v-list-item-content class="mr-6">
+                    <v-rating v-model="rating"   ></v-rating>
+                  </v-list-item-content>
                 </v-list-item>
 
                 <v-list-item>
@@ -62,6 +64,7 @@
 export default {
   name: "Rank",
   data: () => ({
+    rating: 3,
     itemsPerPage: 4,
     items: [
       {

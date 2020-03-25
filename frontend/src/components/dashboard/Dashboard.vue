@@ -11,7 +11,7 @@
       <div class="altura">
         <v-snackbar v-model="snackbar" :timeout="4000" top :color="color">
           <span>{{texto}}</span>
-          <v-btn text color="white" flat @click="snackbar= false">Close</v-btn>
+          <v-btn text color="white" @click="snackbar= false">Close</v-btn>
         </v-snackbar>
         <h1 class="d-flex justify-center subheading grey--text">Dashboard</h1>
 
@@ -63,6 +63,7 @@
                   <div class="caption grey--text">Status</div>
                   <div>{{ project.status }}</div>
                 </v-flex>
+
 
                 <!-- BOTOES DO DASHBOARD -->
                 <v-flex xs2 sm4 md1 v-if="project.user._id === user._id ? true : false">
@@ -150,6 +151,13 @@
                   </v-list>
                 </v-flex>
                 <!-- FINAL DOS BOTOES -->
+                 <v-list-item class="d-flex justify-start align-end">
+                  <v-btn
+                    class="green black--text"
+                    text
+                    @click="doTutoriaUpdate(project)"
+                  >Fazer tutoria</v-btn>
+                </v-list-item>
               </v-layout>
               <v-divider></v-divider>
             </div>
@@ -238,7 +246,22 @@ export default {
           this.texto = "Falha ao alterar tutoria!";
         });
     },
-    canDeleteAndUpdate() {}
+    doTutoriaUpdate(project) {
+      project.status = 'Agendado'
+      tutorias.updateTutoria(project._id, project)
+        .then(response => {
+          console.log(response)
+          this.snackbar = true;
+          this.color = "green";
+          this.texto = "Tutoria agendada com sucesso!";
+        })
+        .catch(err => {
+          console.log(err);
+          this.snackbar = true;
+          this.color = "red";
+          this.texto = "Falha no agendamento da tutoria!";
+        })
+    }
   }
 };
 </script>

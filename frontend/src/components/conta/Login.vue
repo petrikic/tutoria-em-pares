@@ -40,10 +40,11 @@
         </v-form>
         <v-container>
           <v-card-actions class="d-flex justify-center">
-            <v-btn text class="body-1 blue--text">Nao tenho conta</v-btn>
+            <v-btn text class="body-1 blue--text" router to="/register">Nao tenho conta</v-btn>
           </v-card-actions>
           <v-card-actions class="d-flex justify-center">
-            <v-btn text class="body-1 blue--text">Esqueci minha senha</v-btn>
+            <v-btn text class="body-1 blue--text" router to="/forgot_password"
+            >Esqueci minha senha</v-btn>
           </v-card-actions>
         </v-container>
       </v-flex>

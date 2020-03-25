@@ -6,6 +6,7 @@ import ViewTutoria from '../views/View-Tutoria'
 import ViewCompleto from '../views/View-Completo'
 import ViewSugestao from '../views/View-Sugestao'
 import ViewHome from '../views/View-Home.vue'
+import ViewForgotPassword from '../views/View-ForgotPassword'
 import ViewRegister from '../views/View-Register.vue'
 import ViewLogin from '../views/View-Login.vue'
 import ViewChat from '../views/View-Chat.vue'
@@ -20,6 +21,11 @@ let router = new VueRouter({
         path: '/',
         name: 'View-Home',
         component: ViewHome
+      },
+      {
+        path: '/forgot_password',
+        name: 'View-FrorgotPassword',
+        component: ViewForgotPassword
       },
       {
         path: '/login',

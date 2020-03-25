@@ -13,6 +13,4 @@ const db = mongoose.connection
 db.once('open', () => console.log("Banco de dados funcionando ..."))
 
 
-mongoose.Promise = global.Promise;
-
 module.exports = mongoose;
