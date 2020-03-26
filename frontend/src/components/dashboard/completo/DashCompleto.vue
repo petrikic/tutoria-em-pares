@@ -27,6 +27,7 @@
         <v-container class="d-flex flex-column justify-center">
           <v-card flat class="mb-10" v-for="project in projects" :key="project.nome">
             <div v-if="project.status === 'Completo' ? true : false">
+               <v-divider></v-divider>
               <v-layout row wrap :class="`pa-3 project ${project.status}`">
                 <v-flex xs6 sm4 md1>
                   <div class="caption grey--text">Bloco</div>
