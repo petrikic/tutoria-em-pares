@@ -18,7 +18,7 @@
 
         <v-card-text>
         Com a finalizacao da tutoria voce tera que resolver uma prova dissertiva
-                  com 10 questoes elaboradas pelo seu tutor.
+        de no maximo 5 questoes e no minino 3 elaboradas pelo seu tutor.
         </v-card-text>
 
         <v-card-actions>
@@ -41,7 +41,6 @@
 </template>
 
 <script>
-// import tutorias from "../../../service/tutorias";
 import Prova from './Prova'
   export default {
     name: "FinalizarTutoria",
@@ -55,22 +54,6 @@ import Prova from './Prova'
       }
     },
     methods: {
-      doTutoriaUpdate(project) {
-      console.log(project)
-    // tutorias.updateTutoria()
-    //   .then(response => {
-    //     console.log(response)
-    //     this.snackbar = true;
-    //     this.color = "green";
-    //     this.texto = "Tutoria agendada com sucesso!";
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //     this.snackbar = true;
-    //     this.color = "red";
-    //     this.texto = "Falha no agendamento da tutoria!";
-    //   })
-    }
     },
   }
 </script>

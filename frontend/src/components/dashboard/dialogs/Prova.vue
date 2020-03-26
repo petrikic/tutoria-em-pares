@@ -1,5 +1,9 @@
 <template>
   <v-row justify="center">
+    <v-snackbar v-model="snackbar" :timeout="4000" top :color="cor">
+      <span>{{texto}}</span>
+      <v-btn text color="white" @click="snackbar= false">Close</v-btn>
+    </v-snackbar>
 
       <v-btn
         :class="color"
@@ -32,14 +36,26 @@
             color="purple black--text"
             dark
             xLarge
-            @click="enviarProva(project)"
+            @click="enviarProva(project), dialog = false"
             >
             Enviar
             </v-btn>
             </div>
             </div>
             <div v-else>
-            <iframe :src=link width="1000" height="1346" frameborder="0" marginheight="0" marginwidth="0">Carregando…</iframe>
+              <div v-if="project.iframe === undefined ? true : false"
+              class="py-12 px-12"
+              >
+              <v-card-title class="display-1 d-flex justify-center">Prova nao Elaborada!!</v-card-title>
+                <p class="headline">Ola parece que o tutor ainda nao elaborou a sua prova
+                  entre em contanto com ele para realizar a sua prova.
+                  para que seja feito o relatorio e no final do semestre
+                  obtenha as cargas horarias.
+                </p>
+              </div>
+              <div v-else>
+                <iframe :src=project.iframe width="1000" height="1346" frameborder="0" marginheight="0" marginwidth="0">Carregando…</iframe>
+              </div>
             </div>
           </v-card-items>
       </v-card>
@@ -66,7 +82,9 @@ export default {
         includeFiles: true,
         fields: {},
         user: {},
-        link: "https://docs.google.com/forms/d/e/1FAIpQLSeVXqV5xuEKAzERR5KxaaCdlO7qc4iKPRxSnDiwvISiabAj-Q/viewform?embedded=true"
+        snackbar: false,
+        cor: '',
+        texto: '',
       }
     },
     methods: {
@@ -76,11 +94,22 @@ export default {
       tutorias.updateTutoria(project._id, project)
         .then(response => {
           console.log(response)
+          this.snackbar = true
+          this.cor = 'green'
+          this.texto = 'Prova elaborada com sucesso!!'
+          this.fields = {}
         })
         .catch(err => {
           console.log(err);
+          this.snackbar = true
+          this.cor = 'red'
+          this.texto = 'Falha ao elabor a prova!!'
+          this.fields = {}
         })
       },
+      ola(){
+        console.log('ola')
+      }
   }
 }
 </script>
