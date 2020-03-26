@@ -18,6 +18,9 @@ status: {
   type: String,
   default: "Aguardando"
 },
+iframe: {
+  type: String
+},
 tutor: {
   type: mongoose.Schema.Types.ObjectId,
   ref: 'User',

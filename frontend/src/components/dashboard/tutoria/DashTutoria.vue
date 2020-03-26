@@ -27,6 +27,7 @@
         <v-container class="d-flex flex-column justify-center">
           <v-card flat class="mb-10" v-for="project in projects" :key="project.nome">
             <div v-if="project.status === 'Agendado' ? true : false">
+             <v-divider></v-divider>
               <v-layout row wrap :class="`pa-3 project ${project.status}`">
                 <v-flex xs6 sm4 md1>
                   <div class="caption grey--text">Bloco</div>
@@ -54,11 +55,16 @@
                 </v-flex>
                 <div v-if="project.user._id === user._id ? true : false">
                 <v-list-item class="d-flex justify-start align-end">
-                  <FinalizarTutoria/>
+                  <FinalizarTutoria :project = project  />
                 </v-list-item>
                 </div>
+                <div v-if="project.tutor === user._id ? true : false">
+                   <v-list-item class="d-flex justify-start align-end">
+                  <Prova :project = project msg="Elaborar Prova" color="red"  />
+                   </v-list-item>
+                </div>
               </v-layout>
-              <v-divider></v-divider>
+               <v-divider></v-divider>
             </div>
           </v-card>
         </v-container>
@@ -69,14 +75,17 @@
 
 <script>
 import FinalizarTutoria from '../dialogs/FinalizarTutoria'
+import Prova from '../dialogs/Prova'
 import tutorias from "../../../service/tutorias";
 export default {
   components: {
     FinalizarTutoria,
+    Prova,
   },
   data() {
     return {
       projects: {},
+      tutoria: {},
       nomes: {},
       isActive: false,
       user: {},
@@ -99,22 +108,6 @@ export default {
       })
       .catch(err => console.log(err))
     },
-    doTutoriaUpdate(project) {
-      project.status = 'Completo'
-      tutorias.updateTutoria(project._id, project)
-        .then(response => {
-          console.log(response)
-          this.snackbar = true;
-          this.color = "green";
-          this.texto = "Finalizada com sucesso!";
-        })
-        .catch(err => {
-          console.log(err);
-          this.snackbar = true;
-          this.color = "red";
-          this.texto = "Falha na finalizacao da tutoria!";
-        })
-    }
   }
 };
 </script>

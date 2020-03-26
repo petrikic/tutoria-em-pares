@@ -38,6 +38,7 @@
 
           <v-card flat class="mb-10" v-for="project in projects" :key="project.id">
             <div v-if="project.status === 'Aguardando' ? true : false">
+               <v-divider></v-divider>
               <v-layout row wrap :class="`pa-3 project ${project.status}`">
                 <v-flex xs6 sm4 md1>
                   <div class="caption grey--text">Bloco</div>
@@ -151,14 +152,15 @@
                   </v-list>
                 </v-flex>
                 <!-- FINAL DOS BOTOES -->
-                 <v-list-item class="d-flex justify-start align-end"
-                 v-if="project.user._id !== user._id ? true : false">
+                <div v-if="project.user._id !== user._id ? true : false">
+                 <v-list-item class="d-flex justify-start align-end">
                   <v-btn
                     class="green black--text"
                     text
                     @click="doTutoriaUpdate(project)"
                   >Fazer tutoria</v-btn>
                 </v-list-item>
+                </div>
               </v-layout>
               <v-divider></v-divider>
             </div>
@@ -248,7 +250,6 @@ export default {
         });
     },
     doTutoriaUpdate(project) {
-      project.tutor = this.user._id
       project.status = 'Agendado'
       tutorias.updateTutoria(project._id, project)
         .then(response => {
