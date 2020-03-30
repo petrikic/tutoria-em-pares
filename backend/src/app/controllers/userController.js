@@ -1,8 +1,6 @@
 const express = require('express')
 const User = require('../models/user');
-const Post = require('../models/post');
 const fs = require('fs')
-const image2base64 = require('image-to-base64');
 
 
 const multer = require('multer')
