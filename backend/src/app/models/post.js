@@ -5,6 +5,9 @@ name: String,
 size: Number,
 key: String,
 url: String,
+profile: {
+  type: Buffer,
+},
 createdAt : {
     type: Date,
     default: Date.now(),

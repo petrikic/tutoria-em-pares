@@ -1,17 +1,9 @@
 <template>
-  <v-responsive class="overflow-y-auto" max-height="1000">
-    <v-lazy
-      v-model="isActive"
-      :options="{
-          threshold: .5
-        }"
-      min-height="200"
-      transition="fade-transition"
-    >
+
       <div class="altura">
-        <v-snackbar v-model="snackbar" :timeout="4000" top :color="color">
-          <span>{{texto}}</span>
-          <v-btn text color="white" @click="snackbar= false">Close</v-btn>
+        <v-snackbar v-model="$store.state.snackbar" :timeout="4000" top :color="$store.state.color">
+          <span>{{$store.state.texto}}</span>
+          <v-btn text color="white" @click="$store.state.snackbar= false">Close</v-btn>
         </v-snackbar>
         <h1 class="d-flex justify-center subheading grey--text">Dashboard</h1>
 
@@ -21,9 +13,9 @@
               <v-icon left small>mdi-folder</v-icon>
               <span class="body-1">Ordenar por Bloco</span>
             </v-btn>
-            <v-btn small text color="black" @click="sortBy('nome')">
-              <v-icon left small>mdi-face</v-icon>
-              <span class="body-1">Ordenar por nome</span>
+            <v-btn small text color="black" @click="sortBy('discipline')">
+              <v-icon left small>mdi-file-document</v-icon>
+              <span class="body-1">Ordenar por disciplina</span>
             </v-btn>
             <v-btn
               small
@@ -38,6 +30,7 @@
 
           <v-card flat class="mb-10" v-for="project in projects" :key="project.id">
             <div v-if="project.status === 'Aguardando' ? true : false">
+
                <v-divider></v-divider>
               <v-layout row wrap :class="`pa-3 project ${project.status}`">
                 <v-flex xs6 sm4 md1>
@@ -67,7 +60,7 @@
 
 
                 <!-- BOTOES DO DASHBOARD -->
-                <v-flex xs2 sm4 md1 v-if="project.user._id === user._id ? true : false">
+                <v-flex xs2 sm4 md1 v-if="project.user._id === JSON.parse($store.state.user)._id ? true : false">
                   <v-list class="d-flex flex-row">
                     <v-list-item>
                       <v-btn
@@ -152,8 +145,10 @@
                   </v-list>
                 </v-flex>
                 <!-- FINAL DOS BOTOES -->
-                <div v-if="project.user._id !== user._id ? true : false">
-                 <v-list-item class="d-flex justify-start align-end">
+                <div v-if="project.user.semestre < 1 ? false : true">
+                 <v-list-item
+                 v-if="project.user._id !== JSON.parse($store.state.user)._id ? true : false"
+                 class="d-flex justify-start align-end">
                   <v-btn
                     class="green black--text"
                     text
@@ -167,8 +162,7 @@
           </v-card>
         </v-container>
       </div>
-    </v-lazy>
-  </v-responsive>
+
 </template>
 
 <script>
@@ -183,15 +177,6 @@ export default {
       dialog: false,
       dialog1: false,
       tutoria: {},
-      snackbar: false,
-      color: "",
-      texto: "",
-      user: {},
-      n: 0,
-      inputRules: [
-        v => !!v || "Este campo é requerido",
-        v => v.length >= 3 || "O tamanho minino de caracteres é de 3"
-      ]
     };
   },
   mounted() {
@@ -206,12 +191,9 @@ export default {
         .listar()
         .then(response => {
           this.projects = response;
-          const user = JSON.parse(localStorage.getItem("user"));
-          this.user = user;
-
 
         })
-        .catch(err => console.log(err));
+        .catch(err => err);
     },
     receberTutoria(project) {
       this.tutoria = project;
@@ -221,45 +203,43 @@ export default {
       tutorias
         .removerTutoria(this.tutoria._id)
         .then(response => {
-          console.log(response);
-          this.snackbar = true;
-          this.color = "green";
-          this.texto = "Tutoria removida com sucesso!";
+          response
+          this.$store.getters.snackbarResponse
+          this.$store.state.texto = "Tutoria removida com sucesso!";
         })
         .catch(err => {
-          console.log(err);
-          this.snackbar = true;
-          this.color = "red";
-          this.texto = "Falha ao remover tutoria!";
+          err
+          this.$store.getters.snackbarErr
+          this.$store.state.texto = "Falha ao remover tutoria!";
         });
     },
     atualizarDashoboard() {
       tutorias
         .updateTutoria(this.tutoria._id, this.fields)
         .then(response => {
-          console.log(response);
-          this.snackbar = true;
-          this.color = "green";
-          this.texto = "Tutoria alterado com sucesso!";
+          response
+          this.$store.state.snackbar = true;
+          this.$store.state.color = "green";
+          this.$store.state.texto = "Tutoria alterado com sucesso!";
         })
         .catch(err => {
-          console.log(err);
-          this.snackbar = true;
-          this.color = "red";
-          this.texto = "Falha ao alterar tutoria!";
+          err
+          this.$store.state.snackbar = true;
+          this.$store.state.color = "red";
+          this.$store.state.texto = "Falha ao alterar tutoria!";
         });
     },
     doTutoriaUpdate(project) {
       project.status = 'Agendado'
       tutorias.updateTutoria(project._id, project)
         .then(response => {
-          console.log(response)
+          response
           this.snackbar = true;
           this.color = "green";
           this.texto = "Tutoria agendada com sucesso!";
         })
         .catch(err => {
-          console.log(err);
+          err
           this.snackbar = true;
           this.color = "red";
           this.texto = "Falha no agendamento da tutoria!";

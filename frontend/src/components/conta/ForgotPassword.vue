@@ -66,14 +66,14 @@ export default {
     sendPassword(){
       tutorias.forgotPassword(this.fields)
         .then(response => {
-          console.log(response)
+          response
           this.snackbar = true
           this.color = 'green'
           this.texto = "E-mail enviado com sucesso!"
           this.fields = {}
         })
         .catch(err => {
-          console.log(err)
+          err
           this.snackbar = true
           this.color = 'red'
           this.fields = {}

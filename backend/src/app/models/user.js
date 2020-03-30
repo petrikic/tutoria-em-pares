@@ -15,12 +15,22 @@ email: {
 telefone: {
   type: Number,
 },
-endereco: {
+semestre: {
+  type: Number,
+},
+rga: {
   type: String,
 },
-post: {
-  type: mongoose.Schema.Types.ObjectId,
-  ref: 'Post',
+profile: {
+  type: String,
+  name: String,
+  size: Number,
+  key: String,
+  url: String,
+  createdAt : {
+    type: Date,
+    default: Date.now(),
+},
 },
 password: {
     type: String,

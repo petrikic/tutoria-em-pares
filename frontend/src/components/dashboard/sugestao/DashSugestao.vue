@@ -85,7 +85,7 @@ export default {
       tutorias
         .sendEmail(this.fields)
         .then(response => {
-          console.log(response);
+          response
           this.snackbar = true;
           this.texto = "Email enviado com sucesso";
           this.color = "green";
@@ -94,7 +94,7 @@ export default {
           this.snackbar = true;
           this.texto = "Falha ao enviar email";
           this.color = "red";
-          console.log(err.response.data);
+          err
         });
     }
   }

@@ -28,7 +28,7 @@
     </v-app-bar>
 
     <v-navigation-drawer v-model="drawer" app >
-      <v-list-item-avatar height="150px" width="100%" class="d-flex flex-column mt-10">
+      <v-list-item-avatar height="150px" width="100%" class="d-flex flex-column my-10">
         <v-avatar size="100" class>
           <img class="text-lg-center" src="../../assets/silhueta-interrogação.jpg" />
         </v-avatar>
@@ -41,8 +41,8 @@
           @projectFalied="snackbar=true, color='red', texto='Nao foi possivel cadastrar a tutoria!'"
         />
       </v-list-item>
-      <v-list dense flat>
-        <v-list-item v-for="item in items" :key="item.text" :to="item.route" link>
+      <v-list flat>
+        <v-list-item class="my-4" v-for="item in items" :key="item.text" :to="item.route" link>
           <v-list-item-action>
             <v-icon class="black--text">{{ item.icon }}</v-icon>
           </v-list-item-action>
@@ -50,17 +50,7 @@
             <v-list-item-title>{{ item.text }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-subheader class="mt-4 grey--text text--darken-1">
-          <strong>CHAT</strong>
-        </v-subheader>
-        <v-list>
-          <v-list-item v-for="item in items2" :key="item.text" link>
-            <v-list-item-avatar>
-              <img :src="`https://randomuser.me/api/portraits/men/${item.picture}.jpg`" alt />
-            </v-list-item-avatar>
-            <v-list-item-title v-text="item.text" />
-          </v-list-item>
-        </v-list>
+
       </v-list>
     </v-navigation-drawer>
 
@@ -83,11 +73,20 @@ export default {
     texto: "",
     items: [
       {
-        icon: "mdi-youtube-subscription",
+        icon: "mdi-face-profile",
         text: "Perfil",
         route: "/dashboard/perfil"
       },
-      { icon: "mdi-plus-circle", text: "Dashboard", route: "/dashboard" },
+      {
+        icon: "mdi-face",
+        text: "Tutores",
+        route: "/dashboard/tutores"
+      },
+      {
+        icon: "mdi-plus-circle",
+        text: "Tutorias",
+        route: "/dashboard"
+      },
       {
         icon: "mdi-clock",
         text: "Tutorias agendadas",
@@ -99,18 +98,11 @@ export default {
         route: "/dashboard/completos"
       },
       {
-        icon: "mdi-youtube-subscription",
+        icon: "mdi-email",
         text: "Enviar sugestao",
         route: "/dashboard/sugestao"
       }
     ],
-    items2: [
-      { picture: 28, text: "Joseph" },
-      { picture: 38, text: "Apple" },
-      { picture: 48, text: "Xbox Ahoy" },
-      { picture: 58, text: "Nokia" },
-      { picture: 78, text: "MKBHD" }
-    ]
   }),
   mounted(){
     this.pickUser()
@@ -126,7 +118,7 @@ export default {
             }
           });
         })
-        .catch(err => console.log(err))
+        .catch(err => err)
     }
   }
 };

@@ -82,7 +82,7 @@ export default {
     enviar() {
       tutorias.registrar(this.fields)
         .then(response => {
-          console.log(response.data);
+          response
           this.snackbar = true;
           this.color = "green";
           setTimeout(() => {
@@ -91,7 +91,7 @@ export default {
           return this.usuarios = "Usuario cadastrado com sucesso";
         })
         .catch(err => {
-          console.log(err.response.status);
+          err
           if (err.response.status === 403) {
             this.snackbar = true;
             this.color = "red";
