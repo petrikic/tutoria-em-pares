@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import ViewDashboard from '../views/View-Dashboard'
 import ViewPerfil from '../views/View-Perfil'
 import ViewTutoria from '../views/View-Tutoria'
+import ViewTutores from '../views/View-Tutores'
 import ViewCompleto from '../views/View-Completo'
 import ViewSugestao from '../views/View-Sugestao'
 import ViewHome from '../views/View-Home.vue'
@@ -47,6 +48,14 @@ let router = new VueRouter({
         path: '/dashboard',
         name: 'View-Dashboard',
         component: ViewDashboard,
+        meta: {
+            requiresAuth: true
+        }
+      },
+      {
+        path: '/dashboard/tutores',
+        name: 'View-DashTutores',
+        component: ViewTutores,
         meta: {
             requiresAuth: true
         }

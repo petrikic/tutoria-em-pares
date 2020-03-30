@@ -85,7 +85,7 @@ export default {
       .then(response => {
         this.projects = response
       })
-      .catch(err => console.log(err))
+      .catch(err => err)
     }
   }
 };

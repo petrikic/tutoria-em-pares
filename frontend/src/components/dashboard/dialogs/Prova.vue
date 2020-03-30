@@ -72,9 +72,6 @@ export default {
     color: String,
     project: Array
   },
-  mounted(){
-   console.log()
-  },
    data () {
       return {
         tutoria: {},
@@ -93,23 +90,20 @@ export default {
       project.iframe = this.fields.iframe
       tutorias.updateTutoria(project._id, project)
         .then(response => {
-          console.log(response)
+          response
           this.snackbar = true
           this.cor = 'green'
           this.texto = 'Prova elaborada com sucesso!!'
           this.fields = {}
         })
         .catch(err => {
-          console.log(err);
+          err
           this.snackbar = true
           this.cor = 'red'
           this.texto = 'Falha ao elabor a prova!!'
           this.fields = {}
         })
       },
-      ola(){
-        console.log('ola')
-      }
   }
 }
 </script>

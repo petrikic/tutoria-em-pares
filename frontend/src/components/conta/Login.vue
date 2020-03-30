@@ -102,7 +102,7 @@ export default {
         .catch(err => {
             this.snackbar = true;
             this.color = "red";
-            console.log(err)
+            err
             return this.usuarios = err
         })
     },

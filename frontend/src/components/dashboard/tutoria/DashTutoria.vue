@@ -106,7 +106,7 @@ export default {
         const user = JSON.parse(localStorage.getItem("user"));
         this.user = user;
       })
-      .catch(err => console.log(err))
+      .catch(err => err)
     },
   }
 };

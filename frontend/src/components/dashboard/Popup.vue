@@ -4,8 +4,10 @@
       text
       slot="activator"
       @click="dialog = !dialog"
-      class="success"
-    >Adicionar Tutoria</v-btn>
+      class="green black--text"
+    >
+    <v-icon left >mdi-plus-circle</v-icon>
+    Adicionar Tutoria</v-btn>
     <v-card>
       <v-card-title>
         <h2>{{msg}}</h2>
@@ -40,7 +42,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import tutorias from "../../service/tutorias";
 export default {
   props: {
     msg: String,
@@ -60,14 +62,10 @@ export default {
   },
   methods: {
     submit() {
-      axios.defaults.headers.common[
-        "Authorization"
-      ] = `Bearer ${localStorage.getItem("jwt")}`;
       this.loading = true;
-      axios
-        .post("http://localhost:3000/tutorias/", this.fields)
+      tutorias.createTutoria(this.fields)
         .then(response => {
-          console.log(response.data);
+          response
           setTimeout(() => {
             this.loading = false;
           }, 500);
@@ -77,7 +75,7 @@ export default {
           this.$emit("refreshProject");
         })
         .catch(err => {
-          console.log(err.response.data);
+          err
           this.loading = false;
           this.dialog = false;
           this.clearMemory();
@@ -85,9 +83,7 @@ export default {
         });
     },
     clearMemory() {
-      this.fields.institution = "";
-      this.fields.discipline = "";
-      this.fields.content = "";
+      this.fields = {}
     }
   }
 };

@@ -11,13 +11,22 @@ class TutoriaService {
       throw err.response.data;
     }
   }
+  static async createTutoria(fields) {
+    try {
+
+      const response = await AXIOS_INSTANCE.post('tutorias', fields)
+
+      return response.data.tutorias
+    } catch (err) {
+      throw err.response.data;
+    }
+  }
   static async logar(fields) {
     try {
       const response = await AXIOS_INSTANCE.post('/auth/authenticate', fields)
 
       return response
     } catch (err) {
-      console.log(err)
       throw err.response.data;
 
     }
@@ -28,7 +37,6 @@ class TutoriaService {
 
       return response
     } catch (err) {
-      console.log(err)
       throw err.response.data;
 
     }
@@ -39,7 +47,6 @@ class TutoriaService {
 
       return response
     } catch (err) {
-      console.log(err)
       throw err.response.data;
     }
   }
@@ -49,7 +56,6 @@ class TutoriaService {
 
       return response
     } catch (err) {
-      console.log(err)
       throw err.response.data;
     }
   }
@@ -63,13 +69,13 @@ class TutoriaService {
       throw err.response.data;
     }
   }
-  static async updateUser(id, fields) {
+  static async updateUser(id, fields,config) {
     try {
-      const response = await AXIOS_INSTANCE.put(`users/update/${id}` , fields)
+      const response = await AXIOS_INSTANCE.put(`users/update/${id}`
+      , fields, config)
 
       return response
     } catch (err) {
-      console.log(err)
       throw err.response.data;
     }
   }
@@ -79,7 +85,6 @@ class TutoriaService {
 
       return response
     } catch (err) {
-      console.log(err)
       throw err.response.data;
     }
   }
@@ -89,7 +94,6 @@ class TutoriaService {
 
       return response
     } catch (err) {
-      console.log(err)
       throw err.response.data;
     }
   }

@@ -38,7 +38,7 @@
 
               <v-list-item>
                 <v-list-item-action>
-                  <v-icon>mdi-phone</v-icon>
+                  <v-icon>mdi-whatsapp</v-icon>
                 </v-list-item-action>
 
                 <v-text-field
@@ -46,7 +46,7 @@
                   :value="fields.telefone"
                   v-model="fields.telefone"
                   color="white"
-                  label="Telefone"
+                  label="Whatsapp"
                 ></v-text-field>
 
                 <v-list-item-action>
@@ -70,15 +70,29 @@
 
               <v-list-item>
                 <v-list-item-action>
-                  <v-icon>mdi-map-marker</v-icon>
+                  <v-icon>mdi-note</v-icon>
                 </v-list-item-action>
 
                 <v-text-field
                   :disabled="!isEditing"
                   color="white"
-                  :value="fields.endereco"
-                  v-model="fields.endereco"
-                  label="Endereco"
+                  :value="fields.semestre"
+                  v-model="fields.semestre"
+                  label="Semestre"
+                ></v-text-field>
+              </v-list-item>
+
+              <v-list-item>
+                <v-list-item-action>
+                  <v-icon>mdi-lock</v-icon>
+                </v-list-item-action>
+
+                <v-text-field
+                  :disabled="!isEditing"
+                  color="white"
+                  :value="fields.rga"
+                  v-model="fields.rga"
+                  label="Rga"
                 ></v-text-field>
               </v-list-item>
               <v-spacer></v-spacer>
@@ -92,13 +106,18 @@
                   ref="file"
                   v-on:change="handleFileUpload()"
                 />
-                <v-btn fab large :disabled="!isEditing" text @click="$refs.file.click()">
+                <v-btn fab large :disabled="!isEditing"  text @click="$refs.file.click()">
                   <v-icon>mdi-paperclip</v-icon>
                 </v-btn>
                 <v-btn large :disabled="!isEditing" @click="submitFile()">Upload</v-btn>
               </v-card-actions>
             </v-list>
-            <v-img src="../../../assets/silhueta-interrogação.jpg" height="500px"></v-img>
+            <div v-if="this.fields.profile === undefined">
+              <v-img src="../../../assets/silhueta-interrogação.jpg"></v-img>
+            </div>
+            <div v-else>
+            <v-img :src=link height="500px"></v-img>
+            </div>
           </v-card>
         </v-col>
       </v-row>
@@ -119,6 +138,7 @@ export default {
       fields: {},
       use: {},
       file: "",
+      link: ''
     };
   },
   mounted() {
@@ -129,22 +149,49 @@ export default {
         tutorias.listarUsers()
         .then(response => {
          const user = JSON.parse(localStorage.getItem('user'))
+
           response.forEach(element => {
             if(user._id === element._id){
              this.fields = element
             }
           });
+          // console.log(this.fields.profile)
+          this.link = this.fields.profile
+
         })
-        .catch(err => console.log(err))
+        .catch(err => err)
     },
     put() {
       this.isEditing = !this.isEditing;
       this.hasSaved = true;
-      tutorias.updateUser(this.fields._id, this.fields)
-        .then(response => {
-          console.log(response);
-        })
-        .catch(err => console.log(err));
+      if(this.file === undefined){
+        tutorias.updateUser(this.fields._id, this.fields)
+          .then(response => {
+            response;
+          })
+          .catch(err => err);
+      }
+      else{
+        let config = {
+        headers: {
+          'Accept': '',
+          'Content-Type': 'multipart/form-data'
+        }
+      }
+      let formData = new FormData()
+      formData.append("file", this.file);
+      formData.append("nome",  this.fields.nome);
+      formData.append("email",  this.fields.email);
+      formData.append("rga",  this.fields.rga);
+      formData.append("telefone",  this.fields.telefone);
+      formData.append("semestre", this.fields.semestre);
+      console.log(formData)
+        tutorias.updateUser(this.fields._id,formData,config)
+          .then(response => {
+            response;
+          })
+          .catch(err => err)
+      }
     },
     submitFile() {
       let formData = new FormData();
@@ -158,10 +205,10 @@ export default {
           }
         })
         .then(response => {
-          console.log("SUCCESS!!" + response);
+          response
         })
         .catch(err => {
-          console.log("FAILURE!!" + err);
+          err
         });
     },
     handleFileUpload() {
