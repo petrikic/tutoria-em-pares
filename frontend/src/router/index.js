@@ -1,7 +1,13 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import ViewFeed from '../views/View-Feed'
+import ViewDashboard from '../views/View-Dashboard'
+import ViewPerfil from '../views/View-Perfil'
+import ViewTutoria from '../views/View-Tutoria'
+import ViewTutores from '../views/View-Tutores'
+import ViewCompleto from '../views/View-Completo'
+import ViewSugestao from '../views/View-Sugestao'
 import ViewHome from '../views/View-Home.vue'
+import ViewForgotPassword from '../views/View-ForgotPassword'
 import ViewRegister from '../views/View-Register.vue'
 import ViewLogin from '../views/View-Login.vue'
 import ViewChat from '../views/View-Chat.vue'
@@ -16,6 +22,11 @@ let router = new VueRouter({
         path: '/',
         name: 'View-Home',
         component: ViewHome
+      },
+      {
+        path: '/forgot_password',
+        name: 'View-FrorgotPassword',
+        component: ViewForgotPassword
       },
       {
         path: '/login',
@@ -35,8 +46,48 @@ let router = new VueRouter({
       },
       {
         path: '/dashboard',
-        name: 'View-Feed',
-        component: ViewFeed,
+        name: 'View-Dashboard',
+        component: ViewDashboard,
+        meta: {
+            requiresAuth: true
+        }
+      },
+      {
+        path: '/dashboard/tutores',
+        name: 'View-DashTutores',
+        component: ViewTutores,
+        meta: {
+            requiresAuth: true
+        }
+      },
+      {
+        path: '/dashboard/perfil',
+        name: 'View-Perfil',
+        component: ViewPerfil,
+        meta: {
+            requiresAuth: true
+        }
+      },
+      {
+        path: '/dashboard/tutorias',
+        name: 'View-Tutoria',
+        component: ViewTutoria,
+        meta: {
+            requiresAuth: true
+        }
+      },
+      {
+        path: '/dashboard/completos',
+        name: 'View-Completo',
+        component: ViewCompleto,
+        meta: {
+            requiresAuth: true
+        }
+      },
+      {
+        path: '/dashboard/sugestao',
+        name: 'View-Sugestao',
+        component: ViewSugestao,
         meta: {
             requiresAuth: true
         }
@@ -49,6 +100,8 @@ let router = new VueRouter({
   ]
 })
 
+
+
 router.beforeEach((to, from, next) => {
   if(to.matched.some(record => record.meta.requiresAuth)) {
       if (localStorage.getItem('jwt') == null) {
@@ -60,24 +113,19 @@ router.beforeEach((to, from, next) => {
           let user = JSON.parse(localStorage.getItem('user'))
           if(to.matched.some(record => record.meta.is_admin)) {
               if(user.is_admin == 1){
-                  next()
+                next()
+
               }
               else{
-                  next({ name: 'userboard'})
+                next({ name: 'userboard'})
+
               }
           }else {
-              next()
+            next()
           }
       }
-  } else if(to.matched.some(record => record.meta.guest)) {
-      if(localStorage.getItem('jwt') == null){
-          next()
-      }
-      else{
-          next({ name: 'userboard'})
-      }
   }else {
-      next()
+    next()
   }
 })
 

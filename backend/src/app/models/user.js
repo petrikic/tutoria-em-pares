@@ -12,6 +12,26 @@ email: {
     unique: true,
     lowercase: true,
 },
+telefone: {
+  type: Number,
+},
+semestre: {
+  type: Number,
+},
+rga: {
+  type: String,
+},
+profile: {
+  type: String,
+  name: String,
+  size: Number,
+  key: String,
+  url: String,
+  createdAt : {
+    type: Date,
+    default: Date.now(),
+},
+},
 password: {
     type: String,
     require: true,
