@@ -11,6 +11,7 @@ import ViewForgotPassword from '../views/View-ForgotPassword'
 import ViewRegister from '../views/View-Register.vue'
 import ViewLogin from '../views/View-Login.vue'
 import ViewChat from '../views/View-Chat.vue'
+import ViewResetPassword from '../views/View-ResetPassword.vue'
 
 Vue.use(VueRouter)
 
@@ -97,12 +98,17 @@ let router = new VueRouter({
         name: 'View-Chat',
         component: ViewChat,
       },
+      {
+        path: '/reset_password',
+        name: 'View-ResetPassword',
+        component: ViewResetPassword,
+      }
   ]
 })
 
 
 
-router.beforeEach((to, from, next) => {
+/*router.beforeEach((to, from, next) => {
   if(to.matched.some(record => record.meta.requiresAuth)) {
       if (localStorage.getItem('jwt') == null) {
           next({
@@ -127,7 +133,7 @@ router.beforeEach((to, from, next) => {
   }else {
     next()
   }
-})
+})*/
 
 
 
