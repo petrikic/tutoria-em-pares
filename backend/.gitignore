@@ -2,3 +2,4 @@
 .env
 sendgrid.env
 /tmp/uploads
+/src/app/data/*
