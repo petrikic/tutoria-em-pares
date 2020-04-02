@@ -124,8 +124,8 @@ let router = new VueRouter({
       },
       {
         path: '/reset_password',
-        name: 'View-ResetPassword',
-        component: ViewResetPassword,
+        name: 'View-ResetPassword',        
+        component: () => import('../views/View-ResetPassword'),
       }
   ]
 })
