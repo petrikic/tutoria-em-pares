@@ -1,32 +1,27 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-// import tutorias from '../service/tutorias'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    snackbar: false,
-    color: "",
-    texto: "",
-    user: localStorage.getItem("user")
+  snackbar: false,
+  color: "",
+  texto: ""
   },
   getters: {
-    snackbarResponse: state => {
-      state.snackbar = true;
-      state.color = "green";
+    snackbarRes: state => {
+      state.snackbar = true
+      state.color = "green"
     },
     snackbarErr: state => {
-      state.snackbar = true;
-      state.color = "red";
-    }
-
+      state.snackbar = true
+      state.color = "red"
+    },
   },
   mutations: {
-
   },
   actions: {
-
   },
   modules: {
   }

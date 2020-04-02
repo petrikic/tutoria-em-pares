@@ -21,16 +21,12 @@ semestre: {
 rga: {
   type: String,
 },
+admin: {
+  type: Boolean,
+  default: false,
+},
 profile: {
   type: String,
-  name: String,
-  size: Number,
-  key: String,
-  url: String,
-  createdAt : {
-    type: Date,
-    default: Date.now(),
-},
 },
 password: {
     type: String,

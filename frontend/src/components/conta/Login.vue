@@ -1,50 +1,43 @@
 <template>
-  <v-container fill-height>
+  <v-container fill-height class="my-12">
+    <v-snackbar v-model="$store.state.snackbar" :timeout="4000" top :color="$store.state.color">
+      <span>{{$store.state.texto}}</span>
+      <v-btn text color="white" @click="$store.state.snackbar= false">Close</v-btn>
+    </v-snackbar>
     <v-layout class="d-flex flex-wrap justify-space-around align-center">
       <v-flex xs12 sm12 md6>
         <carrossel />
       </v-flex>
       <v-spacer></v-spacer>
       <v-flex xs12 sm8 md4>
-        <v-snackbar v-model="snackbar" :timeout="4000" top :color="color">
-            <span>{{usuarios}}</span>
-          <v-btn text color="white" @click="snackbar= false">Close</v-btn>
-        </v-snackbar>
         <v-toolbar flat>
           <v-spacer></v-spacer>
-          <v-toolbar-title class="mx-4 blue--text">Tutoria logo</v-toolbar-title>
+          <v-toolbar-title class="d-flex justify-center blue--text">
+            <img src="../../assets/logosos.png" alt="logoTutoria"  style="width: 50%; height: 80px;">
+          </v-toolbar-title>
           <v-spacer></v-spacer>
         </v-toolbar>
 
         <v-form>
-          <v-text-field
-            id="email"
-            label="Email"
-            name="email"
-            type="email"
-            :rules="emailRules"
-            v-model="fields.email"
-          ></v-text-field>
+          <v-text-field id="email" label="Email" name="email" type="email" v-model="fields.email"></v-text-field>
           <v-text-field
             id="password"
             label="Password"
             name="password"
             type="password"
-            :rules="passwordRules"
             v-model="fields.password"
-            @keypress.enter="enviar(), clearMemory()"
+            @keypress.enter="enviar()"
           ></v-text-field>
           <v-card-actions class="d-flex justify-start">
-            <v-btn color="blue" class="white--text" @click="enviar(), clearMemory()">Acessar</v-btn>
+            <v-btn color="blue" class="white--text" @click="enviar()">Acessar</v-btn>
           </v-card-actions>
         </v-form>
         <v-container>
           <v-card-actions class="d-flex justify-center">
-            <v-btn text class="body-1 blue--text" router to="/register">Nao tenho conta</v-btn>
+            <a class="body-1 blue--text"  href="/register">Nao tenho conta</a>
           </v-card-actions>
           <v-card-actions class="d-flex justify-center">
-            <v-btn text class="body-1 blue--text" router to="/forgot_password"
-            >Esqueci minha senha</v-btn>
+            <a class="body-1 blue--text"  href="/forgot_password">Esqueci minha senha</a>
           </v-card-actions>
         </v-container>
       </v-flex>
@@ -59,31 +52,20 @@ import Carrossel from "../Carrossel.vue";
 export default {
   name: "login",
   components: {
-    Carrossel
+    Carrossel,
   },
   data() {
     return {
-      fields: {
-        email: "",
-        password: ""
-      },
-      stats: "",
+      fields: {},
       drawer: null,
-      usuarios: "",
-      snackbar: false,
-      color: "",
-      emailRules: [
-        v => !!v || "E-mail e requerido",
-        v => /.+@.+\..+/.test(v) || "E-mail tem que ser valido"
-      ],
-      passwordRules: [v => !!v || "Senha e requerido"]
     };
   },
   methods: {
     enviar() {
-          tutorias.logar(this.fields)
-            .then(response => {
-          let is_admin = response.data.user.is_admin;
+      tutorias
+        .logar(this.fields)
+        .then(response => {
+          let admin = response.data.user.admin;
           localStorage.setItem("user", JSON.stringify(response.data.user));
           localStorage.setItem("jwt", response.data.token);
           if (localStorage.getItem("jwt") != null) {
@@ -91,24 +73,21 @@ export default {
             if (this.$route.params.nextUrl != null) {
               this.$router.push(this.$route.params.nextUrl);
             } else {
-              if (is_admin == 1) {
+              if (admin === true) {
                 this.$router.push("admin");
               } else {
                 this.$router.push("dashboard");
               }
             }
           }
+           this.fields = {};
         })
         .catch(err => {
-            this.snackbar = true;
-            this.color = "red";
-            err
-            return this.usuarios = err
-        })
+          this.$store.getters.snackbarErr
+          this.$store.state.texto = err
+          this.fields = {};
+        });
     },
-    clearMemory() {
-      this.fields = {}
-    }
   }
 };
 </script>

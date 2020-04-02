@@ -8,29 +8,25 @@
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" color="white" />
       <v-icon xLarge color="white" left>mdi-school</v-icon>
       <router-link router to="/">
-        <v-toolbar-title class="headline white--text">Tutoria</v-toolbar-title>
+        <v-toolbar-title class="headline white--text hidden-md-and-down">Tutoria</v-toolbar-title>
       </router-link>
       <v-spacer />
-      <v-row>
-        <v-col col="6" class="d-flex justify-center align-center white--text">
-          <v-text-field
-            id="search"
-            placeholder="Search"
-            name="search"
-            type="search"
-            outlined
-            class="mt-6"
-            append-icon="mdi-magnify"
-          />
-        </v-col>
-        <v-col col="6"></v-col>
+      <v-row class="ml-12">
+        <v-flex xs12 sm8 md6>
+          <Search/>
+        </v-flex>
       </v-row>
     </v-app-bar>
 
     <v-navigation-drawer v-model="drawer" app >
       <v-list-item-avatar height="150px" width="100%" class="d-flex flex-column my-10">
         <v-avatar size="100" class>
-          <img class="text-lg-center" src="../../assets/silhueta-interrogação.jpg" />
+          <div v-if="this.fields.profile === undefined">
+          <img class="text-lg-center" src="../../assets/silhueta-interrogação.jpg" style="width: 100%; height: 100px;" />
+          </div>
+          <div v-else>
+            <img :src=link  style="width: 100%; height: 100px;">
+          </div>
         </v-avatar>
         <p class="d-flex justify-center black--text subheading mt-1">{{fields.nome}}</p>
       </v-list-item-avatar>
@@ -44,12 +40,21 @@
       <v-list flat>
         <v-list-item class="my-4" v-for="item in items" :key="item.text" :to="item.route" link>
           <v-list-item-action>
-            <v-icon class="black--text">{{ item.icon }}</v-icon>
+            <v-icon class="black--text" :class="item.color">{{ item.icon }}</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>{{ item.text }}</v-list-item-title>
+            <v-list-item-title :class="item.color">{{ item.text }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+        <v-list-item @click="logout()"  v-for="n in 1" :key="n.title"  link>
+          <v-list-item-action>
+            <v-icon class="red--text" >mdi-logout</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title class="red--text">Logout</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        
 
       </v-list>
     </v-navigation-drawer>
@@ -59,11 +64,13 @@
 
 <script>
 import Popup from "./Popup";
+import Search from "../search/SearchComponent"
 import tutorias from '../../service/tutorias'
 export default {
   name: "NavDrag",
   components: {
-    Popup
+    Popup,
+    Search
   },
   data: () => ({
     drawer: null,
@@ -71,16 +78,12 @@ export default {
     fields: {},
     color: "",
     texto: "",
+    link: '',
     items: [
       {
         icon: "mdi-face-profile",
         text: "Perfil",
         route: "/dashboard/perfil"
-      },
-      {
-        icon: "mdi-face",
-        text: "Tutores",
-        route: "/dashboard/tutores"
       },
       {
         icon: "mdi-plus-circle",
@@ -93,21 +96,26 @@ export default {
         route: "/dashboard/tutorias"
       },
       {
-        icon: "mdi-marker-check",
-        text: "Tutorias completas",
-        route: "/dashboard/completos"
+        icon: "mdi-face",
+        text: "Tutores",
+        route: "/dashboard/tutores"
       },
       {
         icon: "mdi-email",
         text: "Enviar sugestao",
         route: "/dashboard/sugestao"
-      }
+      },
     ],
   }),
   mounted(){
     this.pickUser()
   },
   methods: {
+    logout(){
+      localStorage.removeItem('user')
+      localStorage.removeItem('jwt')
+      this.$router.push('/login')
+    },
     pickUser(){
       tutorias.listarUsers()
         .then(response => {
@@ -117,6 +125,7 @@ export default {
              this.fields = element
             }
           });
+          this.link = this.fields.profile
         })
         .catch(err => err)
     }
