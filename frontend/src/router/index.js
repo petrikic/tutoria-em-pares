@@ -122,6 +122,11 @@ let router = new VueRouter({
           requiresAuth: true
       }
       },
+      {
+        path: '/reset_password',
+        name: 'View-ResetPassword',
+        component: ViewResetPassword,
+      }
   ]
 })
 
