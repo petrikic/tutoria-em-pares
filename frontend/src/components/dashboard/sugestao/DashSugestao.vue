@@ -1,8 +1,8 @@
 <template>
   <div class="altura">
-    <v-snackbar v-model="snackbar" :timeout="4000" top :color="color">
-      <span>{{texto}}</span>
-      <v-btn text color="white" @click="snackbar= false">Close</v-btn>
+    <v-snackbar v-model="$store.state.snackbar" :timeout="4000" top :color="$store.state.color">
+      <span>{{$store.state.texto}}</span>
+      <v-btn text color="white" @click="$store.state.snackbar= false">Close</v-btn>
     </v-snackbar>
     <h1 class="d-flex justify-center subheading grey--text">Envie sua sugestao</h1>
     <v-container>
@@ -14,7 +14,6 @@
             name="email"
             type="email"
             outlined
-            :rules="emailRules"
             v-model="fields.email"
           ></v-text-field>
           <v-text-field
@@ -34,7 +33,7 @@
           />
           <v-list class="d-flex flex-row">
             <v-btn
-              @click="sendEmail(), descartar()"
+              @click="sendEmail()"
               class="mx-5"
               medium
               color="blue white--text "
@@ -66,10 +65,6 @@ export default {
       menu: false,
       fields: {},
       editorOption: {},
-      stats: "",
-      snackbar: false,
-      color: "",
-      texto: "",
       emailRules: [
         v => !!v || "E-mail e requirido",
         v => /.+@.+\..+/.test(v) || "E-mail Precisa ser valido"
@@ -78,22 +73,21 @@ export default {
   },
   methods: {
     descartar() {
-      document.getElementById("email").value = this.stats;
-      document.getElementById("assunto").value = this.stats;
+      this.fields = {}
     },
     sendEmail() {
       tutorias
         .sendEmail(this.fields)
         .then(response => {
           response
-          this.snackbar = true;
-          this.texto = "Email enviado com sucesso";
-          this.color = "green";
+          this.$store.getters.snackbarRes
+          this.$store.state.texto = "Email enviado com sucesso!"
+          this.fields = {}
         })
         .catch(err => {
-          this.snackbar = true;
-          this.texto = "Falha ao enviar email";
-          this.color = "red";
+          this.$store.getters.snackbarErr
+          this.$store.state.texto = "Falha ao enviar email";
+          this.fields = {}
           err
         });
     }

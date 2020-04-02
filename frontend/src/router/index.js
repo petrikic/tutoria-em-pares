@@ -1,16 +1,5 @@
 import Vue from 'vue'
-import VueRouter from 'vue-router'
-import ViewDashboard from '../views/View-Dashboard'
-import ViewPerfil from '../views/View-Perfil'
-import ViewTutoria from '../views/View-Tutoria'
-import ViewTutores from '../views/View-Tutores'
-import ViewCompleto from '../views/View-Completo'
-import ViewSugestao from '../views/View-Sugestao'
-import ViewHome from '../views/View-Home.vue'
-import ViewForgotPassword from '../views/View-ForgotPassword'
-import ViewRegister from '../views/View-Register.vue'
-import ViewLogin from '../views/View-Login.vue'
-import ViewChat from '../views/View-Chat.vue'
+import VueRouter from 'vue-router'  
 
 Vue.use(VueRouter)
 
@@ -21,17 +10,17 @@ let router = new VueRouter({
       {
         path: '/',
         name: 'View-Home',
-        component: ViewHome
+        component: () => import('../views/View-Home.vue')
       },
       {
         path: '/forgot_password',
         name: 'View-FrorgotPassword',
-        component: ViewForgotPassword
+        component: () => import('../views/View-ForgotPassword')
       },
       {
         path: '/login',
         name: 'View-Login',
-        component: ViewLogin,
+        component: () => import('../views/View-Login.vue'),
         meta: {
             guest: false
         }
@@ -39,7 +28,7 @@ let router = new VueRouter({
       {
         path: '/register',
         name: 'View-Register',
-        component: ViewRegister,
+        component: () => import('../views/View-Register.vue'),
         meta: {
             guest: false
         }
@@ -47,7 +36,7 @@ let router = new VueRouter({
       {
         path: '/dashboard',
         name: 'View-Dashboard',
-        component: ViewDashboard,
+        component: () => import('../views/View-Dashboard'),
         meta: {
             requiresAuth: true
         }
@@ -55,7 +44,7 @@ let router = new VueRouter({
       {
         path: '/dashboard/tutores',
         name: 'View-DashTutores',
-        component: ViewTutores,
+        component: () => import('../views/View-Tutores'),
         meta: {
             requiresAuth: true
         }
@@ -63,7 +52,7 @@ let router = new VueRouter({
       {
         path: '/dashboard/perfil',
         name: 'View-Perfil',
-        component: ViewPerfil,
+        component: () => import('../views/View-Perfil'),
         meta: {
             requiresAuth: true
         }
@@ -71,15 +60,7 @@ let router = new VueRouter({
       {
         path: '/dashboard/tutorias',
         name: 'View-Tutoria',
-        component: ViewTutoria,
-        meta: {
-            requiresAuth: true
-        }
-      },
-      {
-        path: '/dashboard/completos',
-        name: 'View-Completo',
-        component: ViewCompleto,
+        component: () => import('../views/View-Tutoria'),
         meta: {
             requiresAuth: true
         }
@@ -87,15 +68,59 @@ let router = new VueRouter({
       {
         path: '/dashboard/sugestao',
         name: 'View-Sugestao',
-        component: ViewSugestao,
+        component: () => import('../views/View-Sugestao'),
+        meta: {
+            requiresAuth: true
+        }
+      },
+      // ROTAS ADMINISTRATIVAS //////
+      {
+        path: '/admin',
+        name: 'View-Admin',
+        component: () => import('../admin/pages/Tutorias'),
         meta: {
             requiresAuth: true
         }
       },
       {
-        path: '/chat',
-        name: 'View-Chat',
-        component: ViewChat,
+        path: '/admin/administrativa',
+        name: 'View-Administrativa',
+        component: () => import('../admin/pages/Administrativa'),
+        meta: {
+          requiresAuth: true
+      }
+      },
+      {
+        path: '/admin/perfil',
+        name: 'View-Perfil',
+        component: () => import('../admin/pages/Perfil'),
+        meta: {
+          requiresAuth: true
+      }
+      },
+      {
+        path: '/admin/agendados',
+        name: 'View-Tutorias',
+        component: () => import('../admin/pages/Agendados'),
+        meta: {
+          requiresAuth: true
+      }
+      },
+      {
+        path: '/admin/tutores',
+        name: 'View-tutores',
+        component: () => import('../admin/pages/Tutores'),
+        meta: {
+          requiresAuth: true
+      }
+      },
+      {
+        path: '/admin/completo',
+        name: 'View-tutores',
+        component: () => import('../admin/pages/Completo'),
+        meta: {
+          requiresAuth: true
+      }
       },
   ]
 })
@@ -104,10 +129,10 @@ let router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   if(to.matched.some(record => record.meta.requiresAuth)) {
-      if (localStorage.getItem('jwt') == null) {
+      if (localStorage.getItem('jwt') === null) {
           next({
               path: '/login',
-              params: { nextUrl: to.fullPath }
+              params: { nextUrl: to.fullPath}
           })
       } else {
           let user = JSON.parse(localStorage.getItem('user'))

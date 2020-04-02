@@ -11,6 +11,16 @@ class TutoriaService {
       throw err.response.data;
     }
   }
+  static async listarPage(page) {
+    try {
+
+      const response = await AXIOS_INSTANCE.get('tutorias?page=' + page)
+
+      return response.data.tutorias
+    } catch (err) {
+      throw err.response.data;
+    }
+  }
   static async createTutoria(fields) {
     try {
 
@@ -79,6 +89,15 @@ class TutoriaService {
       throw err.response.data;
     }
   }
+  static async removeUser(id) {
+    try {
+      const response = await AXIOS_INSTANCE.delete(`users/remove/${id}`)
+
+      return response
+    } catch (err) {
+      throw err.response.data;
+    }
+  }
   static async removerTutoria(id) {
     try {
       const response = await AXIOS_INSTANCE.delete(`tutorias/${id}`)
@@ -91,6 +110,15 @@ class TutoriaService {
   static async updateTutoria(id, fields) {
     try {
       const response = await AXIOS_INSTANCE.put(`tutorias/${id}` , fields)
+
+      return response
+    } catch (err) {
+      throw err.response.data;
+    }
+  }
+  static async upload(fields) {
+    try {
+      const response = await AXIOS_INSTANCE.post('users/upload' , fields)
 
       return response
     } catch (err) {
