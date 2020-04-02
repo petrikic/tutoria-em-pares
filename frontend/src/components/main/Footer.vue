@@ -1,11 +1,10 @@
 <template>
-  <v-card tile>
-    <v-footer color="purple darken-4" dark padless>
+    <v-footer color="purple darken-4" dark padless >
       <v-card-text class="d-flex flex-wrap flex-row justify-space-between">
-        <v-col col="3" class="d-flex justify-center align-center">
-          <h1>LOGO</h1>
-        </v-col>
-        <v-col col="3" class="d-flex flex-column align-center">
+        <v-flex xs12 sm4 md2 class="d-flex justify-center mb-10">
+           <img src="../../assets/logosos.png" alt="logoTutoria"  style="width: 50%; height: 80px;">
+        </v-flex>
+       <v-flex xs12 sm2 md4 class="d-flex flex-column">
           <a
             href="#HOME"
             text
@@ -25,23 +24,22 @@
             large
             class="text-center white--text body-1 mb-3"
           >Pessoas que colaboraram!</a>
-        </v-col>
-        <v-col col="3" class="d-flex align-center">
+       </v-flex>
+      <v-flex xs12 sm4 md4>
           <p class="text-justify subtitle-1">
             Universidade Federal de Mato Grosso do Sul | Av. Costa e Silva, s/nº | Bairro Universitário | 79070-900 | Campo Grande - MS |
             <strong>Telefone: +55 (67) 3345-7000</strong>
           </p>
-        </v-col>
-        <v-col col="3" class="d-flex align-center">
+      </v-flex>
+    <v-flex xs12 sm4 md2 >
           <v-btn v-for="icon in icons" :key="icon.icone" class="mx-4 white--text" icon>
             <a :href="icon.ref">
               <v-icon size="40px" class="white--text">{{ icon.icon }}</v-icon>
             </a>
           </v-btn>
-        </v-col>
+    </v-flex>
       </v-card-text>
     </v-footer>
-  </v-card>
 </template>
 
 <script>

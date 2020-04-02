@@ -74,10 +74,9 @@
                 </v-list-item-action>
 
                 <v-text-field
-                  :disabled="!isEditing"
+                  :disabled="true"
                   color="white"
-                  :value="fields.semestre"
-                  v-model="fields.semestre"
+                  :value="semestre"
                   label="Semestre"
                 ></v-text-field>
               </v-list-item>
@@ -97,7 +96,7 @@
               </v-list-item>
               <v-spacer></v-spacer>
 
-              <v-card-actions class="d-flex justify-end align-center mr-10">
+              <v-card-actions class="d-flex justify-end align-center">
                 <v-btn :disabled="!isEditing" color="success" @click="put()" large>Salvar</v-btn>
                 <input
                   style="display: none;"
@@ -106,17 +105,16 @@
                   ref="file"
                   v-on:change="handleFileUpload()"
                 />
-                <v-btn fab large :disabled="!isEditing"  text @click="$refs.file.click()">
+                <v-btn fab large :disabled="!isEditing" text @click="$refs.file.click()">
                   <v-icon>mdi-paperclip</v-icon>
                 </v-btn>
-                <v-btn large :disabled="!isEditing" @click="submitFile()">Upload</v-btn>
               </v-card-actions>
             </v-list>
-            <div v-if="this.fields.profile === undefined">
-              <v-img src="../../../assets/silhueta-interrogação.jpg"></v-img>
+             <div v-if="this.fields.profile === undefined">
+              <v-img src='../../../assets/silhueta-interrogação.jpg' height="500px" width="100%"></v-img>
             </div>
             <div v-else>
-            <v-img :src=link height="500px"></v-img>
+              <v-img :src=link  height="500px" width="100%"></v-img>
             </div>
           </v-card>
         </v-col>
@@ -128,7 +126,6 @@
 
 <script>
 import tutorias from '../../../service/tutorias'
-import axios from 'axios'
 export default {
   name: "DashPerfil",
   data() {
@@ -136,9 +133,8 @@ export default {
       hasSaved: false,
       isEditing: null,
       fields: {},
-      use: {},
-      file: "",
-      link: ''
+      link: '',
+      semestre: '',
     };
   },
   mounted() {
@@ -149,21 +145,29 @@ export default {
         tutorias.listarUsers()
         .then(response => {
          const user = JSON.parse(localStorage.getItem('user'))
-
           response.forEach(element => {
             if(user._id === element._id){
              this.fields = element
             }
           });
-          // console.log(this.fields.profile)
-          this.link = this.fields.profile
+          const rga = this.fields.rga.substring(0,4)
+          if(this.fields.rga === '' || this.fields.rga === null ||
+          this.fields.rga === undefined){
+            this.semestre = ''
+          }else {
+            this.semestre = this.calcularSemestre(rga)
+          }
 
+
+          this.link = this.fields.profile
+        
         })
         .catch(err => err)
     },
     put() {
       this.isEditing = !this.isEditing;
       this.hasSaved = true;
+      this.fields.semestre = this.semestre
       if(this.file === undefined){
         tutorias.updateUser(this.fields._id, this.fields)
           .then(response => {
@@ -185,7 +189,6 @@ export default {
       formData.append("rga",  this.fields.rga);
       formData.append("telefone",  this.fields.telefone);
       formData.append("semestre", this.fields.semestre);
-      console.log(formData)
         tutorias.updateUser(this.fields._id,formData,config)
           .then(response => {
             response;
@@ -193,26 +196,24 @@ export default {
           .catch(err => err)
       }
     },
-    submitFile() {
-      let formData = new FormData();
-
-      formData.append("file", this.file);
-
-      axios
-        .post("http://localhost:3000/users/upload", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data"
-          }
-        })
-        .then(response => {
-          response
-        })
-        .catch(err => {
-          err
-        });
-    },
     handleFileUpload() {
       this.file = this.$refs.file.files[0];
+    },
+    calcularSemestre(rga){
+      const data = new Date()
+      const strings = data.toJSON()
+      const dataAtual = strings.split("-")
+
+      const mesAtual = dataAtual[1]
+      const anoAtual = dataAtual[0]
+
+      if(mesAtual < 6){
+        return  ((anoAtual - rga) * 2) + 1
+        
+      }else{
+      return  ((anoAtual - rga) * 2) + 2
+        
+      }
     }
   }
 };

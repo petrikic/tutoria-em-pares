@@ -2,9 +2,9 @@
   <v-container fill-height>
     <v-layout align-center justify-space-around>
       <v-flex xs12 sm8 md4>
-        <v-snackbar v-model="snackbar" :timeout="4000" top :color="color">
-            <span>{{usuarios}}</span>
-          <v-btn text color="white"  @click="snackbar= false">Close</v-btn>
+        <v-snackbar v-model="$store.state.snackbar" :timeout="4000" top :color="$store.state.color">
+          <span>{{$store.state.texto}}</span>
+          <v-btn text color="white" @click="$store.state.snackbar= false">Close</v-btn>
         </v-snackbar>
         <v-toolbar flat>
           <v-spacer></v-spacer>
@@ -18,7 +18,6 @@
             label="Nome"
             name="nome"
             type="nome"
-            :rules="nameRules"
             required
           ></v-text-field>
           <v-text-field
@@ -26,7 +25,6 @@
             type="email"
             id="email"
             label="Email"
-            :rules="emailRules"
             name="email"
             required
           ></v-text-field>
@@ -37,16 +35,15 @@
             label="Password"
             name="password"
             type="password"
-            :rules="passwordRules"
             required
-            @keypress.enter="enviar(), clearMemory()"
+            @keypress.enter="enviar()"
           ></v-text-field>
         </v-form>
         <v-card-actions class="d-flex justify-start blue--text">
-          <v-btn color="primary" class="white--text" @click="enviar(), clearMemory()">Cadastrar</v-btn>
+          <v-btn color="primary" class="white--text" @click="enviar()">Cadastrar</v-btn>
         </v-card-actions>
         <v-card-actions class="d-flex justify-center blue--text">
-          <v-btn text class="body-1 blue--text" router to="/login">Tenho uma conta</v-btn>
+          <a class="body-1 blue--text"  href="/login">Tenho uma conta</a>
         </v-card-actions>
       </v-flex>
     </v-layout>
@@ -59,52 +56,26 @@ export default {
   data() {
     return {
       fields: {},
-      stats: "",
-      drawer: null,
-      color: "",
-      usuarios: '',
-      snackbar: false,
-      emailRules: [
-        v => !!v || "E-mail e requerido",
-        v => /.+@.+\..+/.test(v) || "E-mail must be valid"
-      ],
-      nameRules: [
-        v => !!v || "Nome e requerido",
-        v => (v && v.length <= 15) || "Name must be less than 15 characters"
-      ],
-      passwordRules: [
-        v => !!v || "Senha e requerido",
-        v => (v && v.length <= 15) || "Password must be less than 15 characters"
-      ]
+      drawer: null
     };
   },
   methods: {
     enviar() {
-      tutorias.registrar(this.fields)
+      tutorias
+        .registrar(this.fields)
         .then(response => {
-          response
-          this.snackbar = true;
-          this.color = "green";
-          setTimeout(() => {
-            this.popup = false;
-          }, 4000);
-          return this.usuarios = "Usuario cadastrado com sucesso";
+          response;
+          this.$store.getters.snackbarRes;
+          this.$store.state.texto = "Usuario cadastrado com sucesso!";
+          this.fields = {};
         })
         .catch(err => {
-          err
-          if (err.response.status === 403) {
-            this.snackbar = true;
-            this.color = "red";
-            setTimeout(() => {
-              this.popup = false;
-            }, 4000);
-            return this.usuarios = err.response.data;
-          }
+          err;
+          this.$store.getters.snackbarErr
+          this.$store.state.texto = err
+          this.fields = {}
         });
     },
-    clearMemory: function() {
-      this.fields = {}
-    }
   }
 };
 </script>

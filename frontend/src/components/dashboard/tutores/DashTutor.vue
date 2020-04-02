@@ -1,13 +1,5 @@
 <template>
-  <v-responsive class="overflow-y-auto" max-height="1000">
-    <v-lazy
-      v-model="isActive"
-      :options="{
-          threshold: .5
-        }"
-      min-height="200"
-      transition="fade-transition"
-    >
+ 
       <div class="altura">
         <h1 class="d-flex justify-center subheading grey--text ">Tutores</h1>
 
@@ -42,7 +34,7 @@
                   <p class="text-justify mr-12">{{ project.content }}</p>
                 </v-flex>
                 <v-flex xs2 sm4 md2>
-                  <div class="caption grey--text">Data</div>
+                  <div class="caption grey--text">Data da Tutoria</div>
                   <div>{{ project.data |  moment("DD/MM/YYYY") }}</div>
                 </v-flex>
                 <v-flex xs6 sm4 md2>
@@ -54,15 +46,24 @@
                   <div>{{ project.status }}</div>
                 </v-flex>
 
-
+              <div v-if="project.user.semestre > 1 ? true : false">
+              <v-list-item
+                 v-if="project.user._id !== user._id ? true : false"
+                class="d-flex justify-start align-end"
+              >
+                <v-btn
+                  class="green black--text"
+                  text
+                  @click="doTutoriaUpdate(project)"
+                >TORNAR-SE ALUNO</v-btn>
+              </v-list-item>
+            </div>
               </v-layout>
                <v-divider></v-divider>
             </div>
           </v-card>
         </v-container>
       </div>
-    </v-lazy>
-  </v-responsive>
 </template>
 
 <script>

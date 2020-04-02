@@ -7,7 +7,7 @@
       class="green black--text"
     >
     <v-icon left >mdi-plus-circle</v-icon>
-    Adicionar Tutoria</v-btn>
+    Tutorias</v-btn>
     <v-card>
       <v-card-title>
         <h2>{{msg}}</h2>
