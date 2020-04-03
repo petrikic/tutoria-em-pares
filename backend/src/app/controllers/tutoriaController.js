@@ -8,7 +8,7 @@ const User = require('../models/user')
 
 const router = express.Router();
 // MIDDLEWARE
-//router.use(authMiddleware);
+router.use(authMiddleware);
 // READ
 router.get('/', async (req, res) => {
   try {
