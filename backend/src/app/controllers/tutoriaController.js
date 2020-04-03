@@ -8,11 +8,12 @@ const User = require('../models/user')
 
 const router = express.Router();
 // MIDDLEWARE
-router.use(authMiddleware);
+//router.use(authMiddleware);
 // READ
 router.get('/', async (req, res) => {
   try {
     const tutorias = await Tutoria.find().where('oferecida',false).populate(['user'])
+    console.log(tutorias);
     return res.send({ tutorias })
   } catch (err) {
     return res.status(400).send({ error: "Erro ao carregar as tutorias" })
@@ -21,7 +22,9 @@ router.get('/', async (req, res) => {
 router.get('/getTutoriasOferecidas', async (req, res) => {
   try {
 
-    const tutorias = await Tutoria.find().where('oferecida',true).populate(['user']);
+    const tutorias = await Tutoria.find().where('oferecida',true).populate(['user'])
+    console.log(tutorias);
+
     return res.send({ tutorias })
 
   } catch (err) {

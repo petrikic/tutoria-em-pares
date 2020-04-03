@@ -165,8 +165,7 @@
                  v-if="project.user._id !== user._id ? true : false"
                 class="d-flex justify-start align-end "
               >
-               <botaoFazerTutoria :tutoria = "project"/>           
-               <botaoParticipar :tutoria = "project"/>           
+               <botaoFazerTutoria :tutoria = "project"/>                                 
               </v-list-item>
             </div>
           </v-layout>
@@ -182,14 +181,12 @@
 
 <script>
 import tutorias from "../../service/tutorias";
-import botaoParticipar from "../dashboard/botoes/botaoParticipar";
 import botaoFazerTutoria from "../dashboard/botoes/botaoFazerTutoria";
 import Pagination from "./Pagination"
 
 export default {
   components: {
     Pagination,
-    botaoParticipar,
     botaoFazerTutoria
   },
   data() {

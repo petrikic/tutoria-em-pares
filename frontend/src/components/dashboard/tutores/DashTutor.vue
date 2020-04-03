@@ -17,7 +17,7 @@
           </v-btn>
         </v-container>
         <v-container class="d-flex flex-column justify-center">
-          <v-card flat class="mb-10" v-for="project in projects" :key="project.nome">
+          <v-card flat class="mb-10" v-for="project in projects" :key="project.id">
             <div v-if="project.status === 'Aguardando' ? true : false">
              <v-divider></v-divider>
               <v-layout row wrap :class="`pa-3 project ${project.status}`">
@@ -39,25 +39,20 @@
                 </v-flex>
                 <v-flex xs6 sm4 md2>
                   <div class="caption grey--text">Nome</div>
-                  <div>{{ project.user.nome }}</div>
+                  <div>{{ project.tutor.nome }}</div>
                 </v-flex>
                 <v-flex xs2 sm4 md1>
                   <div class="caption grey--text">Status</div>
                   <div>{{ project.status }}</div>
                 </v-flex>
 
-              <div v-if="project.user.semestre > 1 ? true : false">
               <v-list-item
-                 v-if="project.user._id !== user._id ? true : false"
+                 v-if="project.tutor !== user._id ? true : false"
                 class="d-flex justify-start align-end"
               >
-                <v-btn
-                  class="green black--text"
-                  text
-                  @click="doTutoriaUpdate(project)"
-                >TORNAR-SE ALUNO</v-btn>
+                <botaoParticipar :tutoria = "project"/>  
               </v-list-item>
-            </div>
+
               </v-layout>
                <v-divider></v-divider>
             </div>
@@ -67,9 +62,11 @@
 </template>
 
 <script>
+import botaoParticipar from "../botoes/botaoParticipar"
 import tutorias from "../../../service/tutorias";
 export default {
   components: {
+    botaoParticipar
 
   },
   data() {
@@ -83,18 +80,18 @@ export default {
     };
   },
   mounted() {
-    this.refresh();
+    this.refresh();    
   },
   methods: {
     sortBy(prop) {
       this.projects.sort((a, b) => (a[prop] < b[prop] ? -1 : 1));
     },
     refresh() {
+      
     tutorias.listarTutoriasOferecidas()
       .then(response => {
         this.projects = response
-        const user = JSON.parse(localStorage.getItem("user"));
-        this.user = user;
+        this.user = JSON.parse(localStorage.getItem("user"));
       })
       .catch(err => err)
     },

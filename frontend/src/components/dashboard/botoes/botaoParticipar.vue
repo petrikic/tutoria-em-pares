@@ -1,5 +1,5 @@
 <template>
-  <v-btn class="green black--text" text @click="ParticiparUpdate(tutoria)">Participar</v-btn>
+  <v-btn class="green black--text" text @click="ParticiparUpdate(tutoria)">TORNAR-SE ALUNO</v-btn>
 </template>
 <script>
 import tutorias from "../../../service/tutorias";
