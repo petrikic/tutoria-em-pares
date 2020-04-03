@@ -1,13 +1,8 @@
 <template >
   <v-dialog max-width="600px" v-model="dialog">
-    <v-btn
-      text
-      slot="activator"
-      @click="dialog = !dialog"
-      class="green black--text"
-    >
-    <v-icon left >mdi-plus-circle</v-icon>
-    Tutorias</v-btn>
+    <v-btn text slot="activator" @click="dialog = !dialog" class="green black--text">
+      <v-icon left>mdi-plus-circle</v-icon>Tutorias
+    </v-btn>
     <v-card>
       <v-card-title>
         <h2>{{msg}}</h2>
@@ -33,8 +28,22 @@
             :rules="inputRules"
           ></v-textarea>
           <v-spacer></v-spacer>
-
-          <v-btn text @click="submit()" class="success mx-0 mt-3" :loading="loading">Add Tutoria</v-btn>
+          <v-layout class="mx-0 mt-3">
+            <v-flex md-4>
+              <v-select
+                :items="items"
+                item-text="opcao"
+                item-value="value"          
+                label="Tutoria"
+                dense
+                outlined
+                v-model="fields.oferecida"
+              ></v-select>
+            </v-flex>
+            <v-flex md-4>
+              <v-btn text @click="submit()" class="success" :loading="loading">Add Tutoria</v-btn>
+            </v-flex>
+          </v-layout>
         </v-form>
       </v-card-text>
     </v-card>
@@ -50,6 +59,16 @@ export default {
   },
   data() {
     return {
+      items: [
+        {
+          opcao: 'Oferço Tutoria',
+          value: true
+        },
+        {
+          opcao: 'Quero Tutoria',
+          value: false,
+        },
+      ],
       fields: {},
       menu: false,
       inputRules: [
@@ -63,9 +82,11 @@ export default {
   methods: {
     submit() {
       this.loading = true;
-      tutorias.createTutoria(this.fields)
+      console.log(this.fields);
+      tutorias
+        .createTutoria(this.fields)
         .then(response => {
-          response
+          response;
           setTimeout(() => {
             this.loading = false;
           }, 500);
@@ -75,7 +96,7 @@ export default {
           this.$emit("refreshProject");
         })
         .catch(err => {
-          err
+          err;
           this.loading = false;
           this.dialog = false;
           this.clearMemory();
@@ -83,8 +104,8 @@ export default {
         });
     },
     clearMemory() {
-      this.fields = {}
-    }
+      this.fields = {};
+    }    
   }
 };
 </script>

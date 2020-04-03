@@ -9,11 +9,11 @@ const mongoose = require("mongoose")
 //     })
 //     .catch((err) => console.log("error: " + err))
 
-mongoose.connect(`mongodb+srv://renato:renato123@cluster0-y0qaz.mongodb.net/test?retryWrites=true&w=majority`, { useUnifiedTopology: true, useNewUrlParser: true })
+//mongoose.connect(`mongodb+srv://renato:renato123@cluster0-y0qaz.mongodb.net/test?retryWrites=true&w=majority`, { useUnifiedTopology: true, useNewUrlParser: true })
 
 
 // Banco de Dados local Do Higor : 
-//mongoose.connect('mongodb://localhost:27017/projectlocaldb');
+mongoose.connect('mongodb://localhost:27017/projectlocaldb');
   
 const db = mongoose.connection
 

@@ -2,6 +2,11 @@ const mongoose = require('mongoose')
 
 
 const TutoriaSchema = new mongoose.Schema({
+oferecida: {
+  type: Boolean,
+  required: true,
+  default: false
+},
 institution: {
   type: String,
   required: true,
@@ -26,10 +31,16 @@ tutor: {
   ref: 'User',
 },
 user: {
+  type: mongoose.Schema.Types.ObjectId,
+  ref: 'User',
+  
+  
+},
+users: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true,
-},
+}],
 data : {
     type: Date,
     default: Date.now(),

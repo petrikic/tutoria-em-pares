@@ -31,7 +31,7 @@
       
 
       <v-card flat class="mb-10 zoom" v-for="project in projects" :key="project.id">
-        <a :href="`/dashboard/${project._id}`">
+        <!-- <a :href="`/dashboard/${project._id}`"> -->
         <div v-if="project.status === 'Aguardando' ? true : false">
           <v-divider></v-divider>
           <v-layout row wrap :class="`pa-3 project ${project.status}`">
@@ -165,17 +165,14 @@
                  v-if="project.user._id !== user._id ? true : false"
                 class="d-flex justify-start align-end "
               >
-                <v-btn
-                  class="green black--text "
-                  text
-                  @click="doTutoriaUpdate(project)"
-                >Fazer tutoria</v-btn>
+               <botaoFazerTutoria :tutoria = "project"/>           
+               <botaoParticipar :tutoria = "project"/>           
               </v-list-item>
             </div>
           </v-layout>
           <v-divider></v-divider>
         </div>
-        </a>
+        <!-- </a> -->
       </v-card>
       <Pagination :tutorias = projects />
     </v-container>
@@ -185,11 +182,15 @@
 
 <script>
 import tutorias from "../../service/tutorias";
+import botaoParticipar from "../dashboard/botoes/botaoParticipar";
+import botaoFazerTutoria from "../dashboard/botoes/botaoFazerTutoria";
 import Pagination from "./Pagination"
 
 export default {
   components: {
-    Pagination
+    Pagination,
+    botaoParticipar,
+    botaoFazerTutoria
   },
   data() {
     return {
@@ -249,22 +250,6 @@ export default {
           err;
           this.$store.getters.snackbarErr
           this.$store.state.texto = "Falha ao alterar tutoria!";
-        });
-    },
-    doTutoriaUpdate(project) {
-      project.status = "Agendado";
-      project.tutor = this.user._id
-      tutorias
-        .updateTutoria(project._id, project)
-        .then(response => {
-          response;
-          this.$store.getters.snackbarRes
-          this.$store.state.texto = "Tutoria agendada com sucesso!";
-        })
-        .catch(err => {
-          err;
-          this.$store.getters.snackbarErr
-          this.$store.state.texto = "Falha no agendamento da tutoria!";
         });
     },
   }

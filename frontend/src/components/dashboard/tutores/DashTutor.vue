@@ -90,7 +90,7 @@ export default {
       this.projects.sort((a, b) => (a[prop] < b[prop] ? -1 : 1));
     },
     refresh() {
-    tutorias.listar()
+    tutorias.listarTutoriasOferecidas()
       .then(response => {
         this.projects = response
         const user = JSON.parse(localStorage.getItem("user"));
