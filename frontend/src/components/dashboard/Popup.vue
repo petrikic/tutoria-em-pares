@@ -28,8 +28,12 @@
             :rules="inputRules"
           ></v-textarea>
           <v-spacer></v-spacer>
+          <v-flex  >          
+          </v-flex>                              
+
           <v-layout class="mx-0 mt-3">
-            <v-flex md-4>
+              <v-row align="center">
+            <v-flex xs6 sm4 md6 class="ml-5">
               <v-select
                 :items="items"
                 item-text="opcao"
@@ -37,10 +41,11 @@
                 label="Tutoria"
                 dense
                 outlined
-                v-model="fields.oferecida"
+                v-model="fields.oferecida"               
               ></v-select>
             </v-flex>
-            <v-flex md-4>
+             </v-row>
+            <v-flex  xs6 sm4 md4>
               <v-btn text @click="submit()" class="success" :loading="loading">Add Tutoria</v-btn>
             </v-flex>
           </v-layout>
@@ -61,7 +66,7 @@ export default {
     return {
       items: [
         {
-          opcao: 'Oferço Tutoria',
+          opcao: 'Ofereço Tutoria',
           value: true
         },
         {

@@ -2,18 +2,18 @@
 const express = require("express");
 
 const authMiddleware = require('../middleware/auth');
-
+const TutoriaBusiness = require('../business/tutoriaBusiness');
+console.log(TutoriaBusiness)
 const Tutoria = require('../models/tutoria')
 const User = require('../models/user')
 
 const router = express.Router();
 // MIDDLEWARE
-//router.use(authMiddleware);
+router.use(authMiddleware);
 // READ
 router.get('/', async (req, res) => {
   try {
-    const tutorias = await Tutoria.find().where('oferecida',false).populate(['user'])
-    console.log(tutorias);
+    const tutorias = await Tutoria.find().where('oferecida', false).populate(['user'])
     return res.send({ tutorias })
   } catch (err) {
     return res.status(400).send({ error: "Erro ao carregar as tutorias" })
@@ -22,21 +22,20 @@ router.get('/', async (req, res) => {
 router.get('/getTutoriasOferecidas', async (req, res) => {
   try {
 
-    const tutorias = await Tutoria.find().where('oferecida',true).populate(['user'])
-    console.log(tutorias);
+    const tutorias = await Tutoria.find().where('oferecida', true).populate(['user'])
 
     return res.send({ tutorias })
 
   } catch (err) {
-    console.log(err)
     return res.status(400).send({ error: "Erro ao carregar as tutorias" })
   }
 })
 
 router.get('/:tutoriaId', async (req, res) => {
   try {
+  
     const tutorias = await Tutoria.findById(req.params.tutoriaId).populate(['user'])
-    
+
     return res.send({ tutorias })
   } catch (err) {
     return res.status(400).send({ error: "Erro ao carregar as tutorias" })
@@ -51,14 +50,13 @@ router.post('/', async (req, res) => {
   try {
     const { oferecida, institution, discipline, content } = req.body
 
-    var tutorias ;
+    var tutorias;
 
-    if(oferecida) {
-       tutorias = await Tutoria.create({ oferecida, institution, discipline, content, tutor: req.userId })
-       console.log(tutorias);
+    if (oferecida) {
+      tutorias = await Tutoria.create({ oferecida, institution, discipline, content, tutor: req.userId })
     }
     else {
-       tutorias = await Tutoria.create({ oferecida, institution, discipline, content, user: req.userId })
+      tutorias = await Tutoria.create({ oferecida, institution, discipline, content, user: req.userId })
     }
 
     if (!tutorias)
@@ -70,39 +68,36 @@ router.post('/', async (req, res) => {
 
     return res.send({ tutorias })
   } catch (err) {
-    console.log(err)
-    //return res.status(err.status).send(err.message_client)
-    return err
+
+    return res.status(err.status).send(err.message_client)
+
   }
- })
+})
 // UPDATE
-router.put('/:tutoriaId', async (req, res) => {
+router.put('/putTutoriaOferecida/:tutoriaId', async (req, res) => {
   try {
-    const { participarTutoria } = req.body
-
-    if (participarTutoria === true) {
-
-      const tutorias = await Tutoria.findById(req.params.tutoriaId)
-      const aluno = await User.findById(req.userId);
-
-      await tutorias.users.push(aluno);
-
-      await tutorias.save();
-
-      return res.send({ tutorias });
-    }
-    else {
-      participarTutoria = undefined;
-      const tutorias = await Tutoria.findByIdAndUpdate(req.params.tutoriaId, req.body)
-      return res.send({ tutorias });
-    }
-
+     const tutoria = await Tutoria.findById(req.params.tutoriaId)
+     const aluno = await User.findById(req.userId);
+      
+     if (await TutoriaBusiness.validaNovoAluno(tutoria, aluno)) {
+       return res.send({ tutoria });
+     }
+    return ({error:"Erro ao incluir aluno"})  
   } catch (err) {
-    console.log(err)
     return res.status(400).send({ error: "Erro ao atualizar uma nova tutoria" })
   }
 })
 
+router.put('/:tutoriaId', async (req, res) => {
+  try {
+
+    const tutorias = await Tutoria.findByIdAndUpdate(req.params.tutoriaId, req.body)
+    return res.send({ tutorias });
+
+  } catch (err) {
+    return res.status(400).send({ error: "Erro ao atualizar uma nova tutoria" })
+  }
+})
 // DELETE
 router.delete('/:tutoriaId', async (req, res) => {
   try {

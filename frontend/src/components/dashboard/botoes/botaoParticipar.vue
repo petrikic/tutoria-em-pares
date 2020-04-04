@@ -11,12 +11,10 @@ export default {
     },
   },
   methods: {
-    ParticiparUpdate(tutoria) {
-        
+    ParticiparUpdate(tutoria) {    
       tutoria.status = "Aguardando";
-      tutoria.participarTutoria = true;
       tutorias
-        .updateTutoria(tutoria._id, tutoria)
+        .updateTutoriaOferecida(tutoria._id, tutoria)
         .then(response => {
           response;
           this.$store.getters.snackbarRes;

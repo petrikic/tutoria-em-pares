@@ -5,7 +5,6 @@ const TutoriaSchema = new mongoose.Schema({
 oferecida: {
   type: Boolean,
   required: true,
-  default: false
 },
 institution: {
   type: String,
@@ -32,14 +31,11 @@ tutor: {
 },
 user: {
   type: mongoose.Schema.Types.ObjectId,
-  ref: 'User',
-  
-  
+  ref: 'User',  
 },
 users: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true,
+    ref: 'User'
 }],
 data : {
     type: Date,
