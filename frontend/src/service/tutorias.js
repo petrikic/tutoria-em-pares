@@ -15,7 +15,7 @@ class TutoriaService {
     try {      
 
       const response = await AXIOS_INSTANCE.get('/tutorias/getTutoriasOferecidas')
-      console.log(response)
+ 
       
 
       return response.data.tutorias
@@ -36,7 +36,7 @@ class TutoriaService {
   static async createTutoria(fields) {
     try {
 
-      console.log(fields)
+ 
       const response = await AXIOS_INSTANCE.post('tutorias', fields)
 
       return response.data.tutorias

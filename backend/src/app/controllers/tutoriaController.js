@@ -3,7 +3,7 @@ const express = require("express");
 
 const authMiddleware = require('../middleware/auth');
 const TutoriaBusiness = require('../business/tutoriaBusiness');
-console.log(TutoriaBusiness)
+
 const Tutoria = require('../models/tutoria')
 const User = require('../models/user')
 
@@ -51,7 +51,7 @@ router.post('/', async (req, res) => {
     const {  date, oferecida, institution, discipline, content } = req.body
 
     var tutorias;
-    console.log(date)
+    
     if (oferecida) {
       tutorias = await Tutoria.create({ data: date, oferecida, institution, discipline, content, tutor: req.userId })
     }
