@@ -1,17 +1,17 @@
 <template>
-  <v-btn class="green black--text" text @click="ParticiparUpdate(tutoria)">TORNAR-SE ALUNO</v-btn>
+  <v-btn class="green black--text" text @click="tornarAluno(tutoria)">TORNAR-SE ALUNO</v-btn>
 </template>
 <script>
 import tutorias from "../../../service/tutorias";
 export default {
-  name: "botaoParticipar",
+  name: "botaoTornarAluno",
   props: {
     tutoria: {
         type: Object        
     },
   },
   methods: {
-    ParticiparUpdate(tutoria) {    
+    tornarAluno(tutoria) {    
       tutoria.status = "Aguardando";
       tutorias
         .updateTutoriaOferecida(tutoria._id, tutoria)

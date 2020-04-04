@@ -35,6 +35,8 @@ class TutoriaService {
   }
   static async createTutoria(fields) {
     try {
+
+      console.log(fields)
       const response = await AXIOS_INSTANCE.post('tutorias', fields)
 
       return response.data.tutorias

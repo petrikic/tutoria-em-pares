@@ -12,7 +12,7 @@ class TutoriaBusiness {
 
                     await tutoria.users.push(aluno);
 
-                    if (tutoria.length == 10) {tutoria.status = "Completa";}
+                    if (tutoria.length == 10) {tutoria.status = "Agendado";}
                     
                     await tutoria.save();
                     

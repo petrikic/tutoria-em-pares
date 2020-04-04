@@ -1,5 +1,5 @@
 <template >
-  <v-dialog max-width="600px" v-model="dialog">
+  <v-dialog max-width="700px" v-model="dialog">
     <v-btn text slot="activator" @click="dialog = !dialog" class="green black--text">
       <v-icon left>mdi-plus-circle</v-icon>Tutorias
     </v-btn>
@@ -8,12 +8,11 @@
         <h2>{{msg}}</h2>
       </v-card-title>
       <v-card-text>
-        <v-form class="px-3" ref="form">
+        <v-form max-width="800px" class="px-3" ref="form">
           <v-text-field
             v-model="fields.institution"
             label="Bloco"
-            prepend-icon="mdi-castle"
-            :rules="inputRules"
+            prepend-icon="mdi-castle"         
           ></v-text-field>
           <v-text-field
             v-model="fields.discipline"
@@ -23,30 +22,40 @@
           ></v-text-field>
           <v-textarea
             v-model="fields.content"
-            label="Duvida"
+            label="Dúvida ou Conteúdo"
             prepend-icon="mdi-table-edit"
             :rules="inputRules"
           ></v-textarea>
           <v-spacer></v-spacer>
-          <v-flex  >          
-          </v-flex>                              
-
-          <v-layout class="mx-0 mt-3">
-              <v-row align="center">
-            <v-flex xs6 sm4 md6 class="ml-5">
-              <v-select
-                :items="items"
-                item-text="opcao"
-                item-value="value"          
-                label="Tutoria"
-                dense
-                outlined
-                v-model="fields.oferecida"               
-              ></v-select>
-            </v-flex>
-             </v-row>
-            <v-flex  xs6 sm4 md4>
-              <v-btn text @click="submit()" class="success" :loading="loading">Add Tutoria</v-btn>
+          <div v-if="showDateTime">
+            <v-card-title>Data da Tutoria</v-card-title>
+            <v-layout class="mb-5" wrap>
+              <v-flex xs8 sm6>
+                <v-date-picker v-model="date.day" light color="grey" flat class="mr-3 pb-4"></v-date-picker>
+              </v-flex>
+              <v-spacer></v-spacer>
+              <v-flex xs8 sm6>
+                <v-time-picker light color="grey" v-model="date.time" flat></v-time-picker>
+              </v-flex>
+            </v-layout>
+          </div>
+          <v-layout class="mx-0 mt-3" wrap>
+            <v-row align="center">
+              <v-flex xs6 sm4 md6 class="ml-5">
+                <v-select
+                  :items="items"
+                  item-text="opcao"
+                  item-value="value"
+                  @change="showDateTime =!showDateTime"
+                  label="Tutoria"
+                  dense
+                  outlined
+                  v-model="fields.oferecida"
+                ></v-select>
+              </v-flex>
+            </v-row>
+            <v-flex xs6 sm4 md4>
+              <v-btn text @click="dateFormate(), submit()" class="success" :loading="loading">Add Tutoria</v-btn>
             </v-flex>
           </v-layout>
         </v-form>
@@ -64,30 +73,41 @@ export default {
   },
   data() {
     return {
+      date: {},
+      showDateTime: false,
       items: [
         {
-          opcao: 'Ofereço Tutoria',
+          opcao: "Ofereço Tutoria",
           value: true
         },
         {
-          opcao: 'Quero Tutoria',
-          value: false,
-        },
+          opcao: "Quero Tutoria",
+          value: false
+        }
       ],
       fields: {},
       menu: false,
-      inputRules: [
-        v => !!v || "Este campo é requerido",
-        v => v.length >= 3 || "O tamanho minino de caracteres é de 3"
-      ],
       loading: false,
       dialog: false
     };
   },
+
   methods: {
+    dateFormate() {
+     
+        const hours = this.date.time.match(/^(\d+)/)[1];
+        const minutes = this.date.time.match(/:(\d+)/)[1];
+        const year = this.date.day.match(/^(\d+)/)[1];
+        const month = this.date.day.match(/-(\d+)/)[1];
+        const day = this.date.day.match(/(\d+)(?!.*\d)/)[1];
+        
+        const dateVar = new Date(year, month-1, day, hours, minutes,'00');
+        this.fields.date = dateVar
+      
+    },
     submit() {
       this.loading = true;
-      console.log(this.fields);
+     
       tutorias
         .createTutoria(this.fields)
         .then(response => {
@@ -110,7 +130,10 @@ export default {
     },
     clearMemory() {
       this.fields = {};
-    }    
+      this.date = {};
+      this.showDateTime = false;
+    }
   }
 };
 </script>
+

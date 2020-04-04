@@ -50,7 +50,7 @@
                  v-if="project.tutor !== user._id ? true : false"
                 class="d-flex justify-start align-end"
               >
-                <botaoParticipar :tutoria = "project"/>  
+                <botaoTornarAluno :tutoria = "project"/>  
               </v-list-item>
 
               </v-layout>
@@ -62,12 +62,11 @@
 </template>
 
 <script>
-import botaoParticipar from "../botoes/botaoParticipar"
+import botaoTornarAluno from "../botoes/botaoTornarAluno"
 import tutorias from "../../../service/tutorias";
 export default {
   components: {
-    botaoParticipar
-
+    botaoTornarAluno
   },
   data() {
     return {

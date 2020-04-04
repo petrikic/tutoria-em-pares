@@ -48,12 +48,12 @@ router.get('/:tutoriaId', async (req, res) => {
 
 router.post('/', async (req, res) => {
   try {
-    const { oferecida, institution, discipline, content } = req.body
+    const {  date, oferecida, institution, discipline, content } = req.body
 
     var tutorias;
-
+    console.log(date)
     if (oferecida) {
-      tutorias = await Tutoria.create({ oferecida, institution, discipline, content, tutor: req.userId })
+      tutorias = await Tutoria.create({ data: date, oferecida, institution, discipline, content, tutor: req.userId })
     }
     else {
       tutorias = await Tutoria.create({ oferecida, institution, discipline, content, user: req.userId })
