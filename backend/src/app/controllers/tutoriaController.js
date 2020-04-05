@@ -77,10 +77,11 @@ router.put('/putTutoriaOferecida/:tutoriaId', async (req, res) => {
   try {
      const tutoria = await Tutoria.findById(req.params.tutoriaId)
      const aluno = await User.findById(req.userId);
-      
+     
      if (await TutoriaBusiness.validaNovoAluno(tutoria, aluno)) {
+      
        return res.send({ tutoria });
-     }
+     }   
     return ({error:"Erro ao incluir aluno"})  
   } catch (err) {
     return res.status(400).send({ error: "Erro ao atualizar uma nova tutoria" })

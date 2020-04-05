@@ -11,8 +11,7 @@ export default {
     },
   },
   methods: {
-    tornarAluno(tutoria) {    
-      tutoria.status = "Aguardando";
+    tornarAluno(tutoria) {       
       tutorias
         .updateTutoriaOferecida(tutoria._id, tutoria)
         .then(response => {

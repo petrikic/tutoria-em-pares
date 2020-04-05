@@ -123,7 +123,7 @@ class TutoriaService {
   
   static async updateTutoriaOferecida(id, fields) {
     try {
-      
+  
       const response = await AXIOS_INSTANCE.put(`tutorias/putTutoriaOferecida/${id}` , fields)            
       return response
     } catch (err) {

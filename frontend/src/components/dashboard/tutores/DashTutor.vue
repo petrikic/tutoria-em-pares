@@ -43,10 +43,10 @@
               <div>{{ project.tutor.nome }}</div>
             </v-flex>
             <v-flex xs2 sm4 md1>
-              <div class="caption grey--text">Status</div>
-              <div>{{ project.status }}</div>
+              <div class="caption grey--text"> Alunos</div>
+             <p>{{ project.users.length }}/10</p>  
             </v-flex>
-
+             
             <!-- BOTOES DO DASHBOARD -->
 
             <v-flex xs6 sm4 md1 v-if="project.tutor._id === user._id ? true : false">
@@ -67,7 +67,7 @@
             >
               <botaoTornarAluno :tutoria="project" />
             </v-list-item>
-          </v-layout>
+          </v-layout>                      
           <v-divider></v-divider>
         </div>
       </v-card>

@@ -4,24 +4,19 @@ class TutoriaBusiness {
     static async validaNovoAluno(tutoria, aluno) {
         try {
 
-            if (tutoria.users.length < 10) {
-                    
-                var existe = tutoria.users.includes(aluno._id)
+            var existe = tutoria.users.includes(aluno._id)
 
-                if (!existe) {                
+            if (!existe) {
 
-                    await tutoria.users.push(aluno);
+                await tutoria.users.push(aluno);
+                
+                if (tutoria.users.length === 10) { tutoria.status = "Agendado"; }
+                
+                await tutoria.save();
 
-                    if (tutoria.length == 10) {tutoria.status = "Agendado";}
-                    
-                    await tutoria.save();
-                    
-                    return true;
-                }
-                return false;
+                return true;
             }
             return false;
-
 
         } catch (err) {
             return err
