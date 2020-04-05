@@ -22,9 +22,9 @@
   </div>
 </template>
 <script>
-import tutorias from '../../../service/tutorias'
+import tutorias from "../../../service/tutorias";
 export default {
- data() {
+  data() {
     return {
       dialog: false
     };
@@ -33,11 +33,13 @@ export default {
     fields: {}
   },
   methods: {
-      removerDashboard() {
+    
+    removerDashboard() {  
+
       tutorias
         .removerTutoria(this.fields._id)
         .then(response => {
-          response;       
+          response;
           this.$store.getters.snackbarRes;
           this.$store.state.texto = "Tutoria removida com sucesso!";
         })
@@ -46,9 +48,7 @@ export default {
           this.$store.getters.snackbarErr;
           this.$.store.stete.texto = "Falha ao remover tutoria!";
         });
-    },
-  
+    }
   }
-
-}
+};
 </script>
