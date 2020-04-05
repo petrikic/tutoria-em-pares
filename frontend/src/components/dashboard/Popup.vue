@@ -1,6 +1,6 @@
 <template >
-  <v-dialog max-width="700px" v-model="dialog">
-    <v-btn text slot="activator" @click="dialog = !dialog" class="green black--text">
+  <v-dialog max-width="700px" v-model="dialog"> 
+        <v-btn text slot="activator" @click="dialog = !dialog" class="green black--text">
       <v-icon left>mdi-plus-circle</v-icon>Tutorias
     </v-btn>
     <v-card>
@@ -55,7 +55,7 @@
               </v-flex>
             </v-row>
             <v-flex xs6 sm4 md4>
-              <v-btn text @click="dateFormate(), submit()" class="success" :loading="loading">Add Tutoria</v-btn>
+              <v-btn text @click=" submit()" class="success" :loading="loading">Add Tutoria</v-btn>
             </v-flex>
           </v-layout>
         </v-form>
@@ -107,6 +107,9 @@ export default {
     },
     submit() {
       this.loading = true;
+
+      if(this.fields.oferecida)
+      this.dateFormate()
      
       tutorias
         .createTutoria(this.fields)
