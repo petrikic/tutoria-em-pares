@@ -35,7 +35,9 @@
                 </v-flex>
                 <v-flex xs2 sm4 md2>
                   <div class="caption grey--text">Data da Tutoria</div>
-                  <div>{{ project.data |  moment("DD/MM/YYYY") }}</div>
+                  <div>{{ project.data | moment("DD/MM/YYYY") }}</div>
+                     <div class="caption grey--text">Horário</div>
+                     <div>{{ project.data | moment("HH:mm") }}</div>
                 </v-flex>
                 <v-flex xs6 sm4 md2>
                   <div class="caption grey--text">Nome</div>
@@ -47,7 +49,7 @@
                 </v-flex>
 
               <v-list-item
-                 v-if="project.tutor !== user._id ? true : false"
+                 v-if="project.tutor._id !== user._id ? true : false"
                 class="d-flex justify-start align-end"
               >
                 <botaoTornarAluno :tutoria = "project"/>  

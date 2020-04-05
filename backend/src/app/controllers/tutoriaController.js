@@ -21,8 +21,7 @@ router.get('/', async (req, res) => {
 })
 router.get('/getTutoriasOferecidas', async (req, res) => {
   try {
-
-    const tutorias = await Tutoria.find().where('oferecida', true).populate(['user'])
+    const tutorias = await Tutoria.find().where('oferecida', true).populate(['tutor'])
 
     return res.send({ tutorias })
 
