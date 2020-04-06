@@ -98,7 +98,6 @@ export default {
         const year = this.date.day.match(/^(\d+)/)[1];
         const month = this.date.day.match(/-(\d+)/)[1];
         const day = this.date.day.match(/(\d+)(?!.*\d)/)[1];
-        console.log(hours +"  "+ minutes)
         const dateVar = new Date(year, month-1, day, hours, minutes,'00');
         this.fields.data = dateVar
 

@@ -13,7 +13,9 @@ router.use(authMiddleware);
 // READ
 router.get('/', async (req, res) => {
   try {
-    const tutorias = await Tutoria.find().where('oferecida', false).populate(['user'])
+    const tutorias = await Tutoria.find()
+    .where('oferecida', false)
+    .populate(['user'])
     return res.send({ tutorias })
   } catch (err) {
     return res.status(400).send({ error: "Erro ao carregar as tutorias" })
@@ -21,7 +23,10 @@ router.get('/', async (req, res) => {
 })
 router.get('/getTutoriasOferecidas', async (req, res) => {
   try {
-    const tutorias = await Tutoria.find().where('oferecida', true).populate(['tutor'])
+    const tutorias = await Tutoria.find()
+    .where('status').equals('AguardandoAluno')
+    .where('oferecida', true)
+    .populate(['tutor'])
 
     return res.send({ tutorias })
 
@@ -52,7 +57,8 @@ router.post('/', async (req, res) => {
     var tutorias;
 
     if (oferecida) {
-      tutorias = await Tutoria.create({ data, oferecida, institution, discipline, content, tutor: req.userId })
+      const status = 'AguardandoAluno'
+      tutorias = await Tutoria.create({ data, oferecida, status, institution, discipline, content, tutor: req.userId })
     }
     else {
       tutorias = await Tutoria.create({ oferecida, institution, discipline, content, user: req.userId })
@@ -151,18 +157,7 @@ router.get("/agendado/:pageId", async (req, res) => {
   }
 })
 
-// Dashboard inteiro separado
-router.get("/dashboard/:dashId", async (req, res) => {
-  try {
-    const id = req.params.dashId
 
-    const response = await Tutoria.findByIdAndUpdate(id)
-
-    return res.send({ response })
-  } catch (err) {
-    res.status(500).send({error: "Erro na pagination"})
-  }
-})
 
 
 

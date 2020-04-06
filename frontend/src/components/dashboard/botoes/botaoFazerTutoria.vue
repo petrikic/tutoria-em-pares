@@ -1,5 +1,7 @@
 <template>
-  <v-btn class="green black--text" text @click="doTutoriaUpdate(tutoria)">Fazer tutoria</v-btn>
+<div>
+  <v-btn class="green black--text" slot="activator" text @click="doTutoriaUpdate(tutoria)">Fazer tutoria</v-btn>
+</div>
 </template>
 <script>
 import tutorias from "../../../service/tutorias";
@@ -12,12 +14,14 @@ export default {
   },
   methods: {
       doTutoriaUpdate(tutoria) {
+      const user = JSON.parse(localStorage.getItem('user'))
       tutoria.status = "Agendado";
-      tutoria.tutor = this.user._id
+      tutoria.tutor = user._id
       tutorias
         .updateTutoria(tutoria._id, tutoria)
         .then(response => {
           response;
+          console.log(response)
           this.$store.getters.snackbarRes
           this.$store.state.texto = "Tutoria agendada com sucesso!";
         })

@@ -1,5 +1,5 @@
 <template>
-  <div class="altura">     
+  <v-content>
     <h1 class="d-flex justify-center subheading grey--text">Tutores</h1>
 
     <v-container class="d-flex justify-center">
@@ -17,7 +17,6 @@
     </v-container>
     <v-container class="d-flex flex-column justify-center">
       <v-card flat class="mb-10" v-for="project in projects" :key="project.id">
-        <div v-if="project.status === 'Aguardando' ? true : false">
           <v-divider></v-divider>
           <v-layout row wrap :class="`pa-3 project ${project.status}`">
             <v-flex xs6 sm4 md1>
@@ -69,10 +68,9 @@
             </v-list-item>
           </v-layout>                      
           <v-divider></v-divider>
-        </div>
       </v-card>
     </v-container>
-  </div>
+  </v-content>   
 </template>
 
 <script>
@@ -120,8 +118,9 @@ export default {
 .project.Completada {
   border-left: 4px solid #3cd1c2;
 }
-.project.Aguardando {
+.project.AguardandoAluno {
   border-left: 4px solid orange;
+  border-right: 4px solid orange;
 }
 .project.Agendado {
   border-left: 4px solid tomato;
