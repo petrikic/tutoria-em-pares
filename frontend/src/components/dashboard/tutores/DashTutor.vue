@@ -1,5 +1,5 @@
 <template>
-  <div class="altura">
+  <div class="altura">     
     <h1 class="d-flex justify-center subheading grey--text">Tutores</h1>
 
     <v-container class="d-flex justify-center">

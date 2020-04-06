@@ -75,16 +75,12 @@ router.post('/', async (req, res) => {
 // UPDATE
 router.put('/putTutoriaOferecida/:tutoriaId', async (req, res) => {
   try {
-     const tutoria = await Tutoria.findById(req.params.tutoriaId)
-     const aluno = await User.findById(req.userId);
      
-     if (await TutoriaBusiness.validaNovoAluno(tutoria, aluno)) {
-      
-       return res.send({ tutoria });
-     }   
-    return ({error:"Erro ao incluir aluno"})  
+     const tutoria = await TutoriaBusiness.validaNovoAluno(req)
+     return res.send({tutoria});
+
   } catch (err) {
-    return res.status(400).send({ error: "Erro ao atualizar uma nova tutoria" })
+    return res.status(err.status).send(err.client_message)
   }
 })
 
@@ -105,7 +101,7 @@ router.delete('/:tutoriaId', async (req, res) => {
 
     return res.send()
   } catch (err) {
-    return res.status(400).send({ error: "Delete tutoria" })
+    return res.status(err.status).send({ error: "Delete tutoria" })
   }
 })
 
