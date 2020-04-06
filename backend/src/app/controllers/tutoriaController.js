@@ -32,7 +32,7 @@ router.get('/getTutoriasOferecidas', async (req, res) => {
 
 router.get('/:tutoriaId', async (req, res) => {
   try {
-  
+
     const tutorias = await Tutoria.findById(req.params.tutoriaId).populate(['user'])
 
     return res.send({ tutorias })
@@ -50,7 +50,7 @@ router.post('/', async (req, res) => {
     const {  data, oferecida, institution, discipline, content } = req.body
 
     var tutorias;
-    
+
     if (oferecida) {
       tutorias = await Tutoria.create({ data, oferecida, institution, discipline, content, tutor: req.userId })
     }
@@ -75,7 +75,7 @@ router.post('/', async (req, res) => {
 // UPDATE
 router.put('/putTutoriaOferecida/:tutoriaId', async (req, res) => {
   try {
-     
+
      const tutoria = await TutoriaBusiness.validaNovoAluno(req)
      return res.send({tutoria});
 

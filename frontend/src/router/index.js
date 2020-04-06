@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import VueRouter from 'vue-router'  
+import VueRouter from 'vue-router'
 
 Vue.use(VueRouter)
 
@@ -130,8 +130,8 @@ let router = new VueRouter({
       },
       {
         path: '/reset_password',
-        name: 'View-ResetPassword',        
-        component: () => import('../views/View-ResetPassword'),
+        name: 'View-ResetPassword',
+        component: () => import('../views/auth/View-ResetPassword'),
       }
   ]
 })

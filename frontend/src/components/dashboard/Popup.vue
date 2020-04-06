@@ -18,13 +18,11 @@
             v-model="fields.discipline"
             label="Disciplina"
             prepend-icon="mdi-folder"
-            :rules="inputRules"
           ></v-text-field>
           <v-textarea
             v-model="fields.content"
             label="Dúvida ou Conteúdo"
             prepend-icon="mdi-table-edit"
-            :rules="inputRules"
           ></v-textarea>
           <v-spacer></v-spacer>
           <div v-if="showDateTime">

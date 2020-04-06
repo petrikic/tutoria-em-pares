@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import ResetPassword from '../components/conta/ResetPassword'
+import ResetPassword from "../../components/auth/ResetPassword";
 export default {
 components: {
     ResetPassword
