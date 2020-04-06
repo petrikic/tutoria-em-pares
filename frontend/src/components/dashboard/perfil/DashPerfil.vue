@@ -135,6 +135,7 @@ export default {
       fields: {},
       link: '',
       semestre: '',
+      user: {},
     };
   },
   mounted() {
@@ -142,14 +143,11 @@ export default {
   },
   methods: {
     get() {
-        tutorias.listarUsers()
+       this.user = JSON.parse(localStorage.getItem('user'))
+       var params =location.pathname.split("/")
+        tutorias.listarPerfil(params[3])
         .then(response => {
-         const user = JSON.parse(localStorage.getItem('user'))
-          response.forEach(element => {
-            if(user._id === element._id){
-             this.fields = element
-            }
-          });
+          this.fields = response
           const rga = this.fields.rga.substring(0,4)
           if(this.fields.rga === '' || this.fields.rga === null ||
           this.fields.rga === undefined){
