@@ -145,7 +145,6 @@ export default {
         .listarUsers()
         .then(response => {
           this.projects = response;
-          console.log(this.projects)
           this.user = JSON.parse(localStorage.getItem('user'))
         })
         .catch(err => err);
@@ -171,7 +170,7 @@ export default {
     atualizarDashoboard() {
       this.fields.admin = true
       tutorias
-        .updateTutoria(this.tutoria._id, this.fields)
+        .updateAdmin(this.tutoria._id, this.fields)
         .then(response => {
           response;
           this.$store.getters.snackbarRes

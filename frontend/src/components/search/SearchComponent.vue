@@ -1,70 +1,89 @@
 <template>
-    <v-card-text class="d-flex flex-row" >
-      <v-autocomplete
-        v-model="model"
-        :items="states"
-        :label="`Search`"
-        persistent-hint
-        class="text-justify"
-        @keypress.enter="ola(model)"
-      >
-      </v-autocomplete>
-      <v-btn icon  xLarge @click.prevent="ola(model)">
-        <v-icon>mdi-magnify</v-icon></v-btn>
-    </v-card-text>
+  <div>
+    <div class="d-flex aling-center mt-10">
+      <v-text-field
+        class="black--text"
+        label="Search"
+        outlined
+        v-model="query"
+        @blur="searchResultsVisible = false"
+        @focus="searchResultsVisible = true"
+        @keydown.esc="searchResultsVisible = false"
+        @keyup="performSearch()"
+      />
+      <v-btn icon fab>
+        <v-icon>mdi-magnify</v-icon>
+      </v-btn>
+    </div>
+    <div class="search seachResults" v-if="searchResults.length === 0 ? false : true">
+      <v-card class="white" hover v-for="searchResult in searchResults" :key="searchResult.id">
+        <v-card-title class="black--text">{{searchResult.item.institution}}</v-card-title>
+        <v-card-subtitle class="black--text">{{searchResult.item.discipline}}</v-card-subtitle>
+        <v-card-text class="black--text">{{searchResult.item.content}}</v-card-text>
+      </v-card>
+    </div>
+    <div class="search seachResults" v-else-if="query.length > 0 && searchResults.length <= 0">
+      <v-card class="white">
+        <v-card-title class="black--text">No results: {{query}}</v-card-title>
+      </v-card>
+    </div>
+  </div>
 </template>
 
 <script>
-import tutorias from '../../service/tutorias'
-  export default {
-    data () {
-      return {
-        model: '',
-        states: [],
-        searchResults: [],
-        tutorias: {},
-        options: {
-          shouldSort: true,
-          includeMatches: true,
-          threshold: 0.5,
-          location: 0,
-          distance: 500,
-          maxPatternLength: 32,
-          minMatchCharLength: 1,
-          keys: ['institution', 'content']
-      },
+import tutorias from "../../service/tutorias";
+export default {
+  data() {
+    return {
+      query: "",
+      states: [],
+      searchResults: [],
+      search: [],
+      searchResultsVisible: false,
+      options: {
+        shouldSort: true,
+        includeMatches: true,
+        threshold: 0.5,
+        location: 0,
+        distance: 500,
+        maxPatternLength: 32,
+        minMatchCharLength: 1,
+        keys: ["institution", "discipline", "content"]
       }
+    };
+  },
+  created() {
+    tutorias
+      .listar()
+      .then(res => {
+        this.search = res;
+      })
+      .catch(err => err);
+  },
+  methods: {
+    performSearch() {
+      this.$search(this.query, this.search, this.options).then(results => {
+        this.searchResults = results;
+      });
     },
-    created(){
-      tutorias.listar()
-        .then(res => {
-          res.forEach(element => {
-            const string = element.institution+ " " 
-            + element.discipline
-            
-            this.states.push(string)
-          });
-
-          this.tutorias = res
-        
-        })
-        .catch(err => err)
-    },
-    methods:{
-      ola(model){
-        this.tutorias.forEach(element => {
-          const string = element.institution + ' ' + element.discipline 
-          if(model == string )
-            this.searchResults.push(element) 
-        });
-      },
-      //  performSearch() {
-      //   this.$search(this.model, this.states, this.options)
-      //     .then(results => {
-      //       this.searchResults = results
-      //       console.log(results)
-      //     })
-      // },
+    test() {
+      this.a++;
     }
   }
+};
 </script>
+
+<style>
+.test:hover {
+  background: grey;
+}
+.seachResults {
+  overflow: auto;
+}
+.search {
+  position: absolute;
+  top: 90%;
+  width: 25%;
+  height: 500px;
+}
+</style>

@@ -1,5 +1,5 @@
 <template >
-  <v-dialog max-width="700px" v-model="dialog"> 
+  <v-dialog max-width="700px" v-model="dialog">
         <v-btn text slot="activator" @click="dialog = !dialog" class="green black--text">
       <v-icon left>mdi-plus-circle</v-icon>Tutorias
     </v-btn>
@@ -12,19 +12,17 @@
           <v-text-field
             v-model="fields.institution"
             label="Bloco"
-            prepend-icon="mdi-castle"         
+            prepend-icon="mdi-castle"
           ></v-text-field>
           <v-text-field
             v-model="fields.discipline"
             label="Disciplina"
             prepend-icon="mdi-folder"
-            :rules="inputRules"
           ></v-text-field>
           <v-textarea
             v-model="fields.content"
             label="Dúvida ou Conteúdo"
             prepend-icon="mdi-table-edit"
-            :rules="inputRules"
           ></v-textarea>
           <v-spacer></v-spacer>
           <div v-if="showDateTime">
@@ -94,7 +92,7 @@ export default {
 
   methods: {
     dateFormate() {
-     
+
         const hours = this.date.time.match(/^(\d+)/)[1];
         const minutes = this.date.time.match(/:(\d+)/)[1];
         const year = this.date.day.match(/^(\d+)/)[1];
@@ -103,14 +101,14 @@ export default {
         console.log(hours +"  "+ minutes)
         const dateVar = new Date(year, month-1, day, hours, minutes,'00');
         this.fields.data = dateVar
-      
+
     },
     submit() {
       this.loading = true;
 
       if(this.fields.oferecida)
       this.dateFormate()
-     
+
       tutorias
         .createTutoria(this.fields)
         .then(response => {

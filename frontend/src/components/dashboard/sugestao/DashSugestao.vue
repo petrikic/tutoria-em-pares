@@ -1,5 +1,5 @@
 <template>
-  <div class="altura">
+  <v-content>
     <v-snackbar v-model="$store.state.snackbar" :timeout="4000" top :color="$store.state.color">
       <span>{{$store.state.texto}}</span>
       <v-btn text color="white" @click="$store.state.snackbar= false">Close</v-btn>
@@ -7,46 +7,44 @@
     <h1 class="d-flex justify-center subheading grey--text">Envie sua sugestao</h1>
     <v-container>
       <v-flex xs12 sm12 md12 lg12 xl12>
-        <v-card>
-          <v-text-field
+        <v-card raised>
+          <input
+            class="caixa pa-4"
             id="email"
-            label="Email"
+            placeholder="Email"
             name="email"
             type="email"
-            outlined
             v-model="fields.email"
-          ></v-text-field>
-          <v-text-field
+          />
+          <v-divider></v-divider>
+          <input
+            append-icon="mdi-email"
+            class="caixa pa-4"
             id="assunto"
-            label="Assunto"
-            name="assunto"
+            placeholder="Assunto"
             type="text"
             outlined
             v-model="fields.assunto"
-          ></v-text-field>
+          />
           <quill-editor
+            class="quill"
             id="content"
             ref="myQuillEditor"
             type="text"
             v-model="fields.content"
             :options="editorOption"
           />
-          <v-list class="d-flex flex-row">
-            <v-btn
-              @click="sendEmail()"
-              class="mx-5"
-              medium
-              color="blue white--text "
-            >Enviar</v-btn>
+          <v-list class="grey lighten-2 mt-10">
+            <v-btn @click="sendEmail()" class="mx-5" medium color="blue white--text ">Enviar</v-btn>
             <v-btn @click="descartar()" medium color="blue  white--text">Descartar</v-btn>
-            <v-btn text color="grey">
+            <v-btn text fab color="white">
               <v-icon size="30px">mdi-paperclip</v-icon>
             </v-btn>
           </v-list>
         </v-card>
       </v-flex>
     </v-container>
-  </div>
+  </v-content>
 </template>
 
 <script>
@@ -64,31 +62,27 @@ export default {
     return {
       menu: false,
       fields: {},
-      editorOption: {},
-      emailRules: [
-        v => !!v || "E-mail e requirido",
-        v => /.+@.+\..+/.test(v) || "E-mail Precisa ser valido"
-      ]
+      editorOption: {}
     };
   },
   methods: {
     descartar() {
-      this.fields = {}
+      this.fields = {};
     },
     sendEmail() {
       tutorias
         .sendEmail(this.fields)
         .then(response => {
-          response
-          this.$store.getters.snackbarRes
-          this.$store.state.texto = "Email enviado com sucesso!"
-          this.fields = {}
+          response;
+          this.$store.getters.snackbarRes;
+          this.$store.state.texto = "Email enviado com sucesso!";
+          this.fields = {};
         })
         .catch(err => {
-          this.$store.getters.snackbarErr
+          this.$store.getters.snackbarErr;
           this.$store.state.texto = "Falha ao enviar email";
-          this.fields = {}
-          err
+          this.fields = {};
+          err;
         });
     }
   }
@@ -96,4 +90,17 @@ export default {
 </script>
 
 <style>
+.altura {
+  margin-top: 5%;
+}
+.caixa {
+  width: 100%;
+  height: 60px;
+}
+.quill {
+  height: 500px;
+}
+.margin {
+  margin-top: -1;
+}
 </style>
