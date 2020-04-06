@@ -11,6 +11,18 @@ class TutoriaService {
       throw err.response.data;
     }
   }
+  static async listarTutoriasOferecidas() {
+    try {      
+
+      const response = await AXIOS_INSTANCE.get('/tutorias/getTutoriasOferecidas')
+ 
+      
+
+      return response.data.tutorias
+    } catch (err) {
+      throw err.response.data;
+    }
+  }
   static async listarPage(page) {
     try {
 
@@ -24,6 +36,7 @@ class TutoriaService {
   static async createTutoria(fields) {
     try {
 
+ 
       const response = await AXIOS_INSTANCE.post('tutorias', fields)
 
       return response.data.tutorias
@@ -107,10 +120,20 @@ class TutoriaService {
       throw err.response.data;
     }
   }
+  
+  static async updateTutoriaOferecida(id, fields) {
+    try {
+  
+      const response = await AXIOS_INSTANCE.put(`tutorias/putTutoriaOferecida/${id}` , fields)            
+      return response
+    } catch (err) {
+      throw err.response.data;
+    }
+  }
   static async updateTutoria(id, fields) {
     try {
-      const response = await AXIOS_INSTANCE.put(`tutorias/${id}` , fields)
-
+      
+      const response = await AXIOS_INSTANCE.put(`tutorias/${id}` , fields)            
       return response
     } catch (err) {
       throw err.response.data;

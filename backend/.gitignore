@@ -1,3 +1,5 @@
 .node_modules
 .env
 sendgrid.env
+/tmp/uploads
+/src/app/data/*
