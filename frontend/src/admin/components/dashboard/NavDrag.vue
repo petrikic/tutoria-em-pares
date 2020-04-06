@@ -26,12 +26,6 @@
         <p class="d-flex justify-center black--text subheading mt-1">{{fields.nome}}</p>
       </v-list-item-avatar>
       <v-spacer></v-spacer>
-      <v-list-item class="d-flex justify-center mb-6">
-        <Popup
-          @projectAdded="snackbar=true, color='teal lighten-2', texto='Tutoria cadastrada com Sucesso!'"
-          @projectFalied="snackbar=true, color='red', texto='Nao foi possivel cadastrar a tutoria!'"
-        />
-      </v-list-item>
       <v-list flat>
         <v-list-item class="my-4" v-for="item in items" :key="item.text" :to="item.route" link>
           <v-list-item-action>
@@ -55,13 +49,9 @@
 </template>
 
 <script>
-import Popup from "./Popup";
 import tutorias from "../../../service/tutorias";
 export default {
   name: "NavDrag",
-  components: {
-    Popup,
-  },
   data: () => ({
     drawer: null,
     snackbar: false,
@@ -129,4 +119,7 @@ export default {
 </script>
 
 <style>
+a{
+  text-decoration: none;
+}
 </style>

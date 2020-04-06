@@ -18,6 +18,17 @@ router.get('/', async (req, res) => {
     res.status(500).send({error: "Erro ao listar todos os usuarios"})
   }
 })
+router.get('/perfil/:perfilId', async (req, res) => {
+  try {
+    const id = req.params.perfilId
+    const user = await User.findById(id)
+
+    return res.send({ user })
+  } catch (err) {
+    console.log(err)
+    res.status(500).send({error: "Erro ao listar todos os usuarios"})
+  }
+})
 router.delete('/remove/:id', async (req, res) => {
   try {
 
@@ -28,6 +39,20 @@ router.delete('/remove/:id', async (req, res) => {
   } catch (err) {
 
     return res.status(400).send({error: "Delete user"})
+
+  }
+
+})
+router.put('/admin/:id', async (req, res) => {
+  try {
+
+    const response  = await User.findByIdAndUpdate(req.params.id, req.body)
+
+    return res.send({ response })
+    
+  } catch (err) {
+
+    return res.status(400).send({error: "Usuario adm error"})
 
   }
 
@@ -55,20 +80,7 @@ router.put('/update/:id', multer(multerConfig).single("file") , async (req, res)
       const user = await User.findByIdAndUpdate(id, req.body)
 
       return res.send({ user })
-    }else if(req.file !== undefined || req.file !== null && req.body === undefined){
-      const {originalname: name, size, filename: key } = req.file
-     
-      const leitura = base64_encode(key)
-      const bitmap = "data:image/jpeg;image/png;image/pjpeg;base64," + leitura
-
-      const user = await User.findByIdAndUpdate(id,{
-        name,
-        size,
-        key,
-        url: '',
-        profile: bitmap})
-
-      return res.send({ user })
+    
     }else{
       const {originalname: name, size, filename: key } = req.file
      
