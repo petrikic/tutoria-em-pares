@@ -46,9 +46,31 @@
             <div>{{ project.data | moment("DD/MM/YYYY") }}</div>
           </v-flex>
           <v-flex xs12 sm4 md2>
-            <div class="caption grey--text">Nome</div>
-            <div>{{ project.user.nome }}</div>
-          </v-flex>
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on }">
+                  <a v-on="on" :href="`/dashboard/perfil/${project.user._id}`">
+                    <div class="d-flex justify-center caption grey--text">Nome</div>
+                    <div class="d-flex justify-center mt-6">
+                      <v-avatar size="100">
+                        <div v-if="project.user.profile === undefined ? true : false">
+                          <img
+                            src="../../../assets/silhueta-interrogação.jpg"
+                            style="width: 100%; height: 100px;"
+                          />
+                        </div>
+                        <div v-else>
+                          <img :src="project.user.profile" style="width: 100%; height: 100px;" />
+                        </div>
+                      </v-avatar>
+                      <div
+                        class="body-1 black--text d-flex align-self-center mx-4"
+                      >{{ project.user.nome }}</div>
+                    </div>
+                  </a>
+                </template>
+                <span>Perfil</span>
+              </v-tooltip>
+            </v-flex>
           <v-flex xs12 sm4 md1>
             <div class="caption grey--text">Status</div>
             <div>{{ project.status }}</div>
@@ -59,8 +81,6 @@
                 <FinalizarTutoria :project="project" />
               </v-list-item>
             </div>
-          </v-flex>
-          <v-flex xs12 sm8 md1 class="d-flex justify-start">
             <div v-if="project.tutor === user._id ? true : false">
               <v-list-item class="d-flex justify-start align-end">
                 <Prova :project="project" msg="Elaborar Prova" color="red" />
@@ -139,15 +159,11 @@ export default {
   border-left: 4px solid tomato;
   border-right: 4px solid tomato;
 }
-.altura {
-  margin-top: 5%;
-}
 
 .zoom:hover {
-  -moz-transform: scale(1.1);
-  -webkit-transform: scale(1.1);
-  transform: scale(1.1);
+  -moz-transform: scale(1.01);
+  -webkit-transform: scale(1.01);
+  transform: scale(1.01);
   background: whitesmoke;
-  /* background: wheat; */
 }
 </style>

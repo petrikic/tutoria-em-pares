@@ -84,6 +84,7 @@ router.post('/authenticate', async (req, res) => {
         client_message: 'Senha invalida'
       }
     user.password = undefined;
+    console.log(user.id)
     res.send({
       user,
       token: generateToken({

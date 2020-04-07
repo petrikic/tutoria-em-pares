@@ -1,7 +1,5 @@
 <template>
-<div>
   <v-btn class="green black--text" slot="activator" text @click="doTutoriaUpdate(tutoria)">Fazer tutoria</v-btn>
-</div>
 </template>
 <script>
 import tutorias from "../../../service/tutorias";

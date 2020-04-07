@@ -6,7 +6,7 @@
     </v-snackbar>
 
     <v-flex xs12 sm12 md12>
-      <v-container class="my-12">
+      <v-container>
         <h1 class="d-flex justify-center subheading grey--text">Dashboard</h1>
         <v-layout class="d-flex flex-wrap justify-center align-center">
           <v-flex xs12 sm8 md4>
@@ -30,79 +30,74 @@
         </v-layout>
 
         <v-card flat class="mb-10 zoom" v-for="project in projects" :key="project.id">
+          <v-divider></v-divider>
+          <v-layout row wrap :class="`d-flex flex-wrap pa-3 project ${project.status}`">
+            <v-flex xs12 sm4 md1>
+              <div class="caption grey--text">Bloco</div>
+              <div class="body-1 black--text">{{ project.institution }}</div>
+            </v-flex>
+            <v-flex xs12 sm4 md1>
+              <div class="caption grey--text">Disciplina</div>
+              <div class="body-1 black--text">{{ project.discipline }}</div>
+            </v-flex>
+            <v-flex xs12 sm4 md4>
+              <div class="caption grey--text">Conteudo</div>
+              <div class="body-1 black--text text-justify">{{ project.content }}</div>
+            </v-flex>
+            <v-flex xs12 sm4 md2>
+              <div class="caption grey--text" link>Data</div>
+              <div class="body-1 black--text">{{ project.data | moment("DD/MM/YYYY") }}</div>
+            </v-flex>
+            <v-flex xs12 sm4 md2>
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on }">
+                  <a v-on="on" :href="`/dashboard/perfil/${project.user._id}`">
+                    <div class="d-flex justify-center caption grey--text">Nome</div>
+                    <div class="d-flex justify-center mt-6">
+                      <v-avatar size="100">
+                        <div v-if="project.user.profile === undefined ? true : false">
+                          <img
+                            src="../../assets/silhueta-interrogação.jpg"
+                            style="width: 100%; height: 100px;"
+                          />
+                        </div>
+                        <div v-else>
+                          <img :src="project.user.profile" style="width: 100%; height: 100px;" />
+                        </div>
+                      </v-avatar>
+                      <div
+                        class="body-1 black--text d-flex align-self-center mx-4"
+                      >{{ project.user.nome }}</div>
+                    </div>
+                  </a>
+                </template>
+                <span>Perfil</span>
+              </v-tooltip>
+            </v-flex>
+            <v-flex xs12 sm4 md1>
+              <div class="caption grey--text">Status</div>
+              <div class="body-1 black--text">{{ project.status }}</div>
+            </v-flex>
 
-            <v-divider></v-divider>
-            <v-layout row wrap :class="`d-flex flex-wrap pa-3 project ${project.status}`">
-              <v-flex xs12 sm4 md1>
-                <div class="caption grey--text">Bloco</div>
-                <div class="body-1 black--text">{{ project.institution }}</div>
-              </v-flex>
-              <v-flex xs12 sm4 md1>
-                <div class="caption grey--text">Disciplina</div>
-                <div class="body-1 black--text">{{ project.discipline }}</div>
-              </v-flex>
-              <v-flex xs12 sm4 md4>
-                <div class="caption grey--text">Conteudo</div>
-                <div class="body-1 black--text text-justify">{{ project.content }}</div>
-              </v-flex>
-              <v-flex xs12 sm4 md2>
-                <div class="caption grey--text" link>Data</div>
-                <div class="body-1 black--text">{{ project.data | moment("DD/MM/YYYY") }}</div>
-              </v-flex>
-              <v-flex xs12 sm4 md2>
-                <v-tooltip bottom>
-                  <template v-slot:activator="{ on }">
-                    <a v-on="on" :href="`/dashboard/perfil/${project.user._id}`">
-                      <div class="d-flex justify-center caption grey--text">Nome</div>
-                      <div class="d-flex justify-center mt-6">
-                        <v-avatar size="100">
-                          <div v-if="project.user.profile === undefined ? true : false">
-                            <img
-                              src="../../assets/silhueta-interrogação.jpg"
-                              style="width: 100%; height: 100px;"
-                            />
-                          </div>
-                          <div v-else>
-                            <img :src="project.user.profile" style="width: 100%; height: 100px;" />
-                          </div>
-                        </v-avatar>
-                        <div
-                          class="body-1 black--text d-flex align-self-center mx-4"
-                        >{{ project.user.nome }}</div>
-                      </div>
-                    </a>
-                  </template>
-                  <span>Perfil</span>
-                </v-tooltip>
-              </v-flex>
-              <v-flex xs12 sm4 md1>
-                <div class="caption grey--text">Status</div>
-                <div class="body-1 black--text">{{ project.status }}</div>
-              </v-flex>
+            <!-- BOTOES DO DASHBOARD -->
 
-              <!-- BOTOES DO DASHBOARD -->
-
-              <v-flex xs6 sm4 md1 v-if="project.user._id === user._id ? true : false">
-                <v-list class="d-flex flex-row">
-                  <v-list-item>
-                    <btnAlterarTutoria :fields = "project" />
-                  </v-list-item>
-                  <v-list-item>
-                   <btnDeletarTutoria :fields = "project"/>
-                  </v-list-item>
-                </v-list>
-              </v-flex>
-              <!-- FINAL DOS BOTOES -->
-              <div v-if="project.user.semestre <= 1 ? false: true">
-                <v-list-item
-                  v-if="project.user._id !== user._id ? true : false"
-                  class="d-flex justify-start align-end"
-                >
-                  <botaoFazerTutoria :tutoria="project" />
-                </v-list-item>
+            <v-flex xs6 sm4 md6 lg2 xl1  v-if="project.user._id === user._id ? true : false">
+              <div class="d-flex">
+                <btnAlterarTutoria :fields="project" class="mx-4"/>
+                <btnDeletarTutoria :fields="project" />
               </div>
-            </v-layout>
-            <v-divider></v-divider>
+            </v-flex>
+            <!-- FINAL DOS BOTOES -->
+            <div v-if="project.user.semestre <= 1 ? false: true">
+              <v-list-item
+                v-if="project.user._id !== user._id ? true : false"
+                class="d-flex justify-start align-end"
+              >
+                <botaoFazerTutoria :tutoria="project" />
+              </v-list-item>
+            </div>
+          </v-layout>
+          <v-divider></v-divider>
         </v-card>
         <div class="text-center">
           <a @click="refresh()">
@@ -139,9 +134,9 @@ export default {
     };
   },
   mounted() {
-    this.$nextTick(function () {
-       this.refresh();
-  })
+    this.$nextTick(function() {
+      this.refresh();
+    });
   },
   methods: {
     calcularNumeroPagina(totalPages) {
@@ -162,7 +157,7 @@ export default {
         .catch(err => err);
 
       this.$router.push(`/dashboard/pagina/${this.page}`);
-    },
+    }
   }
 };
 </script>
@@ -186,10 +181,9 @@ a {
 }
 
 .zoom:hover {
-  -moz-transform: scale(1.1);
-  -webkit-transform: scale(1.1);
-  transform: scale(1.1);
+  -moz-transform: scale(1.01);
+  -webkit-transform: scale(1.01);
+  transform: scale(1.01);
   background: whitesmoke;
-  /* background: wheat; */
 }
 </style>

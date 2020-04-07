@@ -58,7 +58,9 @@ router.post('/', async (req, res) => {
 
     if (oferecida) {
       const status = 'AguardandoAluno'
-      tutorias = await Tutoria.create({ data, oferecida, status, institution, discipline, content, tutor: req.userId })
+      tutorias = await Tutoria.create({ data, oferecida, status, institution, discipline
+        , content
+        , tutor: req.userId })
     }
     else {
       tutorias = await Tutoria.create({ oferecida, institution, discipline, content, user: req.userId })

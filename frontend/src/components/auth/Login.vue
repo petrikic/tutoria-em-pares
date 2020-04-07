@@ -13,7 +13,7 @@
         <v-toolbar flat>
           <v-spacer></v-spacer>
           <v-toolbar-title class="d-flex justify-center blue--text">
-            <img src="../../assets/logosos.png" alt="logoTutoria"  style="width: 50%; height: 80px;">
+            <img src="../../assets/logosos.png" alt="logoTutoria"  style="width: 100%; height: 80px;">
           </v-toolbar-title>
           <v-spacer></v-spacer>
         </v-toolbar>
@@ -68,19 +68,21 @@ export default {
           let admin = response.data.user.admin;
           localStorage.setItem("user", JSON.stringify(response.data.user));
           localStorage.setItem("jwt", response.data.token);
-          if (localStorage.getItem("jwt") != null) {
-            this.$emit("loggedIn");
-            if (this.$route.params.nextUrl != null) {
-              this.$router.push(this.$route.params.nextUrl);
-            } else {
-              if (admin === true) {
+          if (localStorage.getItem("jwt") != null) {  
+            if (admin === true) {
+              this.$router.push("admin");
+               setTimeout(()=> {
                 location.reload()
-                this.$router.push("admin");
-              } else {
-                this.$router.push("dashboard/pagina/1");
-              }
+              }, 200)
+            } else {
+              this.$router.push("dashboard/pagina/1");
+              setTimeout(()=> {
+                location.reload()
+              }, 200)
+              
             }
           }
+
            this.fields = {};
         })
         .catch(err => {

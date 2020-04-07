@@ -1,8 +1,10 @@
 <template >
   <v-dialog max-width="700px" v-model="dialog">
-        <v-btn text slot="activator" @click="dialog = !dialog" class="green black--text">
+    <template v-slot:activator="{ on }">
+        <v-btn text v-on="on" @click="dialog = !dialog" class="green black--text">
       <v-icon left>mdi-plus-circle</v-icon>Tutorias
     </v-btn>
+    </template>
     <v-card>
       <v-card-title>
         <h2>{{msg}}</h2>
@@ -23,6 +25,7 @@
             v-model="fields.content"
             label="Dúvida ou Conteúdo"
             prepend-icon="mdi-table-edit"
+           
           ></v-textarea>
           <v-spacer></v-spacer>
           <div v-if="showDateTime">
@@ -45,7 +48,6 @@
                   item-text="opcao"
                   item-value="value"
                   @change="showDateTime =fields.oferecida"
-                  label="Tutoria"
                   dense
                   outlined
                   v-model="fields.oferecida"
@@ -104,21 +106,25 @@ export default {
     },
     submit() {
       this.loading = true;
-
+      if(this.fields.oferecida === undefined){
+        this.loading = false
+        return this.$emit('refreshProject')
+      }
+    
       if(this.fields.oferecida)
       this.dateFormate()
 
       tutorias
         .createTutoria(this.fields)
         .then(response => {
-          response;
+          response
           setTimeout(() => {
             this.loading = false;
           }, 500);
           this.dialog = false;
           this.clearMemory();
           this.$emit("projectAdded");
-          this.$emit("refreshProject");
+          
         })
         .catch(err => {
           err;
@@ -136,4 +142,5 @@ export default {
   }
 };
 </script>
+
 

@@ -19,7 +19,8 @@
     </v-app-bar>
 
     <v-navigation-drawer v-model="drawer" app >
-      <v-list-item-avatar height="150px" width="100%" class="d-flex flex-column my-10">
+      <div>
+      <v-list-item-avatar height="150px"  width="100%" class="d-flex flex-column my-10">
         <v-avatar size="100" class>
           <div v-if="this.fields.profile === undefined">
           <img class="text-lg-center" src="../../assets/silhueta-interrogação.jpg" style="width: 100%; height: 100px;" />
@@ -30,11 +31,13 @@
         </v-avatar>
         <p class="d-flex justify-center black--text subheading mt-1">{{fields.nome}}</p>
       </v-list-item-avatar>
+      </div>
       <v-spacer></v-spacer>
       <v-list-item class="d-flex justify-center mb-6">
         <Popup
           @projectAdded="snackbar=true, color='teal lighten-2', texto='Tutoria cadastrada com Sucesso!'"
           @projectFalied="snackbar=true, color='red', texto='Nao foi possivel cadastrar a tutoria!'"
+          @refreshProject="snackbar=true, color='red', texto='Voce precisar selecionar o tipo da tutoria!'"
         />
       </v-list-item>
       <v-list flat>
@@ -142,4 +145,5 @@ export default {
 </script>
 
 <style>
+
 </style>
